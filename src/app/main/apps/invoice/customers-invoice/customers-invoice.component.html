@@ -1,0 +1,208 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="sr7-print">
+        <a class="btn btn-outline-secondary hide-print btn-block mb-75"
+           href="javascript:window.print();"
+           rippleEffect
+        >
+            Print
+        </a>
+    </div>
+    <div class="content-body">
+        <section class="invoice-preview-wrapper">
+
+            <div class="row invoice-preview">
+                <!-- Invoice -->
+
+                <div class="col-xl-12 col-md-8 col-12 printRef">
+                    <div class="card invocice-preview-card">
+                        <div class="card-body invoice-padding pb-0">
+                            <!-- Header Starts -->
+                            <div class="d-flex flex-md-row flex-column invoice-spacing mt-0 mb-3">
+                                <div class="col-4">
+                                    <h2>SN Photo inc</h2>
+                                    <h5>+1 7183043639</h5>
+                                    <h5>snphotoinc@yahoo.com</h5>
+                                    <div class="d-flex justify-content-start">
+                                        <img src="assets/images/logo/sn-qr.png" height="100">
+                                    </div>
+                                    <h2 class="font-weight-bold mb-50" style="color: #1ab7ea;"> INVOICE </h2>
+                                    <h3 class="font-weight-bold" style="opacity: 50%;">BILL TO </h3>
+                                    <h5>{{eachOrder.shop_information.name}}</h5>
+                                    <h5>{{eachOrder.shop_information.address}}</h5>
+                                </div>
+                                <div class="mt-md-0 mt-2 col-4">
+
+                                </div>
+                                <div class="col-4">
+                                    <div class="d-flex justify-content-end mb-2 mr-2">
+                                        <img src="favicon.ico" class="mt-50" height="180" width="200">
+                                    </div>
+                                    <div class="d-flex justify-content-end">
+                                        <div>
+                                            <h4>
+                                                <span>INVOICE:</span>
+                                            </h4>
+                                            <h4>
+                                                <span >DATE&TIME:</span>
+                                            </h4>
+                                            <h4>
+                                                <span>DUE DATE:</span>
+                                            </h4>
+                                        </div>
+                                        <div class="ml-2">
+                                            <h4>
+                                                <span>{{eachOrder.invoice}}</span>
+                                            </h4>
+                                            <h4>
+                                                <span>{{eachOrder.updated_at| date :'short'}}</span>
+                                            </h4>
+                                            <h4>
+                                                <span>{{eachOrder.on_the_way_date}}</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Header Ends -->
+                        </div>
+                        <!-- Invoice Description Starts -->
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th> Quantity</th>
+                                        <th> Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <ng-container >
+                                    <tr class="sr7-tr-height"  *ngFor=" let item of relatedProducts">
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bold">{{item.product.product_name}}</span>
+                                        </td>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bold ml-2">{{item.qty}}</span>
+                                        </td>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bold">${{item.price}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bold"></span>
+                                        </td>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bolder">DISCOUNT</span>
+                                        </td>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bolder">${{eachOrder.discount}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bold"></span>
+                                        </td>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bolder">TAX</span>
+                                        </td>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bolder">${{eachOrder.tax}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bold"></span>
+                                        </td>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bolder">TOTAL</span>
+                                        </td>
+                                        <td class="py-1 sr7-td">
+                                            <span class="font-weight-bolder">$ {{eachOrder.total}}</span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--                        Invoice Note Satrt-->
+                        <!--                        Invoice Note Ends-->
+                    </div>
+                </div>
+                <!--/ Invoice -->
+                <!-- Invoice Actions -->
+            </div>
+        </section>
+    </div>
+<!--    <div class="content-body">-->
+<!--        <section class="invoice-list-wrapper">-->
+<!--            <div class="card">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-4 col-12">-->
+<!--                        <div class="d-flex justify-content-between align-items-center m-1">-->
+<!--                            <div class="d-flex align-items-center">-->
+
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="mt-md-0 mt-4 col-md-4">-->
+<!--                        <h4 class="invoice-title mt-2 sr7-info sr7-h4 font-weight-bold font-medium-3 "> Meeting Agendas </h4>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-4 col-lg-4 col-12 d-flex justify-content-start justify-content-md-end align-items-center offset-lg-2">-->
+<!--                        <div class="row pr-1 pb-1 pb-md-0 align-items-center w-100 sr7-3">-->
+<!--                            <div class="col-10 col-md-6 pr-0 sr7-2">-->
+
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                &lt;!&ndash;/ Invoice List Header &ndash;&gt;-->
+<!--                &lt;!&ndash; Invoice List Table &ndash;&gt;-->
+<!--                <ngx-datatable-->
+<!--                        [rows]="relatedProducts"-->
+<!--                        [rowHeight]="35"-->
+<!--                        class="bootstrap core-bootstrap"-->
+<!--                        [columnMode]="ColumnMode.force"-->
+<!--                        [headerHeight]="50"-->
+<!--                        [footerHeight]="50"-->
+<!--                        [scrollbarH]="true"-->
+<!--                >-->
+<!--                    <ngx-datatable-column name="Product" prop="product" [width]="450">-->
+<!--                        <ng-template let-product="value" ngx-datatable-cell-template>-->
+<!--                            <div class="d-flex align-items-center">-->
+<!--                                <div>-->
+<!--                                    <img-->
+<!--                                            class="rounded-circle mr-1"-->
+<!--                                            src="{{ product.image }}"-->
+<!--                                            height="45"-->
+<!--                                            width="45"-->
+
+<!--                                    />-->
+<!--                                </div>-->
+<!--                                <ng-template #customAvatar>-->
+<!--                                    <div class="avatar mr-1 ml-0">-->
+<!--                                        <div class="avatar-content">{{ product.product_name| slice:0:20}}</div>-->
+<!--                                    </div>-->
+<!--                                </ng-template>-->
+<!--                                <div class="cell-line-height">-->
+<!--                                    <span class="font-weight-bold d-block text-nowrap font-medium-1">{{ product.product_name | slice:0:75}}</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </ng-template>-->
+<!--                    </ngx-datatable-column>-->
+<!--                    <ngx-datatable-column name="Price" prop="price" [width]="50">-->
+<!--                        <ng-template let-price="value" ngx-datatable-cell-template>-->
+<!--                            <span class="font-weight-bold"> {{ price }}</span>-->
+<!--                        </ng-template>-->
+<!--                    </ngx-datatable-column>-->
+<!--                    <ngx-datatable-column name="Quantity" prop="qty" [width]="50">-->
+<!--                        <ng-template let-qty="value" ngx-datatable-cell-template>-->
+<!--                            <span class="font-weight-bold"> {{ qty }}</span>-->
+<!--                        </ng-template>-->
+<!--                    </ngx-datatable-column>                </ngx-datatable>-->
+<!--                &lt;!&ndash;/ Invoice List Table &ndash;&gt;-->
+<!--            </div>-->
+<!--        </section>-->
+<!--    </div>-->
+</div>

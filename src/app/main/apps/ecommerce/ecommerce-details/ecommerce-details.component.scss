@@ -1,0 +1,30 @@
+@import '@core/scss/base/pages/app-ecommerce-details.scss';
+@import '@core/scss/angular/libs/swiper.component.scss';
+@import '@core/scss/angular/libs/ratings.component.scss';
+@import '@core/scss/base/pages/dashboard-ecommerce.scss';
+@import '@core/scss/base/plugins/charts/chart-apex.scss';
+@import '@core/scss/angular/libs/toastr.component.scss';
+@import '@core/scss/base/pages/app-invoice.scss';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/base/bootstrap-extended/_include';
+@import '@core/scss/angular/libs/toastr.component.scss';
+
+.sr7-item{
+  margin-bottom: 15px;
+}
+.icon{
+    font-size: 2.5rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    color: #7367f0;
+}
+.sr7-check{
+  opacity: 100% !important;
+}
+.sr-7-img-collection{
+  border: 1px solid grey;
+  padding: 4px;
+  margin-bottom: 4px;
+
+}

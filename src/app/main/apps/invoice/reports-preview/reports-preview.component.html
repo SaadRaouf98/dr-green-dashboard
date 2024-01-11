@@ -1,0 +1,346 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <section class="invoice-preview-wrapper">
+            <div class="card hide-print">
+                <div class="card-body">
+                    <div class="users-list-filter">
+                        <form>
+                            <div class="row">
+                                <div class="col-12 col-md-4">
+                                    <fieldset class="form-group">
+                                        <ng-select
+                                                (change)="selectDate($event)"
+                                                name="selectedRole"
+                                                bindLabel="name"
+                                                placeholder="SELECT DATE"
+                                                [items]="selectType">
+                                            <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                                {{ item.name }}
+                                            </ng-template>
+                                        </ng-select>
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <fieldset class="form-group">
+                                        <ng-select
+                                                (change)="selectAccount($event)"
+                                                [items]="accounts"
+                                                name="selectedStatus"
+                                                bindLabel="name"
+                                                placeholder="SELECT ACCOUNT">
+                                            <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                                {{ item.name }}
+                                            </ng-template>
+                                        </ng-select>
+                                    </fieldset>
+                                </div>
+<!--                                <div class="col-12 col-md-3">-->
+<!--                                    <fieldset class="form-group">-->
+<!--                                        <ng-select-->
+<!--                                                (change)="selectedExtra($event)"-->
+<!--                                                name="selectedPlan"-->
+<!--                                                bindLabel="name"-->
+<!--                                                placeholder=""-->
+<!--                                                [items]="selectExtra">-->
+<!--                                            <ng-template ng-option-tmp ng-label-tmp let-item="item">-->
+<!--                                                {{ item.name }}-->
+<!--                                            </ng-template>-->
+<!--                                        </ng-select>-->
+<!--                                    </fieldset>-->
+<!--                                </div>-->
+                                <div class="col-12 col-md-4 sr7-select">
+                                    <mat-form-field class="select-m form-group" appearance="fill">
+                                        <!--                                        <mat-label>Toppings</mat-label>-->
+                                        <mat-select class="" multiple (selectionChange)="setSelectedRows($event)">
+                                            <mat-option
+                                                    *ngFor="let topping of toppingList"
+                                                    [value]="topping"
+                                                    placeholder="select axtra details">
+                                                {{topping}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <section *ngIf="show">
+
+                        <form class="date" action="#">
+                            <div class="date-form">
+                                <div class="col-lg-3 col-12 form-group sr7-date">
+                                    <label for="date1">Date (from)</label>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input
+                                                    class="form-control"
+                                                    placeholder="yyyy-mm-dd"
+                                                    name="Basic Date Picker1"
+                                                    id="date1"
+                                                    ngbDatepicker
+                                                    (dateSelect)="setFromDate($event)"
+                                                    #basicDP="ngbDatepicker"
+                                            />
+                                            <div class="input-group-append">
+                                                <button
+                                                        class="btn btn-outline-secondary feather icon-calendar"
+                                                        (click)="basicDP.toggle()"
+                                                        type="button"
+                                                        rippleEffect
+                                                ></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--                            <form class="form-inline">-->
+                                    <!--                            </form>-->
+
+                                </div>
+                                <div class="col-lg-3 col-12 form-group sr7-date">
+                                    <label for="date2">Date (to)</label>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input
+                                                    class="form-control"
+                                                    placeholder="yyyy-mm-dd"
+                                                    name="Basic Date Picker2"
+                                                    id="date2"
+                                                    ngbDatepicker
+                                                    #basicDP2="ngbDatepicker"
+                                                    (dateSelect)="setToDate($event)"
+                                            />
+                                            <div class="input-group-append">
+                                                <button
+                                                        class="btn btn-outline-secondary feather icon-calendar"
+                                                        (click)="basicDP2.toggle()"
+                                                        type="button"
+                                                        rippleEffect
+                                                ></button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--                            <form class="form-inline">-->
+                                    <!--                            </form>-->
+
+                                </div>
+                            </div>
+                            <div class="date-form">
+                                <button type="button" class="btn btn-primary date-button date-btn1" (click)="submit()"
+                                        rippleEffect>
+                                    Submit
+                                </button>
+                                <button type="button" class="btn btn-primary date-button date-btn2" (click)="close()"
+                                        rippleEffect>
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+
+                    </section>
+                    <div class="sr7-print">
+                        <a class="btn btn-outline-secondary btn-block mb-75" href="javascript:window.print();"
+                           rippleEffect>
+                            Print
+                        </a>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="row invoice-preview">
+                <!-- Invoice -->
+                <div class="col-xl-12 col-md-8 col-12 printRef">
+                    <div class="card invoice-preview-card">
+                        <div class="card-body invoice-padding pb-0">
+                            <!-- Header Starts -->
+                            <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                                <div>
+                                    <div class="logo-wrapper">
+                                        <div class="mx-2 report-logo">
+                                            <img src="favicon.ico">
+                                        </div>
+                                        <!--                    <h3 class="text-primary invoice-logo">Vuexy</h3>-->
+                                    </div>
+                                    <div class="invoice-date-wrapper" *ngIf="balanceSheet.from !== 'null'">
+<!--                                        <p class="invoice-date-title">Date from:</p>-->
+                                        <p class="invoice-date">{{balanceSheet.from}}</p>
+                                    </div>
+                                    <div class="invoice-date-wrapper" *ngIf="balanceSheet.to !== 'null'">
+<!--                                        <p class="invoice-date-title">Date to:</p>-->
+                                        <p class="invoice-date">{{balanceSheet.to}}</p>
+                                    </div>
+                                </div>
+                                <div class="mt-md-0 mt-2">
+                                    <h4 class="invoice-title">
+                                        <span class="invoice-number"># Balance sheet Report</span>
+
+                                    </h4>
+
+                                </div>
+                            </div>
+                            <!-- Header Ends -->
+                        </div>
+                        <!-- Invoice Description Starts -->
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="py-1">Acccount name</th>
+                                    <th class="py-1">Acccount number</th>
+                                    <th class="py-1">Amount</th>
+                                    <th class="py-1" *ngIf="selectedRows.includes('Categories')">Categories</th>
+                                    <th class="py-1" *ngIf="selectedRows.includes('Items')">Items</th>
+                                    <th class="py-1" *ngIf="selectedRows.includes('Details')">Details</th>
+                                    <th class="py-1" *ngIf="selectedRows.includes('Balance')">balance</th>
+                                    <th class="py-1" *ngIf="selectedRows.includes('Date')">date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!--                                <<<<<<<<<<<___________><>>>>>>>/___________>-->
+                                <p class="font-weight-bolder sr7-p">Incomes</p>
+                                <ng-container *ngFor="let report of balanceSheet.incomes">
+
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="card-text font-weight-bold mb-25">{{report.account_name}}</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <span class="font-weight-bold">{{report.account_number}}</span>
+                                        </td>
+                                        <td class="py-1">
+                                            <span class="font-weight-bold">{{report.amount}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Categories')">
+                                            <span class="font-weight-bold">{{report.category}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Items')">
+                                            <span class="font-weight-bold">{{report.item}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Details')">
+                                            <span class="font-weight-bold">{{report.details}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Balance')">
+                                            <span class="font-weight-bold">{{report.balance}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Date')">
+                                            <span class="font-weight-bold">{{report.date}}</span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                                <tr class="border-bottom">
+                                    <td class="py-1">
+                                        <p class="font-weight-bolder card-text font-weight-bold mb-25">Total Incomes</p>
+                                    </td>
+
+                                    <td class="py-1" >
+                                        <span class="font-weight-bold"></span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="font-weight-bolder font-weight-bold">{{balanceSheet.total_incomes}}</span>
+                                    </td>
+                                </tr>
+
+                                <!--                                <<<<<<<<<<<___________><>>>>>>>/___________>-->
+                                <p class="font-weight-bolder sr7-p">Expenses</p>
+                                <ng-container *ngFor="let report of balanceSheet.expenses">
+                                    <tr class="border-bottom">
+                                        <td class="py-1">
+                                            <p class="card-text font-weight-bold mb-25">{{report.account_name}}</p>
+                                        </td>
+                                        <td class="py-1">
+                                            <span class="font-weight-bold">{{report.account_number}}</span>
+                                        </td>
+                                        <td class="py-1">
+                                            <span class="font-weight-bold">{{report.amount}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Categories')">
+                                            <span class="font-weight-bold">{{report.category}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Items')">
+                                            <span class="font-weight-bold">{{report.item}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Details')">
+                                            <span class="font-weight-bold">{{report.details}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Balance')">
+                                            <span class="font-weight-bold">{{report.balance}}</span>
+                                        </td>
+                                        <td class="py-1" *ngIf="selectedRows.includes('Date')">
+                                            <span class="font-weight-bold">{{report.date}}</span>
+                                        </td>
+                                    </tr>
+
+                                </ng-container>
+                                <tr class="border-bottom">
+                                    <td class="py-1">
+                                        <p class="font-weight-bolder card-text font-weight-bold mb-25">Total Expenses</p>
+                                    </td>
+
+                                    <td class="py-1" >
+                                        <span class="font-weight-bold"></span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="font-weight-bolder font-weight-bold">{{balanceSheet.total_expenses}}</span>
+                                    </td>
+                                </tr>
+                                <tr class="border-bottom">
+                                    <td class="py-1">
+                                        <p class="card-text font-weight-bolder mb-25">Total</p>
+                                    </td>
+
+                                    <td class="py-1" >
+                                        <span class="font-weight-bold"></span>
+                                    </td>
+                                    <td class="py-1">
+                                        <span class="font-weight-bolder">{{balanceSheet.total}}</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!--                        Invoice Note Satrt-->
+<!--                        <div class="card-body invoice-padding pt-0">-->
+<!--                            <div class="row">-->
+<!--                                <div class="col-12">-->
+<!--                                    <span class="font-weight-bold">Note: </span>-->
+<!--                                    <span>It was a pleasure working with you and your team. We hope you will keep us in mind for future-->
+<!--                                            freelance projects. Thank You!-->
+<!--                                    </span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                        <!--                        Invoice Note Ends-->
+                    </div>
+                </div>
+                <!--/ Invoice -->
+
+                <!-- Invoice Actions -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Send Invoice Sidebar -->
+    <core-sidebar
+            class="modal modal-slide-in sidebar-todo-modal fade"
+            name="invoice-sidebar"
+            overlayClass="modal-backdrop"
+            hideOnEsc="true"
+    >
+        <app-send-invoice-sidebar-preview></app-send-invoice-sidebar-preview>
+    </core-sidebar>
+    <!--/  Send Invoice Sidebar -->
+
+    <!-- Add Payment Sidebar -->
+    <core-sidebar
+            class="modal modal-slide-in sidebar-todo-modal fade"
+            name="add-payment-sidebar"
+            overlayClass="modal-backdrop"
+            hideOnEsc="true"
+    >
+        <app-add-payment-sidebar-preview></app-add-payment-sidebar-preview>
+    </core-sidebar>
+
+</div>

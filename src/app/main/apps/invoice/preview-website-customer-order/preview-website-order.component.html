@@ -1,0 +1,285 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <!-- Invoice List -->
+        <section class=" invoice-list-wrapper">
+            <div class="card">
+                <div class="card-body">
+                    <div class="price-details d-flex">
+                        <ul class="list-unstyled col-6">
+                            <h2 class="price-title font-weight-bolder">*Customer Information</h2>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Customer Name</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder.shipping">{{ eachOrder.shipping.first_name}} {{ eachOrder.shipping.last_name}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Customer Email</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder.shipping.email"> {{ eachOrder.shipping.email}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Shop Address</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder.shipping.address"> {{ eachOrder.shipping.address}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Postal Code</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt"
+                                     *ngIf="eachOrder"> {{ eachOrder.shipping.postal_code}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Customer phone</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.shipping.phone}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Country</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.shipping.country}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">State</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.shipping.state}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">City</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.shipping.city}}</div>
+                            </li>
+
+                        </ul>
+                        <ul class="list-unstyled col-3">
+                            <h2 class="price-title font-weight-bolder">*Order Details</h2>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Coupon Discount</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt text-success" *ngIf="eachOrder">
+                                    $ {{ eachOrder.discount}}
+                                </div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Bag Discount</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt text-success" *ngIf="eachOrder">
+                                    $ {{ eachOrder.bag_discount}}
+                                </div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Estimated Tax</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> ${{ eachOrder.tax}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Delivery Charges</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt text-danger" *ngIf="eachOrder"> ${{ eachOrder.charge}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Sub-total</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> ${{ eachOrder.subtotal}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bolder font-medium-3 mb-md-1">
+                                <div class="detail-title">Total</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> ${{ eachOrder.total}}</div>
+                            </li>
+
+                        </ul>
+                        <ul class="list-unstyled col-3 sr7-det">
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Payment Status</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.payment_status}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Invoice Number</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.invoice}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">
+                                <div class="detail-title">Order Status</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.status}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1"
+                                *ngIf="eachOrder.status == 'preparing'">
+                                <div class="detail-title">Preparing Date</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.preparing_date}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1"
+                                *ngIf="eachOrder.status == 'on the way'">
+                                <div class="detail-title">Arrival Date</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.on_the_way_date}}</div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1"
+                                *ngIf="eachOrder.status == 'canceled'">
+                                <div class="detail-title">Cancelling Date</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="eachOrder"> {{ eachOrder.canceled}}</div>
+                            </li>
+<!--                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1">-->
+<!--                                <button class="btn btn-primary hide-print ml-2"-->
+<!--                                        *ngIf="eachOrder.status !== 'canceled'&& eachOrder.status !=='ordered'&& eachOrder.status !=='preparing'"-->
+<!--                                        routerLink="/apps/invoice/customers-invoice/{{ orderId }}"-->
+<!--                                        rippleEffect-->
+<!--                                >-->
+<!--                                    Create Invoice-->
+<!--                                </button>-->
+
+<!--                            </li>-->
+
+
+                        </ul>
+
+                    </div>
+                    <div class="price-details d-flex">
+                        <ul class="list-unstyled col-6">
+                            <h2 class="price-title font-weight-bolder">*Transaction Details</h2>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1" *ngIf="eachOrder.transaction.mode">
+                                <div class="detail-title">Transaction Mode</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt">
+                                    {{ eachOrder.transaction.mode}}
+                                </div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1" *ngIf="eachOrder.transaction.status">
+                                <div class="detail-title">Transaction Status</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt">
+                                    {{ eachOrder.transaction.status}}
+                                </div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1" *ngIf="eachOrder.transaction.created_at">
+                                <div class="detail-title">Transaction Created At</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt">
+                                    {{ eachOrder.transaction.created_at| date :'short'}}
+                                </div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1" *ngIf="eachOrder.transaction.deleted_at">
+                                <div class="detail-title">Transaction Deleted At</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt">
+                                    {{ eachOrder.transaction.deleted_at| date :'short'}}
+                                </div>
+                            </li>
+                            <li class="price-detail d-flex font-weight-bold font-medium-3 mb-md-1" *ngIf="eachOrder.transaction.updted_at">
+                                <div class="detail-title">Transaction Updated At</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt">
+                                    {{ eachOrder.transaction.updted_at| date :'short'}}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--/ Invoice List -->
+        <!-- Invoice List -->
+        <section class="invoice-list-wrapper">
+            <div class="card">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="d-flex justify-content-between align-items-center m-1">
+                            <div class="d-flex align-items-center">
+                                <label class="d-flex align-items-center"
+                                >Show
+                                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </label>
+                                <h2 class="price-title font-weight-bolder sr7-t-title">Related Products</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                            class="
+                              col-4
+                              d-flex
+                              align-items-center
+                        "
+                    >
+                        <div class="d-flex pr-1 pb-1 pb-md-0 align-items-center w-100 sr7-3 sr7-d">
+                            <div class="col-10 col-md-6 pr-0 sr7-2">
+                                <label class="d-flex align-items-center mb-0 ml-1 ml-md-0 sr7-1"
+                                ><input
+                                        [(ngModel)]="searchValue"
+                                        name="searchValue"
+                                        type="search"
+                                        class="form-control"
+                                        placeholder="Search..."
+                                        (keyup)="filterUpdate($event)"
+                                        (search)="filterUpdate($event)"
+                                /></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Invoice List Header -->
+
+                <section id="card-style-variation">
+                    <ngx-datatable
+                            id="categories-table"
+                            [rows]="relatedProducts"
+                            [rowHeight]="50"
+                            class="bootstrap core-bootstrap"
+                            [limit]="selectedOption"
+                            [columnMode]="ColumnMode.force"
+                            [headerHeight]="50"
+                            [footerHeight]="50"
+                            [scrollbarH]="true"
+                    >
+                        <ngx-datatable-column name="Name" prop="name" [width]="400">
+                            <ng-template let-i="value" ngx-datatable-cell-template>
+                                <span class="font-weight-bold"> {{ i }}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Price" prop="price" [width]="10">
+                            <ng-template let-price="value" ngx-datatable-cell-template>
+                                <span class="font-weight-bold"> {{ price }}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Quantity" prop="qty" [width]="10">
+                            <ng-template let-qty="value" ngx-datatable-cell-template>
+                                <span class="font-weight-bold"> {{ qty }}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Actions" [width]="10" [sortable]="false">
+                            <ng-template ngx-datatable-cell-template let-row="row">
+                                <div class="d-flex align-items-center col-actions">
+
+                                    <div ngbDropdown container="body">
+                                        <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0" rippleEffect>
+                                            <i data-feather="more-vertical" size="18" class="cursor-pointer"></i>
+                                        </button>
+                                        <div ngbDropdownMenu>
+                                            <a routerLink="/apps/e-commerce/details/{{ row.product_id }}" ngbDropdownItem>
+                                                <i data-feather="eye" class="mr-1"></i>
+                                                Preview product
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                    </ngx-datatable>
+                </section>
+
+
+            </div>
+        </section>
+        <!--/ Invoice List -->
+    </div>
+
+</div>

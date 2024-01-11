@@ -1,0 +1,58 @@
+@import '@core/scss/base/pages/app-ecommerce.scss';
+@import '@core/scss/angular/libs/form-wizard.component.scss';
+@import '@core/scss/base/plugins/forms/form-validation.scss';
+@import '@core/scss/angular/libs/ratings.component.scss';
+@import '@core/scss/base/pages/app-invoice.scss';
+@import '@core/scss/angular/libs/flatpickr.component.scss';
+@import '@core/scss/base/bootstrap-extended/_include'; // Components includes
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/angular/libs/toastr.component.scss';
+
+.item-img{
+  min-height: 210px !important;
+  max-height: 220px !important;
+  //min-width: 210px !important;
+  //max-width: 220px !important;
+}
+//.cart-items{
+//  min-height: 220px;
+//  max-height: 230px;
+//}
+.cart-items{
+  min-height: 200px !important;
+  max-height: 220px !important;
+  margin-top: 20px;
+}
+.cart-items-vendors{
+  min-height: 250px !important;
+  max-height: 270px !important;
+  margin-top: 20px;
+}
+.item-options{
+  min-height: 210px !important;
+  max-height: 220px !important;
+}
+.hr-br{
+  width: 100%;
+  border-bottom: 2px #717171;
+}
+.img-cart{
+  max-height: 210px !important;
+  max-width: 220px !important;
+}
+.rmv-sr{
+  display: flex;
+  justify-content: end;
+}
+.sr7-space{
+  margin-right: 4px;
+}
+.content-body .card div:last-child hr {
+  display: none;
+}
+.sr7-price{
+  width: 85px;
+  margin-left: 27px;
+  margin-top: 4px;
+}

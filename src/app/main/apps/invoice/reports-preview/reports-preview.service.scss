@@ -1,0 +1,67 @@
+@import '@core/scss/base/pages/app-invoice.scss';
+@import '@core/scss/angular/libs/flatpickr.component.scss';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/app-user.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/angular/libs/swiper.component.scss';
+
+// Preview
+// Windows Print Dialogue
+@media print {
+.hide-print{
+  display: none;
+}
+  @page {
+    margin: 0;
+  }
+  .invoice-actions,
+  .main-menu,
+  .buy-now {
+    visibility: hidden;
+  }
+
+  .printRef {
+    max-width: 100% !important;
+    flex: 0 0 100%;
+  }
+}
+.report-logo{
+  margin-left: 0rem !important;
+}
+.sr7-p{
+  padding-left: 15px;
+  padding-top: 9px;
+}
+.date-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.date-button{
+  width: auto;
+}
+.date{
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  flex-direction: column;
+}
+.date-btn1{
+  margin-right:10px ;
+}
+.date-btn2{
+  margin-left:10px ;
+}
+.table{
+outline: none;
+}
+.select-m{
+  width: 100% !important;
+}
+.sr7-select{
+  padding-bottom: 5px !important;
+}
+.sr7-print{
+
+  max-width: 20rem;
+}

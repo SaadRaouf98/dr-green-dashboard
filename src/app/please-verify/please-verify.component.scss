@@ -1,0 +1,62 @@
+@import '@core/scss/base/pages/app-invoice.scss';
+@import '@core/scss/angular/libs/flatpickr.component.scss';
+@import '@core/scss/base/pages/page-misc.scss';
+
+.more-options-dropdown {
+  white-space: normal;
+}
+
+.card-text{
+  top: -1.6rem !important;
+}
+.col-lg-12, .col-lg-6, .col-lg-3, .col-lg-4{
+  margin-bottom: 35px !important;
+  margin-top: 10px !important;
+
+}
+.input-group{
+  width: 100% !important;
+}
+.form-group{
+  width: 100% !important;
+}
+.mt-5{
+  font-size: larger;
+  mso-ansi-font-style: italic;
+  color: rgb(94, 80, 238);
+}
+.sr7{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sr7-1{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 300px;
+  height: 300px;
+  border: 2px solid rgb(94, 80, 238);
+}
+.sr7-img{
+
+  margin-bottom: 10px;
+  width: 450px;
+  height: 100px;
+}
+.sr7-div{
+  width: auto;
+  height: auto;
+}
+.sr7-mid{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.sr7-par{
+
+}
+.sr7-logo{
+  margin: 30px;
+}

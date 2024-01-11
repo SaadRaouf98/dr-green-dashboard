@@ -1,0 +1,69 @@
+@import '@core/scss/base/pages/app-invoice.scss';
+@import '@core/scss/angular/libs/flatpickr.component.scss';
+@import '@core/scss/base/bootstrap-extended/_include'; // Components includes
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/angular/libs/toastr.component.scss';
+
+.more-options-dropdown {
+  white-space: normal;
+}
+.card-text{
+  top: -1.6rem !important;
+}
+.col-lg-12, .col-lg-6, .col-lg-3, .col-lg-4{
+  margin-bottom: 35px !important;
+  margin-top: 10px !important;
+}
+.input-group{
+  width: 100% !important;
+}
+.form-group{
+  width: 100% !important;
+}
+.sr7-card{
+  padding: 0rem !important;
+}
+
+
+.sr7-logo{
+  margin-top: 2rem !important;
+  margin-left: 2rem !important;
+}
+.pr-0{
+  margin-left: .5rem !important;
+}
+.sr7-alert{
+  margin-left: 10px;
+}
+.sr7-ng{
+  margin-bottom: 15px;
+}
+.sr7-w{
+  width: 100%;
+}
+.sr7-upload-img{
+  margin-bottom: 20px !important;
+}
+.sr7-pm{
+  margin-top: 15px;
+}
+.sr7-tabs{
+  margin-bottom: -2rem !important;
+}
+.spinner-circle {
+  border-top: 4px solid rgba(255, 255, 255, .2) !important;
+  border-right: 4px solid rgba(255, 255, 255, .2) !important;
+  border-bottom: 4px solid rgba(255, 255, 255, .2) !important;
+  border-left: 4px solid #ffffff !important;
+  height: 24px !important;
+  width: 24px !important;
+  margin: 0 2px !important;
+  position: relative !important;
+}
+
+button svg {
+  width: 20px !important;
+  height: 20px !important;
+  stroke-width: 4px !important;
+}

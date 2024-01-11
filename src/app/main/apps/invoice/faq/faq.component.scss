@@ -1,0 +1,51 @@
+@import '@core/scss/base/pages/dashboard-ecommerce.scss';
+@import '@core/scss/base/plugins/charts/chart-apex.scss';
+@import '@core/scss/angular/libs/toastr.component.scss';
+@import '@core/scss/base/pages/app-invoice.scss';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/base/bootstrap-extended/_include';
+@import '@core/scss/angular/libs/toastr.component.scss';
+
+// Earning Chart Tooltip
+#earnings-donut-chart {
+  .apexcharts-tooltip {
+    &.apexcharts-theme-dark {
+      background: rgba($black, 0.8) !important;
+    }
+  }
+}
+.sr7-3{
+  padding-right:0rem !important;
+}
+.sr7-2{
+  max-width: 100% !important;
+}
+.sr7-1{
+  width: 276px !important;
+  //border: 1px solid rgb(94, 80, 238);
+  border-radius: 3px;
+}
+.sr7-card{
+  padding: 0px 25px ;
+}
+.sr7-d{
+  margin-left: 30% !important;
+
+}
+.spinner-circle {
+  border-top: 4px solid rgba(255, 255, 255, .2) !important;
+  border-right: 4px solid rgba(255, 255, 255, .2) !important;
+  border-bottom: 4px solid rgba(255, 255, 255, .2) !important;
+  border-left: 4px solid #ffffff !important;
+  height: 24px !important;
+  width: 24px !important;
+  margin: 0 2px !important;
+  position: relative !important;
+}
+
+button svg {
+  width: 20px !important;
+  height: 20px !important;
+  stroke-width: 4px !important;
+}

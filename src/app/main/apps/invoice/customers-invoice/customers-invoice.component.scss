@@ -1,0 +1,143 @@
+@import '@core/scss/base/pages/app-invoice.scss';
+@import '@core/scss/angular/libs/flatpickr.component.scss';
+@import '@core/scss/angular/libs/datatables.component.scss';
+@import '@core/scss/base/pages/app-user.scss';
+@import '@core/scss/angular/libs/select.component.scss';
+@import '@core/scss/angular/libs/swiper.component.scss';
+
+// Preview
+// Windows Print Dialogue
+.html,body{
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  overflow-y: auto!important;
+}
+@media print {
+  .hide-print{
+    display: none;
+  }
+  datatable-footer{
+    display: none;
+  }
+  @page {
+    margin: 0;
+  }
+  .invoice-actions,
+  .main-menu,
+  .buy-now {
+    visibility: hidden;
+  }
+
+  .printRef {
+    max-width: 100% !important;
+    flex: 0 0 100%;
+  }
+}
+.report-logo{
+  margin-left: 0rem !important;
+  max-height: 160px;
+  max-width: 130px;
+}
+.report-logo-img{
+  max-height: 190px;
+  max-width: 152px;
+}
+.sr7-p{
+  padding-left: 15px;
+  padding-top: 9px;
+}
+.date-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.date-button{
+  width: auto;
+}
+.date{
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  flex-direction: column;
+}
+.date-btn1{
+  margin-right:10px ;
+}
+.date-btn2{
+  margin-left:10px ;
+}
+.table{
+outline: none;
+}
+.select-m{
+  width: 100% !important;
+}
+.sr7-select{
+  padding-bottom: 5px !important;
+}
+.sr7-print{
+  display: flex;
+  justify-content: end;
+  max-width: 15rem;
+}
+.sr7-img-invoice{
+  display: flex;
+  justify-content: end;
+}
+.sr7-td{
+  padding-left: 27px!important;
+  padding-bottom: 2px !important;
+  padding-top: 2px !important;
+}
+.sr7-tot{
+  padding-bottom: 8px !important;
+}
+//.sr7-top{
+//  padding-left: 8px !important;
+//}
+
+.border-bottom {
+  border-bottom: 0px solid #ebe9f1 !important;
+}
+.sr7-hr{
+  border-top: 0.5px solid #b9b9b9 !important;
+  margin-bottom: 0rem !important;
+  margin-top: 0rem !important;
+}
+.sr7-top {
+  text-align: end;
+}
+.sr7-info{
+  text-align: center !important;
+}
+.sr7-date{
+  text-align: start;
+}
+.sr7-med{
+  justify-content: center;
+}
+
+h4{
+  margin: 0px !important;
+}
+h2{
+  margin: 0px !important;
+}
+h3{
+  margin: 0px !important;
+}
+h5{
+  margin: 0px !important;
+}
+.sr7-tr-height{
+  height: 45px !important;
+}
+.sr7-aw{
+  width: auto;
+}
+.sr7-ml{
+  margin-left: 90px;
+}

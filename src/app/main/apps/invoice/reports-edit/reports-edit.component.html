@@ -1,0 +1,352 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <section class="invoice-edit-wrapper">
+            <div class="row invoice-edit">
+                <div class="col-xl-12 col-md-8 col-12">
+                    <div class="card invoice-preview-card" >
+                        <ngx-datatable
+                                [rows]="reportData"
+                                [rowHeight]="50"
+                                id="print-section"
+                                class="bootstrap core-bootstrap"
+                                [limit]="selectedOption"
+                                [columnMode]="ColumnMode.force"
+                                [headerHeight]="50"
+                                [footerHeight]="50"
+                                [scrollbarH]="true"
+                        >
+                            <ngx-datatable-column name="#" prop="id" [width]="5">
+                                <ng-template let-id="value" ngx-datatable-cell-template>
+                                    <span class="font-weight-bold">{{ id }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Account" prop="amount" [width]="80">
+                                <ng-template let-amount="value" ngx-datatable-cell-template>
+                                    <span class="font-weight-bold">{{ amount  }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+
+                            <ngx-datatable-column name="Item" prop="balance" [width]="20">
+                                <ng-template let-balance="value" let-items="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <span class="font-weight-bold d-block text-nowrap font-medium-1">{{ balance }}</span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Details" prop="details" [width]="20">
+                                <ng-template let-row="row" let-details="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div class="cell-line-height">
+                                            <span class="font-weight-bold d-block text-nowrap font-medium-1">{{ details }}</span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Description" prop="description" [width]="250">
+                                <ng-template let-row="row" let-description="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div *ngIf="row.length > 0; else "></div>
+                                        <ng-template #customAvatar>
+                                            <div
+                                                    class="avatar mr-1 ml-0"
+                                                    [ngClass]="{
+                                                                      'bg-light-secondary': row.invoiceStatus == 'Sent',
+                                                                      'bg-light-success': row.invoiceStatus == 'Paid',
+                                                                      'bg-light-primary': row.invoiceStatus == 'Draft',
+                                                                      'bg-light-warning': row.invoiceStatus == 'Partial Payment',
+                                                                      'bg-light-info': row.invoiceStatus == 'Downloaded',
+                                                                      'bg-light-danger': row.invoiceStatus == 'Past Due'
+                                                                    }"
+                                            >
+                                                <div class="avatar-content">{{ description| slice:0:40 }}</div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="cell-line-height">
+                                            <span class="font-weight-bold d-block text-nowrap font-medium-1">{{ description| slice:0:40 }}</span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Date" prop="date" [width]="20">
+                                <ng-template let-row="row" let-date="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div *ngIf="row.length > 0; else "></div>
+                                        <ng-template #customAvatar>
+                                            <div
+                                                    class="avatar mr-1 ml-0"
+                                                    [ngClass]="{
+                                                                      'bg-light-secondary': row.invoiceStatus == 'Sent',
+                                                                      'bg-light-success': row.invoiceStatus == 'Paid',
+                                                                      'bg-light-primary': row.invoiceStatus == 'Draft',
+                                                                      'bg-light-warning': row.invoiceStatus == 'Partial Payment',
+                                                                      'bg-light-info': row.invoiceStatus == 'Downloaded',
+                                                                      'bg-light-danger': row.invoiceStatus == 'Past Due'
+                                                                    }"
+                                            >
+                                                <div class="avatar-content">{{ date }}</div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="cell-line-height">
+                                            <span class="font-weight-bold d-block text-nowrap font-medium-1">{{ date }}</span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Amount" prop="amount" [width]="20">
+                                <ng-template let-row="row" let-amount="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div *ngIf="row.length > 0; else "></div>
+                                        <ng-template #customAvatar>
+                                            <div
+                                                    class="avatar mr-1 ml-0"
+                                                    [ngClass]="{
+                                                                      'bg-light-secondary': row.invoiceStatus == 'Sent',
+                                                                      'bg-light-success': row.invoiceStatus == 'Paid',
+                                                                      'bg-light-primary': row.invoiceStatus == 'Draft',
+                                                                      'bg-light-warning': row.invoiceStatus == 'Partial Payment',
+                                                                      'bg-light-info': row.invoiceStatus == 'Downloaded',
+                                                                      'bg-light-danger': row.invoiceStatus == 'Past Due'
+                                                                    }"
+                                            >
+                                                <div class="avatar-content">{{ amount }}</div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="cell-line-height">
+                                            <span class="font-weight-bold d-block text-nowrap font-medium-1">{{ amount }}</span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="Balance" prop="balance" [width]="20">
+                                <ng-template let-row="row" let-balance="value" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center">
+                                        <div *ngIf="row.length > 0; else "></div>
+                                        <ng-template #customAvatar>
+                                            <div
+                                                    class="avatar mr-1 ml-0"
+                                                    [ngClass]="{
+                                                                      'bg-light-secondary': row.invoiceStatus == 'Sent',
+                                                                      'bg-light-success': row.invoiceStatus == 'Paid',
+                                                                      'bg-light-primary': row.invoiceStatus == 'Draft',
+                                                                      'bg-light-warning': row.invoiceStatus == 'Partial Payment',
+                                                                      'bg-light-info': row.invoiceStatus == 'Downloaded',
+                                                                      'bg-light-danger': row.invoiceStatus == 'Past Due'
+                                                                    }"
+                                            >
+                                                <div class="avatar-content">{{ balance }}</div>
+                                            </div>
+                                        </ng-template>
+                                        <div class="cell-line-height">
+                                            <span class="font-weight-bold d-block text-nowrap font-medium-1">{{ balance }}</span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+<!--                            <ngx-datatable-column name="Actions" [width]="10" [sortable]="false">-->
+<!--                                <ng-template ngx-datatable-cell-template let-row="row">-->
+<!--                                    <div class="d-flex align-items-center col-actions">-->
+<!--                                        <div ngbDropdown container="body">-->
+<!--                                            <button ngbDropdownToggle type="button"-->
+<!--                                                    class="btn icon-btn btn-sm hide-arrow px-0"-->
+<!--                                                    rippleEffect>-->
+<!--                                                <i data-feather="more-vertical" size="18"-->
+<!--                                                   class="cursor-pointer"></i>-->
+<!--                                            </button>-->
+<!--                                            <div ngbDropdownMenu>-->
+<!--                                                <a routerLink="/apps/invoice/deposit-edit/{{ row.id }}"-->
+<!--                                                   ngbDropdownItem-->
+<!--                                                ><i data-feather="edit" class="mr-1"></i>Edit</a-->
+<!--                                                ><a href="javascript:void(0)" ngbDropdownItem><i-->
+<!--                                                    data-feather="trash"-->
+<!--                                                    class="mr-1"></i>Delete</a-->
+<!--                                            ><a href="javascript:void(0)" ngbDropdownItem><i data-feather="copy"-->
+<!--                                                                                             class="mr-1"></i>Transaction</a>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </ng-template>-->
+<!--                            </ngx-datatable-column>-->
+                        </ngx-datatable>
+                    </div>
+                </div>
+                <div class="col-xl-12 col-md-8 col-12">
+                    <div class="card invoice-preview-card">
+                        <!-- Header starts -->
+                        <div class="card-body invoice-padding pb-0 sr7-head">
+                            <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0 logo-wrapper">
+                                <div class="col-xl-6 sr7-head1">
+                                    <img src="favicon.ico" alt="123accounting icon-img" class="sr7-img">
+                                </div>
+                                <div class="col-xl-6 sr7-head2">
+                                    <h3 class="text-primary invoice-logo">$ Transactions Reports</h3>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Header ends -->
+
+                        <hr class="invoice-spacing"/>
+
+                        <!-- Address and Contact starts -->
+                        <div class="card-body invoice-padding pt-0">
+                            <form class="source-item">
+                                <section class="bootstrap-select">
+                                    <div class="row">
+                                        <div class="col-md-12 col-12">
+                                            <div class="card-body sr7-flex">
+                                                <div class="col-md-3 col-12 form-group">
+                                                    <label>Account name</label>
+                                                    <ng-select class=" form-control sr7-ng"
+                                                               (change)="setAccountsId($event)" [items]="accounts">
+                                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+
+                                                </div>
+                                                <div class="col-md-3 col-12 form-group">
+                                                    <label>Type</label>
+                                                    <ng-select class=" form-control sr7-ng" [items]="selectType"
+                                                               (change)="setType($event)">
+                                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+
+                                                <div class="col-lg-3 col-12 form-group sr7-date">
+                                                    <label for="date1">Date (from)</label>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <input
+                                                                    class="form-control"
+                                                                    placeholder="yyyy-mm-dd"
+                                                                    name="Basic Date Picker1"
+                                                                    id="date1"
+                                                                    ngbDatepicker
+                                                                    (dateSelect)="setFromDate($event)"
+                                                                    #basicDP="ngbDatepicker"
+                                                            />
+                                                            <div class="input-group-append">
+                                                                <button
+                                                                        class="btn btn-outline-secondary feather icon-calendar"
+                                                                        (click)="basicDP.toggle()"
+                                                                        type="button"
+                                                                        rippleEffect
+                                                                ></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--                            <form class="form-inline">-->
+                                                    <!--                            </form>-->
+
+                                                </div>
+                                                <div class="col-lg-3 col-12 form-group sr7-date">
+                                                    <label for="date2">Date (to)</label>
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <input
+                                                                    class="form-control"
+                                                                    placeholder="yyyy-mm-dd"
+                                                                    name="Basic Date Picker2"
+                                                                    id="date2"
+                                                                    ngbDatepicker
+                                                                    (dateSelect)="setToDate($event)"
+                                                                    #basicDP2="ngbDatepicker"
+                                                            />
+                                                            <div class="input-group-append">
+                                                                <button
+                                                                        class="btn btn-outline-secondary feather icon-calendar"
+                                                                        (click)="basicDP2.toggle()"
+                                                                        type="button"
+                                                                        rippleEffect
+                                                                ></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!--                            <form class="form-inline">-->
+                                                    <!--                            </form>-->
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </section>
+                                <section class="bootstrap-select">
+                                    <div class="row">
+                                        <div class="col-md-12 col-12">
+                                            <div class="card-body sr7-flex">
+                                                <div class="col-md-3 col-12 form-group">
+                                                    <label for="category-name">Expenses Categories</label>
+                                                    <ng-select class=" form-control sr7-ng"
+                                                               id="category-name"
+                                                               (change)="getItems($event); setExpensesCategoryId($event)"
+                                                               [items]="categories">
+                                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                                <div class="col-md-3 col-12 form-group">
+                                                    <label for="item-name">Expenses Items</label>
+                                                    <ng-select class=" form-control sr7-ng"
+                                                               multiple="true"
+                                                               id="item-name"
+                                                               (change)="setExpensesItemId($event)"
+                                                               [items]="items">
+                                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                                <div class="col-md-3 col-12 form-group">
+                                                    <label for="deposits-categories-name">Deposits Categories</label>
+                                                    <ng-select class=" form-control sr7-ng"
+                                                               (change)="getDepositsItems($event); setDepositsCategoryId($event)"
+                                                               id="deposits-categories-name"
+                                                               [items]="depositsCategories">
+                                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                                <div class="col-md-3 col-12 form-group">
+                                                    <label for="deposits-items-name">Deposits Items</label>
+                                                    <ng-select multiple="true"
+                                                               class=" form-control sr7-ng"
+                                                               id="deposits-items-name"
+                                                               (change)="selectedDepositsItems($event); setDepositsItemId($event)"
+                                                               [items]="depositsItems">
+                                                        <ng-template ng-option-tmp ng-label-tmp let-item="item">
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </section>
+                                <div class="sr7-btn">
+                                    <a routerLink="/apps/invoice/preview"
+                                       class="col-xl-2 btn btn-outline-primary btn-block mb-75 sr7-preview">
+                                        Preview</a>
+                                </div>
+                                <div class="">
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

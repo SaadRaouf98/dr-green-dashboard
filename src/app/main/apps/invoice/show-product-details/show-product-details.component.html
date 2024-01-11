@@ -1,0 +1,189 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- Invoice List -->
+    <section class="invoice-list-wrapper">
+      <div class="card">
+        <!-- Invoice List Header -->
+        <div class="row">
+          <div class="col-md-6 col-lg-4 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <div class="d-flex align-items-center">
+                <label class="d-flex align-items-center"
+                  >Show
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div
+            class="
+              col-md-8 col-lg-4 col-12
+              d-flex
+              align-items-center
+              offset-lg-2
+              sr7-d
+            "
+          >
+<!--            <div class="d-flex pr-1 pb-1 pb-md-0 align-items-center w-100 sr7-3">-->
+<!--              <div class="col-10 col-md-6 pr-0 sr7-2">-->
+<!--                <label class="d-flex align-items-center mb-0 ml-1 ml-md-0 sr7-1"-->
+<!--                  ><input-->
+<!--                    [(ngModel)]="searchValue"-->
+<!--                    name="searchValue"-->
+<!--                    type="search"-->
+<!--                    class="form-control"-->
+<!--                    placeholder="Search..."-->
+<!--                    (keyup)="filterUpdate($event)"-->
+<!--                    (search)="filterUpdate($event)"-->
+<!--                /></label>-->
+<!--              </div>-->
+<!--            </div>-->
+          </div>
+        </div>
+        <!--/ Invoice List Header -->
+
+        <!-- Invoice List Table -->
+        <ngx-datatable
+          [rows]="productsData"
+          [rowHeight]="50"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+        >
+<!--          <ngx-datatable-column name="#" prop="id" [width]="5">-->
+<!--            <ng-template let-id="value" ngx-datatable-cell-template>-->
+<!--              <span>#{{ id }}</span>-->
+<!--            </ng-template>-->
+<!--          </ngx-datatable-column>-->
+          <ngx-datatable-column name="Quantity" prop="qty" [width]="150">
+            <ng-template let-qty="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ qty }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="All Quantity" prop="all_qty" [width]="150">
+            <ng-template let-all_qty="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ all_qty }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Supplier Price" prop="supplier_price" [width]="50">
+            <ng-template let-supplier_price="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold"> ${{ supplier_price }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+<!--          <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">-->
+<!--            <ng-template ngx-datatable-cell-template let-row="row">-->
+<!--              <div class="d-flex align-items-center col-actions">-->
+<!--                <div ngbDropdown container="body">-->
+<!--                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0" rippleEffect>-->
+<!--                    <i data-feather="more-vertical" size="18" class="cursor-pointer"></i>-->
+<!--                  </button>-->
+<!--                  <div ngbDropdownMenu>-->
+<!--                    <a (click)="open(content, row.id)" ngbDropdownItem>-->
+<!--                      <i data-feather="edit" class="mr-1"></i>-->
+<!--                      Add New Quantity-->
+<!--                    </a>-->
+<!--                    <a (click)="openEdit(contentEdit, row.id, row)" ngbDropdownItem>-->
+<!--                      <i data-feather="edit" class="mr-1"></i>-->
+<!--                      Edit Quantity-->
+<!--                    </a>-->
+<!--                    <a href="javascript:void(0)" ngbDropdownItem>-->
+<!--                      <i data-feather="trash" class="mr-1"></i>-->
+<!--                      Delete-->
+<!--                    </a>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </ng-template>-->
+<!--          </ngx-datatable-column>-->
+        </ngx-datatable>
+        <!--/ Invoice List Table -->
+      </div>
+    </section>
+    <!--/ Invoice List -->
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel1">New Category</h4>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form action="#" [formGroup]="addForm">
+      <label class="form-label" for="new_qty">Quantity: </label>
+      <div class="form-group">
+        <input type="text"
+               placeholder="Quantity"
+               id="new_qty"
+               class="form-control"
+               aria-describedby="name"
+               formControlName="all_qty"
+        />
+      </div>
+      <label class="form-label" for="supplier_price">Supplier Price: </label>
+      <div class="form-group">
+        <input type="text"
+               placeholder="Supplier Price"
+               id="supplier_price"
+               class="form-control"
+               aria-describedby="description"
+               formControlName="supplier_price"
+        />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="submit();modal.close('Accept click')"
+                rippleEffect>
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
+<ng-template #contentEdit let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel2">Edit account</h4>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form action="#" [formGroup]="editForm">
+      <label class="form-label" for="ed_new_qty">Quantity: </label>
+      <div class="form-group">
+        <input type="text"
+               placeholder="Quantity"
+               id="ed_new_qty"
+               class="form-control"
+               aria-describedby="name"
+               formControlName="all_qty"
+        />
+      </div>
+      <label class="form-label" for="ed_supplier_price">Supplier Price: </label>
+      <div class="form-group">
+        <input type="text"
+               placeholder="Supplier Price"
+               id="ed_supplier_price"
+               class="form-control"
+               aria-describedby="description"
+               formControlName="supplier_price"
+        />
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="edit();modal.close('Accept click')" rippleEffect>
+      Edit
+    </button>
+  </div>
+</ng-template>

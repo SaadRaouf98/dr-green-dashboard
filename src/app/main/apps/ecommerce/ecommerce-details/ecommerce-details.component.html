@@ -1,0 +1,266 @@
+<div class="content-wrapper container-xxl p-0">
+<!--  <app-content-header [contentHeader]="contentHeader"></app-content-header>-->
+  <div class="content-body">
+    <!-- app e-commerce details start -->
+    <section class="app-ecommerce-details">
+      <div class="card">
+        <!-- Product Details starts -->
+        <div class="card-body">
+          <div class="row my-2">
+            <div class="col-12 col-md-1 d-flex align-items-center justify-content-center mb-2 mb-md-0">
+              <div *ngIf="previewProduct?.main_image">
+                <div class="d-flex align-items-center justify-content-center sr-7-img-collection">
+                  <img [src]="previewProduct?.main_image" class="img-fluid product-img" alt="product image" (click)="imageEvent(previewProduct?.main_image)"/>
+                </div>
+                <div class="d-flex align-items-center justify-content-center sr-7-img-collection"
+                     *ngFor="let item of previewProduct?.images"
+                >
+                  <img [src]="item" class="img-fluid product-img" alt="product image" (click)="imageEvent(item)"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-5 d-flex align-items-center justify-content-center mb-2 mb-md-0">
+              <div class="d-flex align-items-center justify-content-center sr-7-img-collection">
+                <img [src]="showImage" class="img-fluid product-img" alt="product image" />
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <h2 class="font-weight-bolder" *ngIf="previewProduct?.name">{{ previewProduct?.name }}</h2>
+              <span class="font-weight-bold card-text item-company"
+                >By <a  class="company-name" *ngIf="previewProduct?.subcategory">{{ previewProduct?.subcategory.name }}</a></span
+              >
+              <div class="ecommerce-details-price d-flex flex-wrap mt-1">
+                <h3 class="font-weight-bolder primary-gradient card-text item-company item-price mr-1">${{ previewProduct?.sale_price }}</h3>
+                <p class="card-text font-weight-bold">Status -
+                  <span class="font-weight-bold text-success" *ngIf="previewProduct?.stock_status== 'instock'">{{previewProduct?.stock_status}}</span>
+                  <span class="font-weight-bold text-warning" *ngIf="previewProduct?.stock_status== 'more in the way'">{{previewProduct?.stock_status}}</span>
+                  <span class="font-weight-bold text-danger" *ngIf="previewProduct?.stock_status== 'outofstock'">{{previewProduct?.stock_status}}</span>
+                </p>
+
+              </div>
+              <ul class="product-features list-unstyled" *ngIf="previewProduct?.features">
+
+                <li>
+                  <h4>Features:</h4>
+                  <p *ngFor="let item of previewProduct?.features">
+                    <span class="ml-1">*{{item}}</span>
+                  </p>
+                </li>
+              </ul>
+
+              <div class="d-flex flex-column flex-sm-row pt-1">
+                <a
+                  class="btn btn-primary btn-cart mr-0 mr-sm-1 mb-1 mb-sm-0"
+                  (click)="addToCart()"
+                >
+                  <i data-feather="shopping-cart" class="mr-25"></i>
+                  <span class="add-to-cart">Add to cart</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs sr7-tabs">
+            <li [ngbNavItem]="1">
+              <a class="text-center colors-container bg-gradient-warning rounded text-white width-200 height-50 d-flex align-items-center justify-content-center mr-1 ml-50 my-1 shadow" ngbNavLink>Overview</a>
+              <ng-template ngbNavContent>
+                <ul class="product-features list-unstyled" *ngIf="previewProduct?.description">
+                  <li>
+                    <p class="card-text">
+                      {{ previewProduct?.description }}
+                    </p>
+                  </li>
+                </ul>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <a class="text-center colors-container bg-gradient-success rounded text-white width-200 height-50 d-flex align-items-center justify-content-center mr-1 ml-50 my-1 shadow" ngbNavLink>Specs</a>
+              <ng-template ngbNavContent>
+                <div class="product-color-options d-flex" *ngIf="productAttributes">
+                  <div class="mr-3">
+                    <div *ngFor="let i of productAttributes | keyvalue ">
+                      <div class=" text-secondary font-weight-bolder mb-1">
+                        * {{i.value.attributeName.value}}: {{i.value.attributeValue}}
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div>
+                      <div class=" text-secondary font-weight-bolder mb-1" *ngIf="previewProduct?.height_symbol">* Height: {{ previewProduct?.height }} {{ previewProduct?.height_symbol }}</div>
+                      <div class=" text-secondary font-weight-bolder mb-1" *ngIf="previewProduct?.length_symbol">* Length: {{ previewProduct?.length }} {{ previewProduct?.length_symbol }}</div>
+                      <div class=" text-secondary font-weight-bolder mb-1" *ngIf="previewProduct?.width_symbol">* Width: {{ previewProduct?.width}} {{ previewProduct?.width_symbol}}</div>
+                      <div class=" text-secondary font-weight-bolder mb-1" *ngIf="previewProduct?.pounds">* Weight: {{ previewProduct?.pounds }} {{ previewProduct?.weight_symbol }}</div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </section>
+    <section class="invoice-list-wrapper">
+      <div class="card">
+
+        <div class="row">
+          <div class="col-md-6 col-lg-4 col-12">
+            <div class="d-flex justify-content-between align-items-center m-1">
+              <div class="d-flex align-items-center">
+                <label class="d-flex align-items-center"
+                >Show
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                </label>
+                <button class="btn btn-primary ml-2" (click)="open(content)" rippleEffect>
+                  Add New Attributes
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8 col-lg-4 col-12 d-flex align-items-center offset-lg-2 sr7-d">
+            <div class="d-flex pr-1 pb-1 pb-md-0 align-items-center w-100 sr7-3">
+              <div class="col-10 col-md-6 pr-0 sr7-2">
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/ Invoice List Header -->
+
+        <section id="card-style-variation">
+          <ngx-datatable
+                  id="categories-table"
+                  [rows]="attributesRows"
+                  [rowHeight]="50"
+                  class="bootstrap core-bootstrap"
+                  [limit]="selectedOption"
+                  [columnMode]="ColumnMode.force"
+                  [headerHeight]="50"
+                  [footerHeight]="50"
+                  [scrollbarH]="true"
+          >
+            <ngx-datatable-column name="Attributes" prop="product_attribute" [width]="50">
+              <ng-template let-product_attribute="value" ngx-datatable-cell-template>
+                <span class="font-weight-bold"> {{ product_attribute.name }}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Values" prop="value" [width]="50">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <span class="font-weight-bold"> {{ value }}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                <div class="d-flex align-items-center col-actions">
+                  <a (click)="openEdit1(contentEdit1, row.id, row)" ngbDropdownItem>
+                    <i data-feather="edit" class="mr-1"></i>
+                    Edit
+                  </a>
+                  <a (click)="delete(row.id)" ngbDropdownItem>
+                    <i data-feather="trash" class="mr-1"></i>
+                    Delete
+                  </a>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </section>
+      </div>
+    </section>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel1">New Attributes</h4>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form action="#" [formGroup]="addForm">
+        <p class="card-text col-title mb-md-50 mb-0" for="sub-cat">
+          Attributes Name</p>
+        <ng-select placeholder="Select Brand Name" class="  sr7-ng"
+                   (change)="selectedItem($event)"
+                   [items]="allAttributes"
+                   bindLabel="name"
+                   bindValue="id"
+        >
+          <ng-template
+                  ng-option-tmp
+                  ng-label-tmp
+                  id="sub-cat"
+                  let-item="item"
+          >
+            {{ item.name }}
+          </ng-template>
+        </ng-select>
+
+      <p class="form-label" for="name">description: </p>
+      <div class="form-group">
+        <input type="text"
+               placeholder="attributeValue"
+               class="form-control"
+               aria-describedby="attributeValue"
+               formControlName="attributeValue"
+        />
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary d-flex"
+                (click)="submit()" rippleEffect>
+          <i *ngIf="right" data-feather="check" class="mr-25 m-auto"></i>
+          <ngx-loading *ngIf="spinner" [show]="true" class="mr-25" [config]="{
+                                                    animationType: ngxLoadingAnimationTypes.circle,
+                                                    primaryColour: '#5e50ee',
+                                                    backdropBorderRadius: '0.5px',
+                                                    backgroundColor: '#FFFFFF'}"
+          >
+          </ngx-loading>
+          <span class="align-middle m-auto">Submit</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
+<ng-template #contentEdit1 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="myModalLabel6">Edit Attributes</h4>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <form action="#" [formGroup]="editForm">
+      <label class="form-label" for="attributeValue">Value: </label>
+      <div class="form-group">
+        <input type="text"
+               placeholder="attributeValue"
+               class="form-control"
+               formControlName="attributeValue"
+               id="attributeValue"
+        />
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <button type="button" class="btn btn-primary d-flex"
+            (click)="edit()" rippleEffect>
+      <i *ngIf="right" data-feather="check" class="mr-25 m-auto"></i>
+      <ngx-loading *ngIf="spinner" [show]="true" class="mr-25" [config]="{
+                                                    animationType: ngxLoadingAnimationTypes.circle,
+                                                    primaryColour: '#5e50ee',
+                                                    backdropBorderRadius: '0.5px',
+                                                    backgroundColor: '#FFFFFF'}"
+      >
+      </ngx-loading>
+      <span class="align-middle m-auto">Submit</span>
+    </button>
+  </div>
+</ng-template>
+

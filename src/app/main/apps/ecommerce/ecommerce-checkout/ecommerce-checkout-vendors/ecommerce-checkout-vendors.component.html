@@ -1,0 +1,128 @@
+<div class="content-wrapper container-xxl p-0">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="content-body d-flex">
+        <div class="col-9 card  ecommerce-card">
+            <ng-container *ngIf="cartProducts">
+                <div *ngFor="let item of cartProducts">
+                    <div class="d-flex cart-items-vendors">
+                        <div class="col-3 item-img">
+                            <a routerLink="/apps/e-commerce/details/{{ item.product.id }}"
+                               class="text-body">
+                                <img class="img-cart" src="{{item.product.main_image}}" alt="img-placeholder"/>
+                            </a>
+                        </div>
+                        <div class="col-7 cart-details">
+                            <div class="item-name">
+                                <h2 class="mb-0">
+                                    <a routerLink="/apps/e-commerce/details/{{ item.product.id }}"
+                                       class="text-body">{{ item.product.name }}</a>
+                                </h2>
+                                <div>
+                                    <h3 class="item-company">
+                                        By:
+                                        <span class="badge badge-pill badge-light-success font-weight-bolder company-name">
+                                            {{ item.product.subcategory.name }}
+                                        </span>
+                                    </h3>
+                                    <div class="d-flex">
+                                        <h3 class="ml-50 item-price font-weight-bolder mr-2 ">Supplier Price: ${{ item.supplier_price }}</h3>
+                                        <h3 class="item-price font-weight-bolder ">Total Price: ${{ item.subtotal }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="badge text-secondary font-weight-bolder mb-1">Height: {{ item.product.height }} {{ item.product.height_symbol }}</span>
+                                <span class="badge text-secondary font-weight-bolder mb-1">Length: {{ item.product.length }} {{ item.product.length_symbol }}</span>
+
+                            </div>
+                            <div>
+                                <span class="badge text-secondary font-weight-bolder mb-1">Width: {{ item.product.width}} {{ item.product.width_symbol}}</span>
+                                <span class="badge text-secondary font-weight-bolder mb-1">Weight: {{ item.product.pounds }}{{ item.product.weight_symbol }}</span>
+                            </div>
+<!--                            <div>-->
+<!--                                <span class="badge text-secondary font-weight-bolder mb-1" *ngFor="let i of item.value.options.attributes  | keyvalue ">-->
+<!--                                  <span>-{{i.value.attributeName.value}}</span>-->
+<!--                                  <span>:</span>-->
+<!--                                  <span>{{i.value.attributeValue}}</span>-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                            <div>-->
+<!--                                <span class="badge text-secondary font-weight-bolder mb-1">ZIP CODE: {{ item.product.zip_origination}}</span>-->
+<!--                                <span class="badge text-secondary font-weight-bolder mb-1">TAX: {{ item.product.tax}}</span>-->
+<!--                            </div>-->
+
+                        </div>
+                        <div class="col-2 item-options text-center">
+                            <div class="item-quantity">
+                                <span class="quantity-title">Qty:</span>
+                                <div class="quantity-counter-wrapper">
+                                    <core-touchspin
+                                            [numberValue]="item.quantity"
+                                            [stepValue]="1"
+                                            [minValue]="1"
+                                            [maxValue]="100"
+                                            (onChange)="countChange($event)"
+                                    ></core-touchspin>
+                                </div>
+                            </div>
+                            <div class="item-quantity mt-1">
+                                <form [formGroup]="updateItemInfo">
+                                    <span class="quantity-title ">Supplier Price:</span>
+                                    <div class="quantity-counter-wrapper" >
+                                        <input
+                                                type="text"
+                                                class="form-control sr7-price"
+                                                id="basicInput"
+                                                placeholder="0.0 $"
+                                                formControlName="supplier_price"
+                                        />
+                                    </div>
+                                </form>
+                            </div>
+
+                            <button type="button" class="btn btn-primary mt-1 remove-wishlist"
+                                    (click)="changeCartItem(item.id)" rippleEffect>
+                                <span>Update</span>
+                            </button>
+                            <button type="button" class="btn btn-light mt-1 remove-wishlist"
+                                    (click)="removeProduct(item.id)" rippleEffect>
+                                <i data-feather="x" class="align-middle mr-25"></i>
+                                <span>Remove</span>
+                            </button>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
+            </ng-container>
+        </div>
+        <div class="col-3 checkout-options">
+            <div class="card">
+                <div class="card-body">
+                    <div class="price-details">
+                        <h6 class="price-title font-medium-1 font-weight-bold">Price Details</h6>
+                        <ul class="list-unstyled">
+                            <li class="price-detail d-flex font-large-1">
+                                <div class="detail-title detail-total">Total price</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt font-weight-bolder" *ngIf="check">${{ check.total}}</div>
+                            </li>
+                        </ul>
+                        <button type="button" class="btn btn-light mt-1 remove-wishlist btn-gradient-warning col-12"
+                                (click)="checkout()" rippleEffect>
+                            <i data-feather="refresh-cw" class="align-middle mr-25"></i>
+                            <span>Checkout</span>
+                        </button>
+                        <button type="button" class="btn btn-light mt-1 remove-wishlist btn-gradient-success col-12"
+                                routerLink="/apps/invoice/order-form/1" rippleEffect>
+                            <i data-feather="check" class="align-middle mr-25"></i>
+                            <span>Complete process</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Checkout Place Order Right ends -->
+        </div>
+
+    </div>
+</div>
+

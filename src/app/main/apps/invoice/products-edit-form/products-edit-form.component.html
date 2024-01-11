@@ -1,0 +1,782 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <section class="invoice-edit-wrapper">
+            <div class="row invoice-edit">
+                <!--        <div class="col-xl-1"></div>-->
+                <div class="col-xl-12 col-md-8 col-12">
+                    <div class="card invoice-preview-card">
+                        <div class="card-body invoice-padding pb-0 sr7-card">
+                            <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                                <div class="sr7-w">
+                                    <div class="col-12 d-flex product-details-border position-relative pr-0">
+                                        <form class="source-item sr7-w" [formGroup]="editProductForm">
+                                            <div class="row w-100 pr-lg-0 pr-1 py-2 sr7-pm sr7-text-up">
+                                                <div class="col-12">
+                                                    <p class="card-text col-title mb-md-50 mb-0">NAME <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            name="name"
+                                                            placeholder="Name"
+                                                            formControlName="name"
+                                                            required
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false" class="alert mt-25"
+                                                               *ngIf="editProductForm.controls['name'].invalid && (editProductForm.controls['name'].dirty || editProductForm.controls['name'].touched)">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['name'].errors.required">
+                                                            <p>Product name is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['name']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['name']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+
+                                                <!--                        <<<<<<<<<<select><>>>>>>>>>-->
+                                                <div class="col-6 sr7-dash-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0 " for="cat">
+                                                        CATEGORIES <span class="text-danger">*</span></p>
+                                                    <ng-select placeholder="Select Category Name"
+                                                               class="sr7-ng searchable_select"
+                                                               [(ngModel)]="categoryId"
+                                                               [ngModelOptions]="{standalone: true}"
+                                                               (change)="getSubCategories($event)"
+                                                               [items]="categories"
+                                                               bindLabel="name"
+                                                               bindValue="id"
+                                                    >
+                                                        <ng-template
+                                                                ng-option-tmp
+                                                                ng-label-tmp
+                                                                id="cat"
+                                                                let-item="item"
+                                                        >
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['category_id']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['category_id']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-6 sr7-dash-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0" for="sub-cat">
+                                                        BRANDS <span class="text-danger">*</span></p>
+                                                    <ng-select placeholder="Select Brand Name" class="  sr7-ng"
+                                                               [(ngModel)]="itemId"
+                                                               [ngModelOptions]="{standalone: true}"
+                                                               (change)="selectedItem($event)"
+                                                               [items]="subCategories"
+                                                               bindLabel="name"
+                                                               bindValue="id"
+                                                    >
+                                                        <ng-template
+                                                                ng-option-tmp
+                                                                ng-label-tmp
+                                                                id="sub-cat"
+                                                                let-item="item"
+                                                        >
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['subcategory_id']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['subcategory_id']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-4 sr7-row3-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0">STOCK STATUS <span
+                                                            class="text-danger">*</span></p>
+                                                    <select class=" form-control sr7-ng"
+                                                            (change)="setType($event)"
+                                                            [(ngModel)]="type"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                    >
+                                                        <option value="" disabled selected hidden>Please Choose...
+                                                        </option>
+                                                        <option *ngFor="let item of selectType"
+                                                                [value]="item.value">
+                                                            {{ item.name}}
+                                                        </option>
+
+                                                    </select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['stock_status']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['stock_status']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <!--                        <<<<<<<<<<select><>>>>>>>>>-->
+
+                                                <div class="col-4 sr7-row3-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0">SUPPLIER PRICE <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="0.0$"
+                                                            name="supplier_price"
+                                                            formControlName="supplier_price"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false" class="alert mt-25"
+                                                               *ngIf="editProductForm.controls['supplier_price'].invalid && (editProductForm.controls['supplier_price'].dirty || editProductForm.controls['supplier_price'].touched)">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['supplier_price'].errors.required">
+                                                            <p>supplier price is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['supplier_price']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['supplier_price']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-4 sr7-row3-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0">SALE PRICE <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="0.0$"
+                                                            name="sale_price"
+                                                            formControlName="sale_price"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['sale_price'].invalid && (editProductForm.controls['sale_price'].dirty || editProductForm.controls['sale_price'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['sale_price'].errors.required">
+                                                            <p>sale price is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['sale_price']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['sale_price']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-4 sr7-row3-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0">QUANTITY <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="text"
+                                                            rows="2"
+                                                            class="form-control"
+                                                            placeholder="00"
+                                                            name="all_qty"
+                                                            formControlName="all_qty"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['all_qty'].invalid && (editProductForm.controls['all_qty'].dirty || editProductForm.controls['all_qty'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['all_qty'].errors.required">
+                                                            <p>quantity is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['all_qty']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['all_qty']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-4 sr7-row3-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0 " for="cat">
+                                                        Stores <span class="text-danger">*</span></p>
+                                                    <ng-select placeholder="Select Store"
+                                                               class="sr7-ng searchable_select"
+                                                               [(ngModel)]="storeId"
+                                                               [ngModelOptions]="{standalone: true}"
+                                                               (change)="selectedStore($event)"
+                                                               [items]="storesData"
+                                                               bindLabel="name"
+                                                               bindValue="id"
+                                                    >
+                                                        <ng-template
+                                                                ng-option-tmp
+                                                                ng-label-tmp
+                                                                id="store"
+                                                                let-item="item"
+                                                        >
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['store_id']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['store_id']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-4 sr7-row3-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0 " for="cat">
+                                                        ON-SITE STATUS <span class="text-danger">*</span></p>
+                                                    <ng-select placeholder="Select Store"
+                                                               class="sr7-ng searchable_select"
+                                                               [(ngModel)]="onSiteValue"
+                                                               [ngModelOptions]="{standalone: true}"
+                                                               (change)="selectedOnSite()"
+                                                               [items]="onSiteValues"
+                                                               bindLabel="value"
+                                                               bindValue="value"
+                                                    >
+                                                        <ng-template
+                                                                ng-option-tmp
+                                                                ng-label-tmp
+                                                                id="store"
+                                                                let-item="item"
+                                                        >
+                                                            {{ item.name }}
+                                                        </ng-template>
+                                                    </ng-select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['on_site']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['on_site']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <!--                        <<<<<<<<<<Text area><>>>>>>>>>-->
+                                                <div class="col-12 sr7-dash-up">
+                                                    <p class="card-text col-title mb-md-2 mb-0">FEATURES <span
+                                                            class="text-danger">*</span></p>
+                                                    <textarea
+                                                            class="form-control"
+                                                            id="text"
+                                                            name="features"
+                                                            placeholder="features"
+                                                            rows="4"
+                                                            formControlName="features"
+                                                    >
+                                                        </textarea>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['features'].invalid && (editProductForm.controls['features'].dirty || editProductForm.controls['features'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['features'].errors.required">
+                                                            <p>features is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['features']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['features']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-12 sr7-dash-up">
+                                                    <p class="card-text col-title mb-md-2 mb-0">OVERVIEW <span
+                                                            class="text-danger">*</span></p>
+                                                    <textarea
+                                                            type="text"
+                                                            class="form-control"
+                                                            rows="4"
+                                                            placeholder=" Overview .."
+                                                            name="description"
+                                                            formControlName="description"
+                                                    ></textarea>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['description'].invalid && (editProductForm.controls['description'].dirty || editProductForm.controls['description'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['description'].errors.required">
+                                                            <p>description is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['description']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['description']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <!--                        <<<<<<<<<< text area><>>>>>>>>>-->
+
+                                                <!--                        <<<<<<<<<<upload image><>>>>>>>>>-->
+                                                <fieldset class="sr7-dash-up sr7-upload-img col-lg-6 col-12 my-lg-0 my-2 form-group">
+                                                    <p class="card-text col-title mb-md-50 mb-0">MAIN IMAGE <span
+                                                            class="text-danger">*</span></p>
+                                                    <div class="custom-file mb-50">
+                                                        <input
+                                                                type="file"
+                                                                class="custom-file-input "
+                                                                type="file"
+                                                                ng2FileSelect
+                                                                #selectFile
+                                                                (change)="onFileSelected1($event)"
+                                                        />
+                                                        <label class="custom-file-label">Choose image</label>
+                                                    </div>
+                                                    <div class="preview-wrapper">
+                                                        <div class="img-preview">
+                                                            <div class="row" *ngIf="images1?.length != 0">
+                                                                <div class="col-md-4 col-sm-12 d-flex flex-column"
+                                                                     *ngFor='let url of images1'>
+                                                                    <button type="button" class="btn btn-danger  "
+                                                                            (click)="removeImage1(url)">
+                                                                        Remove
+                                                                    </button>
+                                                                    <img [src]="url"
+                                                                         class="w-100 image-blog">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" *ngIf="mainImage?.length != 0">
+                                                                <div class="col-md-4 col-sm-12 d-flex flex-column">
+                                                                    <button type="button" class="btn btn-danger  "
+                                                                            (click)="removeImageGet1()">
+                                                                        Remove
+                                                                    </button>
+                                                                    <img [src]="mainImage" class="w-100 image-blog">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['main_image']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['main_image']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </fieldset>
+                                                <fieldset
+                                                        class=" sr7-dash-up sr7-upload-img col-lg-6 col-12 my-lg-0 my-2 form-group">
+                                                    <p class="card-text col-title mb-md-50 mb-0">IMAGES</p>
+                                                    <div class="custom-file mb-50">
+                                                        <input
+                                                                type="file"
+                                                                class="custom-file-input "
+                                                                type="file"
+                                                                ng2FileSelect
+                                                                multiple
+                                                                #selectFile
+                                                                (change)="onFileSelected2($event)"
+                                                        />
+                                                        <label class="custom-file-label">Choose image</label>
+                                                    </div>
+                                                    <div class="preview-wrapper">
+                                                        <div class="img-preview">
+                                                            <div class="row" *ngIf="images2?.length != 0">
+                                                                <div class="col-md-4 col-sm-12 d-flex flex-column"
+                                                                     *ngFor='let url of images2'>
+                                                                    <button type="button" class="btn btn-danger  "
+                                                                            (click)="removeImage2(url)">
+                                                                        Remove
+                                                                    </button>
+                                                                    <img [src]="url"
+                                                                         class="w-100 image-blog">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" *ngIf="severalImages?.length != 0">
+                                                                <div class="col-md-4 col-sm-12 d-flex flex-column"
+                                                                     *ngFor='let url of severalImages'>
+                                                                    <button type="button" class="btn btn-danger  "
+                                                                            (click)="removeImageGet2(url)">
+                                                                        Remove
+                                                                    </button>
+                                                                    <img [src]="url"
+                                                                         class="w-100 image-blog">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['images']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['images']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </fieldset>
+
+                                                <!--                        <<<<<<<<<<upload image><>>>>>>>>>-->
+                                                <div class="col-12 sr7-dash-up">
+                                                    <p class="card-text col-title mb-md-50 mb-0">UNIT SYSTEM TYPE<span
+                                                            class="text-danger">*</span></p>
+                                                    <select class=" form-control sr7-ng"
+                                                            [(ngModel)]="selectedUnitSystem"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                            (change)="setSystemType($event)">
+                                                        <option value="" disabled selected hidden>
+                                                            Please Choose System Type
+                                                        </option>
+                                                        <option *ngFor="let item of unitsSystems" [value]="item.value">
+                                                            {{ item.name}}
+                                                        </option>
+                                                    </select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['type']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['type']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-6 sr7-dash-up" *ngIf="isWeight">
+                                                    <p class="card-text col-title mb-md-50 mb-0">WEIGHT UNITS<span
+                                                            class="text-danger">*</span></p>
+                                                    <select class=" form-control sr7-ng"
+                                                            [(ngModel)]="selectedWeight"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                            (change)="setWeightUnit($event)">
+                                                        <option value="" disabled selected hidden>
+                                                            Please Choose Weight Unit
+                                                        </option>
+                                                        <option *ngFor="let item of weightsUnits" [value]="item.value">
+                                                            {{ item.name}}
+                                                        </option>
+                                                    </select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['weight_symbol']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['weight_symbol']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-6 sr7-dash-up" *ngIf="isWeight">
+                                                    <p class="card-text col-title mb-md-50 mb-0">WEIGHT VALUE <span
+                                                            class="text-danger">*</span>
+                                                    </p>
+                                                    <input
+                                                            type="number"
+                                                            class="form-control"
+                                                            placeholder="0.0 Pounds"
+                                                            name="pounds"
+                                                            formControlName="pounds"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['pounds'].invalid && (editProductForm.controls['pounds'].dirty || editProductForm.controls['pounds'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['pounds'].errors.required">
+                                                            <p>pounds is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['pounds']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['pounds']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="sr7-upload-img col-6 sr7-dash-up" *ngIf="isLength">
+                                                    <p class="card-text col-title mb-md-50 mb-0">WIDTH UNIT <span
+                                                            class="text-danger">*</span></p>
+                                                    <select class=" form-control sr7-ng"
+                                                            [(ngModel)]="selectedWidthUnit"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                            (change)="setWidthUnit($event)"
+                                                    >
+                                                        <option *ngFor="let item of units" [value]="item.value">
+                                                            {{ item.name}}
+                                                        </option>
+                                                    </select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['width_symbol']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['width_symbol']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="sr7-upload-img col-6 sr7-dash-up" *ngIf="isLength">
+                                                    <p class="card-text col-title mb-md-50 mb-0">WIDTH <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="number"
+                                                            class="form-control"
+                                                            placeholder="0.0 inch/foot"
+                                                            name="width"
+                                                            formControlName="width"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['width'].invalid && (editProductForm.controls['width'].dirty || editProductForm.controls['width'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['width'].errors.required">
+                                                            <p>width is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['width']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['width']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-6" *ngIf="isLength">
+                                                    <p class="card-text col-title mb-md-50 mb-0">LENGTH UNIT <span
+                                                            class="text-danger">*</span></p>
+                                                    <select class=" form-control sr7-ng"
+                                                            (change)="setLengthUnit($event)"
+                                                            [(ngModel)]="selectedLengthUnit"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                    >
+                                                        <option *ngFor="let item of units" [value]="item.value">
+                                                            {{ item.name}}
+                                                        </option>
+                                                    </select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['length_symbol']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['length_symbol']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="col-6" *ngIf="isLength">
+                                                    <p class="card-text col-title mb-md-50 mb-0">LENGTH <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="number"
+                                                            class="form-control"
+                                                            placeholder="0.0 inch/foot"
+                                                            name="length"
+                                                            formControlName="length"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['length'].invalid && (editProductForm.controls['length'].dirty || editProductForm.controls['length'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['length'].errors.required">
+                                                            <p>length is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['length']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['length']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="sr7-upload-img col-6 sr7-dash-up" *ngIf="isLength">
+                                                    <p class="card-text col-title mb-md-50 mb-0">HEIGHT UNIT <span
+                                                            class="text-danger">*</span></p>
+                                                    <select class=" form-control sr7-ng"
+                                                            (change)="setHeightUnit($event)"
+                                                            [(ngModel)]="selectedHeightUnit"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                    >
+                                                        <option *ngFor="let item of units" [value]="item.value">
+                                                            {{ item.name}}
+                                                        </option>
+                                                    </select>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['height_symbol']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['height_symbol']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="sr7-upload-img col-6 sr7-dash-up" *ngIf="isLength">
+                                                    <p class="card-text col-title mb-md-50 mb-0">HEIGHT <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="number"
+                                                            class="form-control"
+                                                            placeholder="0.0 inch/foot"
+                                                            name="height"
+                                                            formControlName="height"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['height'].invalid && (editProductForm.controls['height'].dirty || editProductForm.controls['height'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['height'].errors.required">
+                                                            <p>height is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert" *ngIf="messageError['height']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['height']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <!--                        <<<<<<<<<<Meta Data><>>>>>>>>>-->
+                                                <div class="sr7-upload-img col-lg-6 col-12 mb-lg-0 mb-2 mt-lg-0 mt-2">
+                                                    <p class="card-text col-title mb-md-50 mb-0">META TITLE 1 <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="meta title 1"
+                                                            name="meta_title1"
+                                                            formControlName="meta_title1"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['meta_title1'].invalid && (editProductForm.controls['meta_title1'].dirty || editProductForm.controls['meta_title1'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['meta_title1'].errors.required">
+                                                            <p>meta title 1 is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['meta_title1']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['meta_title1']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="sr7-upload-img col-lg-6 col-12 mb-lg-0 mb-2 mt-lg-0 mt-2">
+                                                    <p class="card-text col-title mb-md-50 mb-0">META TITLE 2 <span
+                                                            class="text-danger">*</span></p>
+                                                    <input
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder="meta title 2"
+                                                            name="meta_title2"
+                                                            formControlName="meta_title2"
+                                                    />
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['meta_title2'].invalid && (editProductForm.controls['meta_title2'].dirty || editProductForm.controls['meta_title2'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['meta_title2'].errors.required">
+                                                            <p>meta title 2 is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['meta_title2']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['meta_title2']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <div class="sr7-upload-img col-lg-12 col-12 mb-lg-0 mb-2 mt-lg-0 mt-2">
+                                                    <p class="card-text col-title mb-md-50 mb-0">MAETA DESCRIPTION <span
+                                                            class="text-danger">*</span></p>
+                                                    <textarea
+                                                            type="text"
+                                                            class="form-control"
+                                                            placeholder=" meta description .."
+                                                            name="meta_description"
+                                                            formControlName="meta_description"
+                                                    >
+                                                        </textarea>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               *ngIf="editProductForm.controls['meta_description'].invalid && (editProductForm.controls['meta_description'].dirty || editProductForm.controls['meta_description'].touched)"
+                                                               class="alert mt-25">
+                                                        <div class="alert-body "
+                                                             *ngIf="editProductForm.controls['meta_description'].errors.required">
+                                                            <p>meta description is required</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['meta_description']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['meta_description']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </div>
+                                                <!--                        <<<<<<<<<<upload image 2><>>>>>>>>>-->
+                                                <fieldset class="col-12 sr7-pm1">
+                                                    <p class="card-text col-title mb-md-50 mb-0">META IMAGE <span
+                                                            class="text-danger">*</span></p>
+                                                    <div class="custom-file mb-50">
+                                                        <input
+                                                                type="file"
+                                                                class="custom-file-input "
+                                                                type="file"
+                                                                ng2FileSelect
+                                                                #selectFile
+                                                                (change)="onFileSelected3($event)"
+                                                        />
+                                                        <label class="custom-file-label">Choose image</label>
+                                                    </div>
+                                                    <div class="preview-wrapper">
+                                                        <div class="img-preview">
+                                                            <div class="row" *ngIf="images3?.length != 0">
+                                                                <div class="col-md-2 col-sm-12 d-flex flex-column"
+                                                                     *ngFor='let url of images3'>
+                                                                    <button type="button" class="btn btn-danger  "
+                                                                            (click)="removeImage3(url)">
+                                                                        Remove
+                                                                    </button>
+                                                                    <img [src]="url"
+                                                                         class="w-100 image-blog">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" *ngIf="metaImage?.length != 0">
+                                                                <div class="col-md-2 col-sm-12 d-flex flex-column">
+                                                                    <button type="button" class="btn btn-danger  "
+                                                                            (click)="removeImageGet3()">
+                                                                        Remove
+                                                                    </button>
+                                                                    <img [src]="metaImage"
+                                                                         class="w-100 image-blog">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <ngb-alert [type]="'warning'" [dismissible]="false"
+                                                               class="mt-25 alert"
+                                                               *ngIf="messageError['meta_image']">
+                                                        <div class="alert-body ">
+                                                            <p>{{messageError['meta_image']}}</p>
+                                                        </div>
+                                                    </ngb-alert>
+                                                </fieldset>
+                                                <!--                        <<<<<<<<<<upload image2><>>>>>>>>>-->
+                                                <!--                        <<<<<<<<<<Meta Data><>>>>>>>>>-->
+
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                    <div class="col-12 px-0 mt-3">
+                                        <div class="col-12 px-0 d-flex justify-content-center">
+                                            <button type="button" class="btn btn-primary d-flex"
+                                                    style="padding:20px 60px;" (click)="onSubmit()"
+                                                    rippleEffect>
+                                                <i *ngIf="right" data-feather="check" class="mr-25 m-auto"></i>
+                                                <ngx-loading *ngIf="spinner" [show]="true" class="mr-25"
+                                                             [config]="{
+                                                            animationType: ngxLoadingAnimationTypes.circle,
+                                                            primaryColour: '#5e50ee',
+                                                            backdropBorderRadius: '0.5px',
+                                                            backgroundColor: '#FFFFFF'}"
+                                                >
+                                                </ngx-loading>
+                                                <span class="align-middle m-auto">Submit</span>
+                                            </button>
+                                        </div>
+<!--                                        <div class="col-12 px-0 d-flex justify-content-center"-->
+<!--                                             *ngIf="messageSuccess">-->
+<!--                                            <ngb-alert class="" [type]="'success'" [dismissible]="false">-->
+<!--                                                <div class="alert-body ">-->
+<!--                                                    <p>{{ messageSuccess }}</p>-->
+<!--                                                </div>-->
+<!--                                            </ngb-alert>-->
+<!--                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+

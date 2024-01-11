@@ -1,0 +1,458 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <div >
+            <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs sr7-tabs">
+                <li [ngbNavItem]="1">
+                    <a class="text-center colors-container bg-gradient-warning rounded text-white width-200 height-50 d-flex align-items-center justify-content-center mr-1 ml-50 my-1 shadow"
+                       ngbNavLink>Wiating Orders list</a>
+                    <ng-template ngbNavContent>
+                        <section class="invoice-list-wrapper">
+                            <div class="card">
+                                <!-- Invoice List Header -->
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-4 col-12">
+                                        <div class="d-flex justify-content-between align-items-center m-1">
+                                            <div class="d-flex align-items-center">
+                                                <label class="d-flex align-items-center"
+                                                >Show
+                                                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                                        <option value="5">5</option>
+                                                        <option value="10">10</option>
+                                                        <option value="25">25</option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100</option>
+                                                    </select>
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-8 col-lg-4 col-12 d-flex align-items-center offset-lg-2 sr7-d ">
+                                        <div class="d-flex pr-1 pb-1 pb-md-0 align-items-center w-100 sr7-3">
+                                            <div class="col-10 col-md-6 pr-0 sr7-2">
+
+                                            </div>
+                                            <div class="col-10 col-md-6 mt-2 ml-1 ml-md-0 mt-md-0">
+                                                <label class="d-flex align-items-center mb-0 ml-1 ml-md-0 sr7-1"
+                                                ><input
+                                                        [(ngModel)]="searchValue"
+                                                        name="searchValue"
+                                                        type="search"
+                                                        class="form-control"
+                                                        placeholder="Search..."
+                                                        (keyup)="filterUpdate($event)"
+                                                        (search)="filterUpdate($event)"
+                                                /></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ Invoice List Header -->
+
+                                <!--/ Invoice List Body -->
+                                <section id="card-style-variation1">
+                                    <ngx-datatable
+                                            [rows]="orders"
+                                            [rowHeight]="90"
+                                            class="bootstrap core-bootstrap"
+                                            [limit]="selectedOption"
+                                            [columnMode]="ColumnMode.force"
+                                            [headerHeight]="50"
+                                            [footerHeight]="50"
+                                            [scrollbarH]="true"
+                                    >
+                                        <ngx-datatable-column name="Vendor Name" prop="vendor" [width]="70">
+                                            <ng-template let-vendor="value" ngx-datatable-cell-template>
+                                                <span class="font-medium-1 font-weight-bolder">{{ vendor.vendor_name | slice:0:25 }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Invoice Id" prop="invoice" [width]="5">
+                                            <ng-template let-invoice="value" ngx-datatable-cell-template>
+                                                <span>{{ invoice}}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Tracking Id" prop="tracking_number" [width]="5">
+                                            <ng-template let-tracking_number="value" ngx-datatable-cell-template>
+                                                <span>{{ tracking_number }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Total" prop="total" [width]="5">
+                                            <ng-template let-total="value" ngx-datatable-cell-template>
+                                                <span>${{ total }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Arrival Date" prop="arrival_date" [width]="50">
+                                            <ng-template let-arrival_date="value" ngx-datatable-cell-template>
+                                                <span>{{ arrival_date }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row">
+                                                <div class="d-flex align-items-center col-actions">
+                                                    <div ngbDropdown container="body">
+                                                        <button ngbDropdownToggle type="button"
+                                                                class="btn icon-btn btn-sm hide-arrow px-0" rippleEffect>
+                                                            <i data-feather="more-vertical" size="18"
+                                                               class="cursor-pointer"></i>
+                                                        </button>
+                                                        <div ngbDropdownMenu>
+                                                            <a (click)="open(content, row.id)" ngbDropdownItem>
+                                                                <i data-feather="edit" class="mr-1"></i>
+                                                                Move to delivered
+                                                            </a>
+                                                            <a routerLink="/apps/invoice/preview-vendor-order/{{ row.id }}"
+                                                               ngbDropdownItem>
+                                                                <i data-feather="eye" class="mr-1"></i>
+                                                                Preview
+                                                            </a>
+                                                            <a (click)="cancel(row.id)" ngbDropdownItem>
+                                                                <i data-feather="x-circle" class="mr-1 "></i>
+                                                                Cancel
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                    </ngx-datatable>
+                                </section>
+                                <!--/ Invoice List Body -->
+                            </div>
+                        </section>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="2">
+                    <a class="text-center colors-container bg-gradient-success rounded text-white width-200 height-50 d-flex align-items-center justify-content-center mr-1 ml-50 my-1 shadow"
+                       ngbNavLink>Delivered Orders list</a>
+                    <ng-template ngbNavContent>
+                        <section class="invoice-list-wrapper">
+                            <div class="card">
+                                <!-- Invoice List Header -->
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-4 col-12">
+                                        <div class="d-flex justify-content-between align-items-center m-1">
+                                            <div class="d-flex align-items-center">
+                                                <label class="d-flex align-items-center"
+                                                >Show
+                                                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                                        <option value="5">5</option>
+                                                        <option value="10">10</option>
+                                                        <option value="25">25</option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100</option>
+                                                    </select>
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-8 col-lg-4 col-12 d-flex align-items-center offset-lg-2 sr7-d ">
+                                        <div class="d-flex pr-1 pb-1 pb-md-0 align-items-center w-100 sr7-3">
+                                            <div class="col-10 col-md-6 pr-0 sr7-2">
+
+                                            </div>
+                                            <div class="col-10 col-md-6 mt-2 ml-1 ml-md-0 mt-md-0">
+                                                <label class="d-flex align-items-center mb-0 ml-1 ml-md-0 sr7-1"
+                                                ><input
+                                                        [(ngModel)]="searchValue1"
+                                                        name="searchValue"
+                                                        type="search"
+                                                        class="form-control"
+                                                        placeholder="Search..."
+                                                        (keyup)="filterUpdate1($event)"
+                                                        (search)="filterUpdate1($event)"
+                                                /></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ Invoice List Header -->
+
+                                <!--/ Invoice List Body -->
+                                <section id="card-style-variation2">
+                                    <ngx-datatable
+                                            [rows]="deliveredOrders"
+                                            [rowHeight]="50"
+                                            class="bootstrap core-bootstrap"
+                                            [limit]="selectedOption"
+                                            [columnMode]="ColumnMode.force"
+                                            [headerHeight]="50"
+                                            [footerHeight]="50"
+                                            [scrollbarH]="true"
+                                    >
+                                        <ngx-datatable-column name="Vendor Name" prop="vendor" [width]="100">
+                                            <ng-template let-vendor="value" ngx-datatable-cell-template>
+                                                <span class="font-medium-1 font-weight-bolder">{{ vendor.vendor_name | slice:0:25 }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Invoice Id" prop="invoice" [width]="5">
+                                            <ng-template let-invoice="value" ngx-datatable-cell-template>
+                                                <span>{{ invoice}}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Tracking Id" prop="tracking_number" [width]="5">
+                                            <ng-template let-tracking_number="value" ngx-datatable-cell-template>
+                                                <span>{{ tracking_number }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Total" prop="total" [width]="5">
+                                            <ng-template let-total="value" ngx-datatable-cell-template>
+                                                <span>${{ total }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Arrival Date" prop="arrival_date" [width]="50">
+                                            <ng-template let-arrival_date="value" ngx-datatable-cell-template>
+                                                <span>{{ arrival_date }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <!--                                  <ngx-datatable-column name="In Wallet" prop="extra_money" [width]="5">-->
+                                        <!--                                      <ng-template let-extra_money="value" ngx-datatable-cell-template>-->
+                                        <!--                                          <span>${{ extra_money }}</span>-->
+                                        <!--                                      </ng-template>-->
+                                        <!--                                  </ngx-datatable-column>-->
+                                        <ngx-datatable-column name="Payment" prop="method_payment" [width]="5">
+                                            <ng-template let-method_payment="value" ngx-datatable-cell-template>
+                                                <span>{{ method_payment }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Payment Status" prop="payment_status" [width]="5">
+                                            <ng-template let-payment_status="value" ngx-datatable-cell-template>
+                                                <span>{{ payment_status }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+
+                                        <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row">
+                                                <div class="d-flex align-items-center col-actions">
+                                                    <a routerLink="/apps/invoice/preview-vendor-order/{{ row.id }}"
+                                                       ngbDropdownItem>
+                                                        <i data-feather="eye" class="mr-1"></i>
+                                                        Show Details
+                                                    </a>
+
+                                                    <!--                                              <div ngbDropdown container="body">-->
+                                                    <!--                                                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0" rippleEffect>-->
+                                                    <!--                                                      <i data-feather="more-vertical" size="18" class="cursor-pointer"></i>-->
+                                                    <!--                                                  </button>-->
+                                                    <!--                                                  <div ngbDropdownMenu>-->
+                                                    <!--                                                      <a  (click)="delivered(row.id)" ngbDropdownItem>-->
+                                                    <!--                                                          <i data-feather="check-circle" class="mr-1"></i>-->
+                                                    <!--                                                          delivered-->
+                                                    <!--                                                      </a>-->
+                                                    <!--                                                      <a  (click)="cancel(row.id)" ngbDropdownItem>-->
+                                                    <!--                                                          <i data-feather="x-circle" class="mr-1 "></i>-->
+                                                    <!--                                                          Cancel-->
+                                                    <!--                                                      </a>-->
+                                                    <!--                                                      <a  routerLink="/apps/invoice/order-edit/{{ row.id }}" ngbDropdownItem>-->
+                                                    <!--                                                          <i data-feather="edit" class="mr-1"></i>-->
+                                                    <!--                                                          Edit-->
+                                                    <!--                                                      </a>-->
+                                                    <!--                                                  </div>-->
+                                                    <!--                                              </div>-->
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                    </ngx-datatable>
+                                </section>
+                                <!--/ Invoice List Body -->
+                            </div>
+                        </section>
+                    </ng-template>
+                </li>
+                <li [ngbNavItem]="3">
+                    <a class="text-center colors-container bg-gradient-danger rounded text-white width-200 height-50 d-flex align-items-center justify-content-center mr-1 ml-50 my-1 shadow"
+                       ngbNavLink>Canceled Orders list</a>
+                    <ng-template ngbNavContent>
+                        <section class="invoice-list-wrapper">
+                            <div class="card">
+                                <!-- Invoice List Header -->
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-4 col-12">
+                                        <div class="d-flex justify-content-between align-items-center m-1">
+                                            <div class="d-flex align-items-center">
+                                                <label class="d-flex align-items-center"
+                                                >Show
+                                                    <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                                                        <option value="5">5</option>
+                                                        <option value="10">10</option>
+                                                        <option value="25">25</option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100</option>
+                                                    </select>
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-8 col-lg-4 col-12 d-flex align-items-center offset-lg-2 sr7-d ">
+                                        <div class="d-flex pr-1 pb-1 pb-md-0 align-items-center w-100 sr7-3">
+                                            <div class="col-10 col-md-6 pr-0 sr7-2">
+
+                                            </div>
+                                            <div class="col-10 col-md-6 mt-2 ml-1 ml-md-0 mt-md-0">
+                                                <label class="d-flex align-items-center mb-0 ml-1 ml-md-0 sr7-1"
+                                                ><input
+                                                        [(ngModel)]="searchValue2"
+                                                        name="searchValue"
+                                                        type="search"
+                                                        class="form-control"
+                                                        placeholder="Search..."
+                                                        (keyup)="filterUpdate2($event)"
+                                                        (search)="filterUpdate2($event)"
+                                                /></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ Invoice List Header -->
+
+                                <!--/ Invoice List Body -->
+                                <section id="card-style-variation3">
+                                    <ngx-datatable
+                                            [rows]="canceledOrders"
+                                            [rowHeight]="50"
+                                            class="bootstrap core-bootstrap"
+                                            [limit]="selectedOption"
+                                            [columnMode]="ColumnMode.force"
+                                            [headerHeight]="50"
+                                            [footerHeight]="50"
+                                            [scrollbarH]="true"
+                                    >
+                                        <ngx-datatable-column name="Vendor Name" prop="vendor" [width]="100">
+                                            <ng-template let-vendor="value" ngx-datatable-cell-template>
+                                                <span class="font-medium-1 font-weight-bolder">{{ vendor.vendor_name | slice:0:25 }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Invoice Id" prop="invoice" [width]="5">
+                                            <ng-template let-invoice="value" ngx-datatable-cell-template>
+                                                <span>{{ invoice}}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Tracking Id" prop="tracking_number" [width]="5">
+                                            <ng-template let-tracking_number="value" ngx-datatable-cell-template>
+                                                <span>{{ tracking_number }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                        <!--                                  <ngx-datatable-column name="Sub-Total" prop="sub_total" [width]="5">-->
+                                        <!--                                      <ng-template let-sub_total="value" ngx-datatable-cell-template>-->
+                                        <!--                                          <span>${{ sub_total }}</span>-->
+                                        <!--                                      </ng-template>-->
+                                        <!--                                  </ngx-datatable-column>-->
+                                        <ngx-datatable-column name="Total" prop="total" [width]="5">
+                                            <ng-template let-total="value" ngx-datatable-cell-template>
+                                                <span>${{ total }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Arrival Date" prop="arrival_date" [width]="50">
+                                            <ng-template let-arrival_date="value" ngx-datatable-cell-template>
+                                                <span>{{ arrival_date }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <!--                                  <ngx-datatable-column name="In Wallet" prop="extra_money" [width]="5">-->
+                                        <!--                                      <ng-template let-extra_money="value" ngx-datatable-cell-template>-->
+                                        <!--                                          <span>${{ extra_money }}</span>-->
+                                        <!--                                      </ng-template>-->
+                                        <!--                                  </ngx-datatable-column>-->
+                                        <ngx-datatable-column name="Payment" prop="method_payment" [width]="5">
+                                            <ng-template let-method_payment="value" ngx-datatable-cell-template>
+                                                <span>{{ method_payment }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                        <ngx-datatable-column name="Payment Status" prop="payment_status" [width]="5">
+                                            <ng-template let-payment_status="value" ngx-datatable-cell-template>
+                                                <span>{{ payment_status }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+
+                                        <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
+                                            <ng-template ngx-datatable-cell-template let-row="row">
+                                                <div class="d-flex align-items-center col-actions">
+                                                    <a routerLink="/apps/invoice/preview-vendor-order/{{ row.id }}"
+                                                       ngbDropdownItem>
+                                                        <i data-feather="eye" class="mr-1"></i>
+                                                        Show Details
+                                                    </a>
+                                                    <!--                                              <div ngbDropdown container="body">-->
+                                                    <!--                                                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0" rippleEffect>-->
+                                                    <!--                                                      <i data-feather="more-vertical" size="18" class="cursor-pointer"></i>-->
+                                                    <!--                                                  </button>-->
+                                                    <!--                                                  <div ngbDropdownMenu>-->
+                                                    <!--                                                      <a  (click)="delivered(row.id)" ngbDropdownItem>-->
+                                                    <!--                                                          <i data-feather="check-circle" class="mr-1"></i>-->
+                                                    <!--                                                          delivered-->
+                                                    <!--                                                      </a>-->
+                                                    <!--                                                      <a  (click)="cancel(row.id)" ngbDropdownItem>-->
+                                                    <!--                                                          <i data-feather="x-circle" class="mr-1 "></i>-->
+                                                    <!--                                                          Cancel-->
+                                                    <!--                                                      </a>-->
+                                                    <!--                                                      <a  routerLink="/apps/invoice/order-edit/{{ row.id }}" ngbDropdownItem>-->
+                                                    <!--                                                          <i data-feather="edit" class="mr-1"></i>-->
+                                                    <!--                                                          Edit-->
+                                                    <!--                                                      </a>-->
+                                                    <!--                                                  </div>-->
+                                                    <!--                                              </div>-->
+                                                </div>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+
+                                    </ngx-datatable>
+                                </section>
+                                <!--/ Invoice List Body -->
+                            </div>
+                        </section>
+                    </ng-template>
+                </li>
+            </ul>
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">Chang status</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <div class="form-group">
+            <p class="card-text col-title  mb-0 " for="cat">
+                Stores <span class="text-danger">*</span></p>
+            <ng-select placeholder="Select Store"
+                       class="sr7-ng searchable_select"
+                       [(ngModel)]="storeId"
+                       [items]="storesData"
+                       bindLabel="name"
+                       bindValue="id"
+            >
+                <ng-template
+                        ng-option-tmp
+                        ng-label-tmp
+                        id="store"
+                        let-item="item"
+                >
+                    {{ item.name }}
+                </ng-template>
+            </ng-select>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary d-flex"
+                    (click)="delivered()" rippleEffect>
+                <i *ngIf="right" data-feather="check" class="mr-25 m-auto"></i>
+                <ngx-loading *ngIf="spinner" [show]="true" class="mr-25" [config]="{
+                                                    animationType: ngxLoadingAnimationTypes.circle,
+                                                    primaryColour: '#5e50ee',
+                                                    backdropBorderRadius: '0.5px',
+                                                    backgroundColor: '#FFFFFF'}"
+                >
+                </ngx-loading>
+                <span class="align-middle m-auto">Submit</span>
+            </button>
+        </div>
+    </div>
+</ng-template>

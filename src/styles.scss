@@ -1,0 +1,58 @@
+@import '@core/scss/core.scss';
+@import './assets/scss/styles';
+@import '~ngx-print-element/styles.css';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.backdropBackground {
+  filter: blur(20px);
+  background-color: #caa4a4;
+  opacity: 0.7 !important;
+}
+@media print {
+  .hide-print {
+    display: none;
+  }
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-form-field-infix{
+  border-top: 0rem !important;
+}
+.mat-form-field-underline{
+  width: 0px !important;
+}
+.mat-form-field-appearance-fill .mat-form-field-flex{
+  border-radius: 4px !important;
+  border: 1px solid #cccccc;
+}
+.mat-form-field-appearance-fill .mat-form-field-flex{
+  background-color: #eff2f700;
+  padding: 0.455em 0.75em 0 0.75em !important;
+}
+.loading{
+  color: #1e1e1e !important;
+}
+.sr7-dlogo{
+  width: 170px !important;
+  margin-left: 77px !important;
+  margin-bottom: 10px;
+  //height: 200px !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+//---//
+.ecommerce-application .app-ecommerce-details .item-features i, .ecommerce-application .app-ecommerce-details .item-features svg {
+  font-size: 2.5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  color: #7367f0;
+}
+//.main-menu ul.navigation-main > li:first-child {
+//  margin-top: 0rem;
+//}
+.main-menu .navbar-header {
+  padding: 0.35rem 0rem 0rem 0.65rem !important;
+}

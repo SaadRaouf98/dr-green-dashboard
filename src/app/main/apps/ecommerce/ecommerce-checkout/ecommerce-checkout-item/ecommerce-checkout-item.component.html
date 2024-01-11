@@ -1,0 +1,181 @@
+<div class="content-wrapper container-xxl p-0">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="content-body d-flex">
+        <div class="col-9 card  ecommerce-card">
+            <ng-container *ngIf="cartProducts">
+                <div *ngFor="let item of cartProducts ">
+                    <div class="d-flex cart-items">
+                        <div class="col-3 item-img">
+                            <a routerLink="/apps/e-commerce/details/{{ item.product.id }}"
+                               class="text-body">
+                                <img class="img-cart" src="{{item.product.main_image}}" alt="img-placeholder"/>
+                            </a>
+                        </div>
+                        <div class="col-7 cart-details">
+                            <div class="item-name">
+                                <h2 class="mb-0">
+                                    <a routerLink="/apps/e-commerce/details/{{ item.product.id }}"
+                                       class="text-body">{{ item.product.name }}</a>
+                                </h2>
+                                <div class="d-flex mt-50">
+                                    <h3 class="item-company">
+                                        By:
+                                        <span class="badge badge-pill badge-light-success font-weight-bolder company-name">
+                                        {{ item.product.subcategory.name }}
+                                    </span>
+                                    </h3>
+                                    <div class="ml-1"><h3 class="item-price font-weight-bolder ">Sale Price: {{ item.product.sale_price | currency }}</h3></div>
+                                </div>
+                            </div>
+                            <div>
+                                <span class="badge text-secondary font-weight-bolder mb-1">Height: {{ item.product.height }} {{ item.product.height_symbol }}</span>
+                                <span class="badge text-secondary font-weight-bolder mb-1">Length: {{ item.product.length }} {{ item.product.length_symbol }}</span>
+                            </div>
+                            <div>
+                                <span class="badge text-secondary font-weight-bolder mb-1">Width: {{ item.product.width}} {{ item.product.width_symbol}}</span>
+                                <span class="badge text-secondary font-weight-bolder mb-1">Weight: {{ item.product.pounds }}{{ item.product.weight_symbol }}</span>
+                            </div>
+
+                        </div>
+                        <div class="col-2 item-options text-center">
+                            <div class="item-quantity">
+                                <span class="quantity-title">Qty:</span>
+                                <div class="quantity-counter-wrapper">
+                                    <core-touchspin
+                                            [numberValue]="item.qty"
+                                            [stepValue]="1"
+                                            [minValue]="1"
+                                            [maxValue]="100"
+                                            (onChange)="countChange($event, item.id)"
+                                    ></core-touchspin>
+                                </div>
+                            </div>
+                            <div><h3 class="item-price font-weight-bolder mt-1">Total Price: {{ item.subtotal | currency }}</h3></div>
+                            <button type="button" class="btn btn-light remove-wishlist"
+                                    (click)="removeProduct(item.id)" rippleEffect>
+                                <i data-feather="x" class="align-middle mr-25"></i>
+                                <span>Remove</span>
+                            </button>
+                        </div>
+                    </div>
+                    <hr/>
+                </div>
+            </ng-container>
+        </div>
+        <div class="col-3 checkout-options">
+            <div class="card">
+                <div class="card-body">
+                    <form [formGroup]="addCouponForm">
+                        <label class="section-label ">Add Your Coupon Code</label>
+                        <div class="coupons input-group input-group-merge">
+                            <input
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="Coupons"
+                                    aria-label="Coupons"
+                                    aria-describedby="input-coupons"
+                                    formControlName="code"
+                            />
+                            <div class="input-group-append">
+                                <button class="input-group-text text-primary" id="input-coupons" (click)="applyCoupon()">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <form [formGroup]="addDiscountForm">
+                        <label class="section-label mt-1">Apply Discount</label>
+                        <div class="coupons input-group input-group-merge">
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="$00.00"
+                                    aria-label="discount"
+                                    aria-describedby="input-discount"
+                                    formControlName="bag_discount"
+                            />
+                            <div class="input-group-append">
+                                <button class="input-group-text text-primary" id="input-discount" (click)="applyDiscount()">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <form [formGroup]="deliveryChargeForm">
+                        <label class="section-label mt-1">Delivery Charge</label>
+                        <div class="coupons input-group input-group-merge">
+                            <input
+                                    type="number"
+                                    class="form-control"
+                                    placeholder="$00.00"
+                                    aria-label="charge"
+                                    aria-describedby="input-charge"
+                                    formControlName="charge"
+                            />
+                            <div class="input-group-append">
+                                <button class="input-group-text text-primary" id="input-charge" (click)="deliveryCharge()">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="price-details">
+
+                        <h3 class="price-title mt-1">Price Details</h3>
+                        <ul class="list-unstyled">
+                            <li class="price-detail d-flex font-medium-4 mt-1">
+                                <div class="detail-title">Coupon Discount</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt text-success" *ngIf="check">-${{ check.discount }}</div>
+                            </li>
+                            <li class="price-detail d-flex font-medium-4 mt-50">
+                                <div class="detail-title">Bag Discount</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt discount-amt text-success" *ngIf="check">-${{ check.bag_discount }}</div>
+                            </li>
+
+                            <li class="price-detail d-flex font-medium-4 mt-50">
+                                <div class="detail-title" >Delivery Charges</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt text-danger" *ngIf="check">${{ check.charge }}</div>
+                            </li>
+                            <li class="price-detail d-flex font-medium-4 mt-50">
+                                <div class="detail-title">Sub-total</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt" *ngIf="check">${{ check.subtotal }}</div>
+                            </li>
+
+                        </ul>
+                        <hr/>
+                        <ul class="list-unstyled">
+                            <li class="price-detail d-flex font-medium-4 mt-1">
+                                <div class="detail-title detail-total">Total price</div>
+                                <div class="sr7-space">:</div>
+                                <div class="detail-amt font-weight-bolder" *ngIf="check">${{ check.total }}</div>
+                            </li>
+                        </ul>
+                        <button type="button" class="btn btn-light mt-1 remove-wishlist btn-gradient-warning col-12"
+                                (click)="checkout()" rippleEffect>
+                            <i data-feather="refresh-cw" class="align-middle mr-25"></i>
+                            <span>Checkout</span>
+                        </button>
+                        <button type="button" class="btn btn-light mt-1 remove-wishlist btn-gradient-danger col-12"
+                                (click)="clearCart()" rippleEffect>
+                            <i data-feather="x" class="align-middle mr-25"></i>
+                            <span>Clear Cart</span>
+                        </button>
+                        <button type="button" class="btn btn-light mt-1 remove-wishlist btn-gradient-success col-12"
+                                routerLink="/apps/invoice/shipping-information-list/1" rippleEffect>
+                            <i data-feather="check" class="align-middle mr-25"></i>
+                            <span>Complete process</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Checkout Place Order Right ends -->
+        </div>
+
+    </div>
+</div>
+
