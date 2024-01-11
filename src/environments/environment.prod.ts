@@ -1,6 +1,6 @@
+import packageInfo from '../../package.json';
+
 export const environment = {
+  appVersion: packageInfo.version,
   production: true,
-  hmr: false,
-  apiUrl: 'http://localhost:4000',
-  domain: 'https://api.snphotoinc.com/public/api'
 };

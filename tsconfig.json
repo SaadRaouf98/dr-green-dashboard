@@ -1,27 +1,35 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "sourceMap": false,
-    "declaration": false,
-    "strict": false,
-    "module": "es2020",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    // "strict": true,
+    "resolveJsonModule": true,
+    "noImplicitOverride": true,
     "allowSyntheticDefaultImports": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
     "importHelpers": true,
-    "target": "es5",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom", "dom.iterable"],
-    "paths": {
-      "@core": ["@core/"],
-      "@fake-db": ["@fake-db/"],
-      "environments": ["environments/"]
-    }
+    "useDefineForClassFields": false,
+    "target": "es2022",  // this will auto target to latest by angular cli
+    "module": "es2022",
+    "lib": [
+      "es2020",   // // this will auto target to latest by angular cli
+      "dom"
+    ],
   },
   "angularCompilerOptions": {
-    "fullTemplateTypeCheck": false,
-    "strictInjectionParameters": false
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }
