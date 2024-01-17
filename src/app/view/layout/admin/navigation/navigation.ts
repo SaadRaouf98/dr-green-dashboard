@@ -40,7 +40,7 @@ const NavigationItems = [
     id: 'dashboard',
     title: 'Dashboard',
     type: 'item',
-    url: '/dashboard',
+    url: '/dashboard/552',
     icon: 'feather icon-home',
     // icon2: '/assets/icon/custom-icons/dashboard.svg',
     classes: 'nav-item',
