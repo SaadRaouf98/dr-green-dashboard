@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NavigationItem } from '../../../layout/admin/navigation/navigation';
+import { NavigationItem } from '../../../../view/layout/admin/navigation/navigation';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 

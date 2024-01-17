@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdminComponent } from './theme/layout/admin/admin.component';
-import { GuestComponent } from './theme/layout/guest/guest.component';
+import { AdminComponent } from './view/layout/admin/admin.component';
+import { GuestComponent } from './view/layout/guest/guest.component';
+import {AuthGuard} from "./core/guards/auth.guard";
 
 const routes: Routes = [
   {
@@ -16,6 +17,13 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () => import('./demo/dashboard/dashboard.component'),
+        // canActivate: [AuthGuard]
+      },
+      {
+        path: 'view',
+        loadChildren: () => import('./view/view.module') .then(
+          (m) => m.ViewModule
+        ),
       },
       {
         path: 'basic',
@@ -51,18 +59,25 @@ const routes: Routes = [
     ],
   },
   {
-    path: '',
-    component: GuestComponent,
-    children: [
-      {
-        path: 'auth',
-        loadChildren: () =>
-          import('./demo/pages/authentication/authentication.module').then(
-            (m) => m.AuthenticationModule,
-          ),
-      },
-    ],
+    path: 'auth',
+    loadChildren: () =>
+      import('./auth/auth.module').then(
+        (m) => m.AuthModule,
+      ),
   },
+  // {
+  //   path: '',
+  //   component: GuestComponent,
+  //   children: [
+  //     {
+  //       path: 'auth',
+  //       loadChildren: () =>
+  //         import('./demo/pages/authentication/authentication.module').then(
+  //           (m) => m.AuthenticationModule,
+  //         ),
+  //     },
+  //   ],
+  // },
 ];
 
 @NgModule({
