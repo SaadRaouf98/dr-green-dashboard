@@ -8,9 +8,13 @@ $Menu-collapsed-width: 80px;
 
 // color list for build layouts
 // temp variables
-$theme-color: linear-gradient(-135deg, #1de9b6 0%, #1dc4e9 100%);
-$theme-color2: linear-gradient(-135deg, #899fd4 0%, #a389d4 100%);
-$primary-color: #04a9f5;
+$theme-color: linear-gradient(-135deg, #6EBF56 0%, #1dc4e9 100%);
+//$theme-color: linear-gradient(-135deg, #1de9b6 0%, #1dc4e9 100%);
+$theme-color2: linear-gradient(-135deg, #899fd4 0%, #EE68A5 100%);
+//$theme-color2: linear-gradient(-135deg, #899fd4 0%, #a389d4 100%);
+//$primary-color: #04a9f5;
+$primary-color: #6EBF56;
+$second-color: #EE68A5;
 $warning-color: #f4c22b;
 $danger-color: #f44236;
 $success-color: #1de9b6;
@@ -83,6 +87,7 @@ $theme-colors: () !default;
 $theme-colors: map-merge(
   (
     "primary": $primary-color,
+    "second": $second-color,
     "secondary": $secondary-color,
     "success": $success-color,
     "info": $info-color,
