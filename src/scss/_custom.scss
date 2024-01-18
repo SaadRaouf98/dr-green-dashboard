@@ -94,9 +94,15 @@ pre code {
 .pcoded-navbar .pcoded-inner-navbar app-nav-item > li.nav-item.active > a {
   background: $primary-color;
   border-radius: 8px !important;
-  margin: 8px 16px;
+  margin: 2px 16px;
   color: #FFF;
   font-size: 16px;
+  font-weight: 600;
+  line-height: 150%; /* 24px */
+}
+.pcoded-navbar .pcoded-inner-navbar app-nav-item > li.nav-item > a {
+  font-size: 16px;
+  margin: 2px 16px;
   font-weight: 600;
   line-height: 150%; /* 24px */
 }

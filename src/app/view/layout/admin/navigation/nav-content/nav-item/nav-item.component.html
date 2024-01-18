@@ -4,18 +4,18 @@
     *ngIf="item.url && !item.external"
     [routerLinkActive]="['active']"
   >
-    <a
-      class="nav-link"
-      [target]="item.target ? '_blank' : '_self'"
+    <a class="nav-link" [target]="item.target ? '_blank' : '_self'"
       [routerLink]="[item.url]"
       (click)="closeOtherMenu($event)"
     >
       <ng-container *ngTemplateOutlet="itemIcon"></ng-container>
       <span class="pcoded-mtext" *ngIf="item.icon; else directTitle">{{
-        item.title
-      }}</span>
+          item.title
+        }}</span>
       <ng-template #directTitle>
-        {{ item.title }}
+        <span>
+          {{ item.title }}
+        </span>
       </ng-template>
       <ng-container *ngTemplateOutlet="itemBadge"></ng-container>
     </a>
@@ -24,20 +24,22 @@
     <a [target]="item.target ? '_blank' : '_self'" [href]="item.url">
       <ng-container *ngTemplateOutlet="itemIcon"></ng-container>
       <span class="pcoded-mtext" *ngIf="item.icon; else directTitle">{{
-        item.title
-      }}</span>
+          item.title
+        }}</span>
       <ng-template #directTitle>
-        {{ item.title }}
+        <span>
+          {{ item.title }}
+        </span>
       </ng-template>
       <ng-container *ngTemplateOutlet="itemBadge"></ng-container>
     </a>
   </li>
   <ng-template #itemIcon>
+<!--    <span *ngIf="item.icon" class="pcoded-micon">-->
+<!--      <i style="height: 24px;width: 24px" *ngIf="item.icon" class="feather " [ngClass]="item.icon"></i>-->
+<!--    </span>-->
     <span *ngIf="item.icon" class="pcoded-micon">
-      <i *ngIf="item.icon" class="feather" [ngClass]="item.icon"></i>
-    </span>
-    <span *ngIf="item.icon2" class="pcoded-micon">
-      <img width="18" height="18" *ngIf="item.icon2" [src]="item.icon2" alt="icon">
+      <img width="20" height="20" *ngIf="item.icon" [src]="item.icon" alt="icon">
     </span>
   </ng-template>
   <ng-template #itemBadge>
