@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {ChartComponent} from "ng-apexcharts";
-import {ChartOptions} from "../../../demo/chart/apex-chart/apex-chart.component";
+import {ColumnMode, DatatableComponent} from "@swimlane/ngx-datatable";
 
 
 @Component({
@@ -9,93 +8,94 @@ import {ChartOptions} from "../../../demo/chart/apex-chart/apex-chart.component"
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-
-  @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  @ViewChild(DatatableComponent) table: DatatableComponent;
   title: any
-
+  rowsUsers: any;
+  public selectedOption = 10;
+  selected : any =[]
   constructor() {
-    this.chartOptions = {
-      series: [76, 67, 61, 90],
-      chart: {
-        height: 390,
-        type: "radialBar"
+    this.rowsUsers = [
+      {
+        id: 1,
+        product: 'شاي العروسة',
+        date: '24-01-2024',
+        payment: 'MasterCard',
+        amount: '500$',
+        status: 0,
       },
-      plotOptions: {
-        radialBar: {
-          offsetY: 0,
-          startAngle: 0,
-          endAngle: 270,
-          hollow: {
-            margin: 5,
-            size: "30%",
-            background: "transparent",
-            image: undefined
-          },
-          dataLabels: {
-            name: {
-              show: false
-            },
-            value: {
-              show: false
-            }
-          }
-        }
+      {
+        id: 1,
+        product: 'شاي العروسة',
+        date: '24-01-2024',
+        payment: 'MasterCard',
+        amount: '500$',
+        status: 0,
       },
-      colors: ["#EAA113", "#0CE89D", "#FF4E42", "#0077B5"],
-      labels: ["Vimeo", "Messenger", "Facebook", "LinkedIn"],
-      legend: {
-        show: true,
-        floating: true,
-        fontSize: "16px",
-        position: "left",
-        offsetX: 50,
-        offsetY: 10,
-        labels: {
-          useSeriesColors: true
-        },
-        formatter: function(seriesName, opts) {
-          return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
-        },
-        itemMargin: {
-          horizontal: 3
-        }
+      {
+        id: 1,
+        product: 'شاي العروسة',
+        date: '24-01-2024',
+        payment: 'MasterCard',
+        amount: '500$',
+        status: 0,
       },
-      responsive: [
-        {
-          breakpoint: 480,
-          options: {
-            legend: {
-              show: false
-            }
-          }
-        }
-      ]
-    };
+      {
+        id: 1,
+        product: 'شاي العروسة',
+        date: '24-01-2024',
+        payment: 'MasterCard',
+        amount: '500$',
+        status: 0,
+      },
+      {
+        id: 1,
+        product: 'شاي العروسة',
+        date: '24-01-2024',
+        payment: 'MasterCard',
+        amount: '500$',
+        status: 0,
+      },
+      {
+        id: 1,
+        product: 'شاي العروسة',
+        date: '24-01-2024',
+        payment: 'MasterCard',
+        amount: '500$',
+        status: 0,
+      },
+    ]
   }
   sales = [
     {
       title: 'Daily Sales',
-      icon: 'icon-arrow-up text-c-green',
+      icon: 'assets/icon/custom-icons/trend-arrow-up.png',
       amount: '$249.95',
-      percentage: '67%',
+      percentage: '+67%',
       progress: 50,
       design: 'col-md-6',
     },
     {
       title: 'Monthly Sales',
-      icon: 'icon-arrow-down text-c-red',
+      icon: 'assets/icon/custom-icons/trend-arrow-down.png',
       amount: '$2.942.32',
-      percentage: '36%',
+      percentage: '-36%',
       progress: 35,
       design: 'col-md-6',
     },
     {
       title: 'Yearly Sales',
-      icon: 'icon-arrow-up text-c-green',
+      icon: 'assets/icon/custom-icons/trend-arrow-up.png',
       amount: '$8.638.32',
-      percentage: '80%',
-      progress: 70,
+      percentage: '+80%',
+      progress: 80,
+      design: 'col-md-12',
+    },
+    {
+      title: 'Yearly Sales',
+      icon: 'assets/icon/custom-icons/trend-arrow-down.png',
+      amount: '$8.638.32',
+      percentage: '-45%',
+      progress: 45,
       design: 'col-md-12',
     },
   ];
@@ -215,4 +215,5 @@ export class HomeComponent {
       color: 'text-c-green',
     },
   ];
+  protected readonly ColumnMode = ColumnMode;
 }

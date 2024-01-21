@@ -1,192 +1,132 @@
-<div id="chart">
-  <apx-chart
-    [series]="chartOptions.series"
-    [chart]="chartOptions.chart"
-    [plotOptions]="chartOptions.plotOptions"
-    [labels]="chartOptions.labels"
-    [legend]="chartOptions.legend"
-    [colors]="chartOptions.colors"
-    [responsive]="chartOptions.responsive"
-  ></apx-chart>
-</div>
 <div class="row">
-  <div class="{{ sale.design }} col-xl-4" *ngFor="let sale of sales">
+  <div class="{{ sale.design }} col-xl-3" *ngFor="let sale of sales">
+    <!--    <app-card [hidHeader]="true">-->
+    <!--      <h6 class="mb-4">{{ sale.title }}</h6>-->
+    <!--      <div class="row d-flex align-items-center">-->
+    <!--        <div class="col-9">-->
+    <!--          <h3 class="f-w-300 d-flex align-items-center m-b-0">-->
+    <!--            <i class="feather {{ sale.icon }} f-30 m-r-10"></i>{{ sale.amount }}-->
+    <!--          </h3>-->
+    <!--        </div>-->
+    <!--        <div class="col-3 text-end">-->
+    <!--          <p class="m-b-0">{{ sale.percentage }}</p>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--      <div class="m-t-30">-->
+    <!--        <ngb-progressbar-->
+    <!--          type="text-primary"-->
+    <!--          height="7px"-->
+    <!--          [value]="sale.progress"-->
+    <!--        ></ngb-progressbar>-->
+    <!--      </div>-->
+    <!--    </app-card>-->
     <app-card [hidHeader]="true">
-      <h6 class="mb-4">{{ sale.title }}</h6>
+      <h3 class="mb-4 text-center f-w-500">{{ sale.title }}</h3>
       <div class="row d-flex align-items-center">
-        <div class="col-9">
-          <h3 class="f-w-300 d-flex align-items-center m-b-0">
-            <i class="feather {{ sale.icon }} f-30 m-r-10"></i>{{ sale.amount }}
+        <div class="col-12">
+          <h3 class="f-w-500 m-b-0 text-center">
+            {{ sale.amount }}
           </h3>
         </div>
-        <div class="col-3 text-end">
-          <p class="m-b-0">{{ sale.percentage }}</p>
+      </div>
+      <div class="row align-items-center">
+        <div class="m-t-30 col-9">
+          <ngb-progressbar
+            type="text-primary"
+            height="7px"
+            [value]="sale.progress"
+          ></ngb-progressbar>
         </div>
-      </div>
-      <div class="m-t-30">
-        <ngb-progressbar
-          type="text-primary"
-          height="7px"
-          [value]="sale.progress"
-        ></ngb-progressbar>
-      </div>
-    </app-card>
-  </div>
-  <div class="col-xl-8 col-md-6">
-    <app-card cardTitle="Users From United States">
-
-    </app-card>
-  </div>
-  <div class="col-xl-4 col-md-6">
-    <div class="card bg-c-blue">
-      <div class="card-header borderless">
-        <h5 class="text-white">Earnings</h5>
-      </div>
-      <div class="card-block" style="padding: 0 25px">
-        <div class="earning-text mb-0">
-          <h3 class="mb-2 text-white f-w-300">
-            $4295.36 <i class="feather icon-arrow-up teal accent-3"></i>
-          </h3>
-          <span class="text-uppercase text-white d-block">Total Earnings</span>
-        </div>
-        <div
-          id="widget-line-chart"
-          class="WidgetlineChart2 ChartShadow"
-          style="height: 180px"
-        ></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-block {{ list.design }}" *ngFor="let list of card">
-        <div class="row d-flex align-items-center">
-          <div class="col-auto">
-            <i class="feather {{ list.icon }} f-30"></i>
-          </div>
-          <div class="col">
-            <h3 class="f-w-300">{{ list.number }}</h3>
-            <span class="d-block text-uppercase">{{ list.text }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="{{ list.design }} col-xl-4" *ngFor="let list of social_card">
-    <div class="card card-social">
-      <div class="card-block border-bottom">
-        <div class="row align-items-center justify-content-center">
-          <div class="col-auto">
-            <i class="{{ list.icon }} f-36"></i>
-          </div>
-          <div class="col text-end">
-            <h3>{{ list.amount }}</h3>
-            <h5 class="{{ list.color }} mb-0">
-              {{ list.percentage }} <span class="text-muted">Total Likes</span>
-            </h5>
-          </div>
-        </div>
-      </div>
-      <div class="card-block">
-        <div class="row align-items-center justify-content-center card-active">
-          <div class="col-6">
-            <h6 class="text-center m-b-10">
-              <span class="text-muted m-r-5">Target:</span>{{ list.target }}
-            </h6>
-            <ngb-progressbar
-              type="text-primary"
-              height="6px"
-              [value]="list.progress"
-            ></ngb-progressbar>
-          </div>
-          <div class="col-6">
-            <h6 class="text-center m-b-10">
-              <span class="text-muted m-r-5">Duration:</span>{{ list.duration }}
-            </h6>
-            <ngb-progressbar
-              type="text-primary"
-              height="6px"
-              [value]="list.progress2"
-            ></ngb-progressbar>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-4 col-md-6">
-    <app-card cardTitle="Rating">
-      <div class="row align-items-center justify-content-center m-b-20">
-        <div class="col-6">
-          <h2 class="f-w-300 d-flex align-items-center float-start m-0">
-            4.7 <i class="fas fa-star f-10 m-l-10 text-c-yellow"></i>
-          </h2>
-        </div>
-        <div class="col-6">
-          <h6 class="d-flex align-items-center float-end m-0">
-            0.4 <i class="fas fa-caret-up text-c-green f-22 m-l-10"></i>
-          </h6>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xl-12" *ngFor="let list of progressing">
-          <h6 class="align-items-center float-start">
-            <i class="fas fa-star f-10 m-r-10 text-c-yellow"></i
-            >{{ list.number }}
-          </h6>
-          <h6 class="align-items-center float-end">{{ list.amount }}</h6>
-          <div class="m-t-30 m-b-20">
-            <ngb-progressbar
-              type="text-primary"
-              height="6px"
-              [value]="list.progress"
-            ></ngb-progressbar>
-          </div>
+        <div class="m-t-30 col-3 d-flex">
+          <p
+            class="m-b-0 me-1 fw-semibold {{sale.progress >= 50 ? 'text-primary':'text-secondary'}}">{{ sale.percentage }}</p>
+          <img height="24" width="24" src="{{sale.icon}}" alt="">
         </div>
       </div>
     </app-card>
   </div>
   <div class="col-xl-8 col-md-6">
+    <!--    <app-card cardTitle="Users From United States">-->
+    <app-card cardTitle="Users From United States" [hidHeader]="true">
+      <app-line-chart></app-line-chart>
+    </app-card>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <!--    <app-card cardTitle="Users From United States">-->
+    <app-card cardTitle="Users From United States" [hidHeader]="true">
+      <app-radial-bars></app-radial-bars>
+    </app-card>
+  </div>
+  <div class="col-xl-12 col-md-12">
+    <!--    <app-card cardTitle="Users From United States">-->
     <app-card
-      cardTitle="Recent Users"
-      cardClass="Recent-Users"
+      [hidHeader]="true"
+      cardTitle="Recent Orders"
+      cardClass="Recent-Orders"
       blockClass="px-0 py-3"
     >
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <tbody>
-          <tr class="unread" *ngFor="let table of tables">
-            <td>
-              <img
-                class="rounded-circle"
-                style="width: 40px"
-                src="{{ table.src }}"
-                alt="activity-user"
-              />
-            </td>
-            <td>
-              <h6 class="mb-1">{{ table.title }}</h6>
-              <p class="m-0">{{ table.text }}</p>
-            </td>
-            <td>
-              <h6 class="text-muted">
-                <i class="fas fa-circle {{ table.color }} f-10 m-r-15"></i
-                >{{ table.time }}
-              </h6>
-            </td>
-            <td>
-              <a
-                href="javascript:"
-                class="label theme-bg2 text-white f-12 rounded-pill"
-              >Reject</a
-              ><a
-              href="javascript:"
-              class="label theme-bg text-white f-12 rounded-pill"
-            >Approve</a
-            >
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+      <ngx-datatable
+        [rows]="rowsUsers"
+        [rowHeight]="70"
+        class="bootstrap core-bootstrap"
+        [limit]="selectedOption"
+        [columnMode]="ColumnMode.force"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [scrollbarH]="true"
+        [selected]="selected"
+      >
+        <ngx-datatable-column name="ID" prop="id" [width]="50">
+          <ng-template let-i="value" ngx-datatable-cell-template>
+            <span class="font-weight-bold">{{ i }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="PRODUCTS" prop="product" [width]="50">
+          <ng-template let-i="value" ngx-datatable-cell-template>
+            <span class="font-weight-bold">{{ i }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="DATE" prop="date" [width]="20">
+          <ng-template let-i="value" ngx-datatable-cell-template>
+            <span class="font-weight-bold">{{ i }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="PAYMENT" prop="payment" [width]="20">
+          <ng-template let-i="value" ngx-datatable-cell-template>
+            <span class="font-weight-bold">{{ i }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="AMOUNT" prop="amount" [width]="20">
+          <ng-template let-i="value" ngx-datatable-cell-template>
+            <span class="font-weight-bold">{{ i }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="STATUS" prop="status" [width]="20">
+          <ng-template let-i="value" ngx-datatable-cell-template>
+            <span class="font-weight-bold">{{ i }}</span>
+          </ng-template>
+        </ngx-datatable-column>
+
+<!--        <ngx-datatable-column class="hide-print" name="Table" [width]="40" [sortable]="false">-->
+<!--          <ng-template ngx-datatable-cell-template let-row="row">-->
+<!--            <div class="d-flex align-items-center col-actions">-->
+<!--              <div ngbDropdown container="body">-->
+<!--                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0"-->
+<!--                        rippleEffect>-->
+<!--                  <i data-feather="more-vertical" size="18" class="cursor-pointer"></i>-->
+<!--                </button>-->
+<!--                <div ngbDropdownMenu>-->
+<!--                  <a routerLink="/apps/invoice/edit-activities/{{ row.slug }}"  ngbDropdownItem>-->
+<!--                    <i data-feather="edit" class="mr-1"></i>-->
+<!--                    Edit-->
+<!--                  </a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </ng-template>-->
+<!--        </ngx-datatable-column>-->
+
+      </ngx-datatable>
     </app-card>
   </div>
 </div>
-<app-apex-chart></app-apex-chart>
