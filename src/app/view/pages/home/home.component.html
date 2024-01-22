@@ -48,12 +48,72 @@
   <div class="col-xl-8 col-md-6">
     <!--    <app-card cardTitle="Users From United States">-->
     <app-card cardTitle="Users From United States" [hidHeader]="true">
+      <div class="d-flex justify-content-between p-4">
+        <div>
+          <h3 class="fw-bold">
+            Orders
+          </h3>
+        </div>
+        <div style="font-size: 20px; cursor: pointer">
+          <div>
+            <div
+              class=""
+              ngbDropdown
+              placement="bottom-start"
+            >
+              <button
+                class="btn btn-outline-theme2 one-dropdown custom-filter"
+                ngbDropdownToggle
+                type="button"
+              >
+                {{ selectedFilter.name }}
+              </button>
+              <div ngbDropdownMenu>
+                <a *ngFor="let filter of filters"
+                   class="dropdown-item"
+                   (click)="setFilter(filter)"
+                >{{ filter.name }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <app-line-chart></app-line-chart>
     </app-card>
   </div>
   <div class="col-xl-4 col-md-6">
     <!--    <app-card cardTitle="Users From United States">-->
     <app-card cardTitle="Users From United States" [hidHeader]="true">
+      <div class="d-flex justify-content-between p-4">
+        <div>
+          <h3 class="fw-bold">
+            Orders Status
+          </h3>
+        </div>
+        <div style="font-size: 20px; cursor: pointer">
+          <div>
+            <div
+              class=""
+              ngbDropdown
+              placement="bottom-start"
+            >
+              <button
+                class="btn btn-outline-theme2 one-dropdown custom-filter"
+                ngbDropdownToggle
+                type="button"
+              >
+                {{ selectedFilter.name }}
+              </button>
+              <div ngbDropdownMenu>
+                <a *ngFor="let filter of filters"
+                   class="dropdown-item"
+                   (click)="setFilter(filter)"
+                >{{ filter.name }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <app-radial-bars></app-radial-bars>
     </app-card>
   </div>
@@ -65,68 +125,111 @@
       cardClass="Recent-Orders"
       blockClass="px-0 py-3"
     >
-      <ngx-datatable
-        [rows]="rowsUsers"
-        [rowHeight]="70"
-        class="bootstrap core-bootstrap"
-        [limit]="selectedOption"
-        [columnMode]="ColumnMode.force"
-        [headerHeight]="50"
-        [footerHeight]="50"
-        [scrollbarH]="true"
-        [selected]="selected"
-      >
-        <ngx-datatable-column name="ID" prop="id" [width]="50">
-          <ng-template let-i="value" ngx-datatable-cell-template>
-            <span class="font-weight-bold">{{ i }}</span>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="PRODUCTS" prop="product" [width]="50">
-          <ng-template let-i="value" ngx-datatable-cell-template>
-            <span class="font-weight-bold">{{ i }}</span>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="DATE" prop="date" [width]="20">
-          <ng-template let-i="value" ngx-datatable-cell-template>
-            <span class="font-weight-bold">{{ i }}</span>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="PAYMENT" prop="payment" [width]="20">
-          <ng-template let-i="value" ngx-datatable-cell-template>
-            <span class="font-weight-bold">{{ i }}</span>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="AMOUNT" prop="amount" [width]="20">
-          <ng-template let-i="value" ngx-datatable-cell-template>
-            <span class="font-weight-bold">{{ i }}</span>
-          </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="STATUS" prop="status" [width]="20">
-          <ng-template let-i="value" ngx-datatable-cell-template>
-            <span class="font-weight-bold">{{ i }}</span>
-          </ng-template>
-        </ngx-datatable-column>
+      <div class="d-flex justify-content-between p-4">
+        <div>
+          <h3 class="fw-bold">
+            Recent Orders
+          </h3>
+        </div>
+        <div style="font-size: 20px; cursor: pointer"
+             class="text-secondary">
+          <span>
+            See all orders
+          </span>
+          <i class='bx bx-chevron-right'></i>
+        </div>
+      </div>
+      <div class="mx-4">
+        <ngx-datatable
+          [rows]="rowsUsers"
+          [rowHeight]="70"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+          [selected]="selected"
+        >
+          <ngx-datatable-column [sortable]="false" name="ID" prop="id" [width]="50">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="false" name="PRODUCTS" prop="product" [width]="50">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="false" name="DATE" prop="date" [width]="20">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="false" name="PAYMENT" prop="payment" [width]="20">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="false" name="AMOUNT" prop="amount" [width]="20">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column  name="STATUS" prop="status" [width]="20">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
 
-<!--        <ngx-datatable-column class="hide-print" name="Table" [width]="40" [sortable]="false">-->
-<!--          <ng-template ngx-datatable-cell-template let-row="row">-->
-<!--            <div class="d-flex align-items-center col-actions">-->
-<!--              <div ngbDropdown container="body">-->
-<!--                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0"-->
-<!--                        rippleEffect>-->
-<!--                  <i data-feather="more-vertical" size="18" class="cursor-pointer"></i>-->
-<!--                </button>-->
-<!--                <div ngbDropdownMenu>-->
-<!--                  <a routerLink="/apps/invoice/edit-activities/{{ row.slug }}"  ngbDropdownItem>-->
-<!--                    <i data-feather="edit" class="mr-1"></i>-->
-<!--                    Edit-->
-<!--                  </a>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </ng-template>-->
-<!--        </ngx-datatable-column>-->
+          <!--        <ngx-datatable-column class="hide-print" name="Table" [width]="40" [sortable]="false">-->
+          <!--          <ng-template ngx-datatable-cell-template let-row="row">-->
+          <!--            <div class="d-flex align-items-center col-actions">-->
+          <!--              <div ngbDropdown container="body">-->
+          <!--                <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0"-->
+          <!--                        rippleEffect>-->
+          <!--                  <i data-feather="more-vertical" size="18" class="cursor-pointer"></i>-->
+          <!--                </button>-->
+          <!--                <div ngbDropdownMenu>-->
+          <!--                  <a routerLink="/apps/invoice/edit-activities/{{ row.slug }}"  ngbDropdownItem>-->
+          <!--                    <i data-feather="edit" class="mr-1"></i>-->
+          <!--                    Edit-->
+          <!--                  </a>-->
+          <!--                </div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </ng-template>-->
+          <!--        </ngx-datatable-column>-->
 
-      </ngx-datatable>
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+            >
+              <label class="d-flex align-items-center"
+              >Show
+                <select class="form-control mx-2" [(ngModel)]="selectedOption">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label>
+              <div style="padding: 5px 10px">
+                <div>
+                  Rows: {{ rowCount }} | Size: {{ pageSize }} | Current:
+                  {{ curPage }}
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
     </app-card>
   </div>
 </div>

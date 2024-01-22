@@ -42,10 +42,10 @@ export class LineComponent {
       tooltip:{
         enabled: true
       },
-      title: {
-        text: "Product Trends by Month",
-        align: "left"
-      },
+      // title: {
+      //   text: "Product Trends by Month",
+      //   align: "left",
+      // },
       grid: {
         show: true,
         xaxis: {

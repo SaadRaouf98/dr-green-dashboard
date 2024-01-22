@@ -2,6 +2,8 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {AdsComponent} from './ads.component';
 import {RouterModule, Routes} from "@angular/router";
+import {CardModule} from "../../../theme/shared/components";
+import {FormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {
@@ -16,7 +18,9 @@ const routes: Routes = [
   ],
   imports: [
     RouterModule.forChild(routes),
-    CommonModule
+    CommonModule,
+    CardModule,
+    FormsModule
   ]
 })
 export class AdsModule {

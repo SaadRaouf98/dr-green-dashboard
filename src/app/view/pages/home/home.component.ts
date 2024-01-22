@@ -11,6 +11,8 @@ export class HomeComponent {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   title: any
   rowsUsers: any;
+  filters: any;
+  selectedFilter: any = {id: 1, name: 'Today'};
   public selectedOption = 10;
   selected : any =[]
   constructor() {
@@ -64,7 +66,27 @@ export class HomeComponent {
         status: 0,
       },
     ]
+    this.filters = [
+      {
+        id: 1,
+        name: 'Today',
+      },
+      {
+        id: 2,
+        name: 'This Week',
+      },
+      {
+        id: 3,
+        name: 'This Month',
+      },
+    ]
   }
+
+  setFilter(value: object){
+    console.log(value)
+    this.selectedFilter = value
+  }
+
   sales = [
     {
       title: 'Daily Sales',

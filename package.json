@@ -27,6 +27,7 @@
     "@swimlane/ngx-datatable": "^20.1.0",
     "apexcharts": "^3.45.1",
     "bootstrap": "^5.2.3",
+    "boxicons": "^2.1.4",
     "ng-apexcharts": "^1.8.0",
     "ngx-color-picker": "^14.0.0",
     "ngx-scrollbar": "^13.0.3",

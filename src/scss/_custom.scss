@@ -123,6 +123,32 @@ pre code {
 .text-primary{
   color: #4ECB71 !important;
 }
+.text-second{
+  color: $second-color !important;
+}
 .text-secondary{
-  color: #FDB600 !important;
+  color: $secondary-color !important;
+}
+.ngx-datatable.bootstrap .datatable-footer {
+  background: none;
+  color: #000000;
+  font-weight: bold;
+}
+.ngx-datatable.bootstrap .datatable-body .datatable-body-row.datatable-row-even {
+  background: none;
+}
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell{
+  font-weight: 600;
+}
+.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell{
+  display: flex;
+  align-items: center;
+}
+
+.ngx-datatable.bootstrap .datatable-header .datatable-header-cell {
+  border-bottom: none;
+}
+
+.card-border-radius{
+  border-radius: 8px!important;
 }

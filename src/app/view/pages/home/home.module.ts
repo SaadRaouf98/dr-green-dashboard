@@ -8,6 +8,7 @@ import {CardModule} from "../../../theme/shared/components";
 import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar} from "@ng-bootstrap/ng-bootstrap";
 import {ChartsModule} from "../../../core/shared/components/charts/charts.module";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {FormsModule} from "@angular/forms";
 
 const routes: Routes = [
   {
@@ -32,7 +33,8 @@ const routes: Routes = [
     NgxDatatableModule,
     NgbDropdown,
     NgbDropdownToggle,
-    NgbDropdownMenu
+    NgbDropdownMenu,
+    FormsModule,
   ]
 })
 export class HomeModule {
