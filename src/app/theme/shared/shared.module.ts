@@ -5,8 +5,11 @@ import { BreadcrumbModule, CardModule } from './components';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 // bootstrap import
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbModule, NgbProgressbar} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from "@ng-select/ng-select";
+import {NgApexchartsModule} from "ng-apexcharts";
+import {ChartsModule} from "../../core/shared/components/charts/charts.module";
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 
 
 @NgModule({
@@ -20,6 +23,13 @@ import {NgSelectModule} from "@ng-select/ng-select";
     NgbModule,
     NgScrollbarModule,
     NgSelectModule,
+    NgApexchartsModule,
+    NgbProgressbar,
+    ChartsModule,
+    NgxDatatableModule,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
   ],
   exports: [
     CommonModule,
@@ -31,6 +41,14 @@ import {NgSelectModule} from "@ng-select/ng-select";
     NgbModule,
     NgScrollbarModule,
     NgSelectModule,
+    NgApexchartsModule,
+    NgbProgressbar,
+    ChartsModule,
+    NgxDatatableModule,
+    NgbDropdown,
+    NgbDropdownToggle,
+    NgbDropdownMenu,
+
   ],
 })
 export class SharedModule {}

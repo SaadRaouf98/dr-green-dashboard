@@ -22,7 +22,7 @@ $purple-color: #a389d4;
 $info-color: #3ebfea;
 $secondary-color: #EE68A5;
 $default-color: $primary-color;
-$grey-color: #748892;
+$gray-color: #748892;
 $light-color: #f2f2f2;
 $dark-color: #37474f;
 $inverse-color: $dark-color;
@@ -79,8 +79,8 @@ $layout-6-bg-color: #23b7e5;
 $color-name: c-blue, c-red, c-green, c-yellow, c-purple;
 $color-color: $primary-color, $danger-color, $success-color, $warning-color,
   $purple-color;
-$color-bt-name: primary, danger, success, warning, info, grey;
-$color-bt-color: $primary-color, $danger-color, $success-color, $warning-color, $grey-color,
+$color-bt-name: primary, danger, success, warning, info, "gray";
+$color-bt-color: $primary-color, $danger-color, $success-color, $warning-color, $gray-color,
   $info-color; // form-control variables
 $form-bg: #f0f3f6;
 
@@ -91,7 +91,7 @@ $theme-colors: map-merge(
     "primary": $primary-color,
     "second": $second-color,
     "secondary": $secondary-color,
-    "grey": $grey-color,
+    "grey": $gray-color,
     "success": $success-color,
     "info": $info-color,
     "warning": $warning-color,

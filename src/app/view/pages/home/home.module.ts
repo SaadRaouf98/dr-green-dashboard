@@ -9,6 +9,7 @@ import {NgbDropdown, NgbDropdownMenu, NgbDropdownToggle, NgbProgressbar} from "@
 import {ChartsModule} from "../../../core/shared/components/charts/charts.module";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {FormsModule} from "@angular/forms";
+import {SharedModule} from "../../../theme/shared/shared.module";
 
 const routes: Routes = [
   {
@@ -26,15 +27,13 @@ const routes: Routes = [
     CommonModule,
     NgApexchartsModule,
     ApexChartComponent,
-    CardModule,
     NgbProgressbar,
-    ApexChartComponent,
     ChartsModule,
     NgxDatatableModule,
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
-    FormsModule,
+    SharedModule
   ]
 })
 export class HomeModule {

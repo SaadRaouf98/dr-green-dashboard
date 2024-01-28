@@ -162,3 +162,12 @@ pre code {
   padding: 7px 20px;
   font-size: 14px;
 }
+::-webkit-calendar-picker-indicator {
+  background-image: url("/assets/icon/custom-icons/calendar.png");
+  width: 18px;
+  height: 18px;
+}
+.form-check-input:checked {
+  background-color: $secondary-color;
+  border-color: $secondary-color;
+}

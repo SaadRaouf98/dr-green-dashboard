@@ -81,7 +81,7 @@ export class HomeViewComponent {
       },
     ]
   }
-
+  protected readonly ColumnMode = ColumnMode;
   setFilter(value: object){
     console.log(value)
     this.selectedFilter = value
@@ -237,5 +237,5 @@ export class HomeViewComponent {
       color: 'text-c-green',
     },
   ];
-  protected readonly ColumnMode = ColumnMode;
+
 }

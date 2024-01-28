@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-add-ads',
-  templateUrl: './add-ads.component.html',
-  styleUrls: ['./add-ads.component.scss']
+  selector: 'app-add-categories',
+  templateUrl: './add-categories.component.html',
+  styleUrls: ['./add-categories.component.scss']
 })
-export class AddAdsComponent {
+export class AddCategoriesComponent {
   Filters = [
     {id: 1, name: 'Today'},
     {id: 2, name: 'Tomorrow'},
