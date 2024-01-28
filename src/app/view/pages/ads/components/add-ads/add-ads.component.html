@@ -1,0 +1,56 @@
+<!--<app-breadcrumb></app-breadcrumb>-->
+<div class="row">
+  <div class="col-8">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <h5 class="fw-semibold mb-3">Basic Info</h5>
+        <div class="row px-2">
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
+            <ng-select [items]="Filters"
+                       [clearable]="false"
+                       bindLabel="name"
+                       bindValue="id"
+                       [(ngModel)]="selectedFilter">
+            </ng-select>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
+            <ng-select [items]="Filters"
+                       [clearable]="false"
+                       bindLabel="name"
+                       bindValue="id"
+                       [(ngModel)]="selectedFilter">
+            </ng-select>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
+            <ng-select [items]="Filters"
+                       [clearable]="false"
+                       bindLabel="name"
+                       bindValue="id"
+                       [(ngModel)]="selectedFilter">
+            </ng-select>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
+            <input type="text" class="form-control">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
+            <input type="date" class="form-control">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <div class="row">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

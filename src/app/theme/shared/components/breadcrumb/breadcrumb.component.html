@@ -30,3 +30,24 @@
 <!--    </div>-->
 <!--  </div>-->
 <!--</ng-container>-->
+<ng-container *ngIf="navUrl.length > 1">
+  <div class="page-header">
+    <div class="page-block">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item text-primary fw-semibold">
+              <a>{{navUrl[0] | uppercase}}</a>
+            </li>
+            <ng-container>
+              <li class="breadcrumb-item text-black fw-semibold">
+                <a>{{ navUrl[1] | uppercase}}</a>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -2,10 +2,10 @@ import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-ads',
-  templateUrl: './ads.component.html',
-  styleUrls: ['./ads.component.scss']
+  templateUrl: './ads-list.component.html',
+  styleUrls: ['./ads-list.component.scss']
 })
-export class AdsComponent {
+export class AdsListComponent {
   cards: any
   Filters = [
     {id: 1, name: 'Today'},

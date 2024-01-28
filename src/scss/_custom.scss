@@ -156,3 +156,9 @@ pre code {
 .ng-select .ng-select-container {
   border-radius: 8px !important;
 }
+.custom-select, .form-control {
+  border-radius: 8px;
+  background: none;
+  padding: 7px 20px;
+  font-size: 14px;
+}

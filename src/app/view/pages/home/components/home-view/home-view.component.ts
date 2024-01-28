@@ -4,10 +4,10 @@ import {ColumnMode, DatatableComponent} from "@swimlane/ngx-datatable";
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './home-view.component.html',
+  styleUrls: ['./home-view.component.scss']
 })
-export class HomeComponent {
+export class HomeViewComponent {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   title: any
   rowsUsers: any;

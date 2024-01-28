@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HomeComponent} from './home.component';
+import {HomeViewComponent} from './components/home-view/home-view.component';
 import {RouterModule, Routes} from "@angular/router";
 import {NgApexchartsModule} from "ng-apexcharts";
 import ApexChartComponent from "../../../demo/chart/apex-chart/apex-chart.component";
@@ -13,13 +13,13 @@ import {FormsModule} from "@angular/forms";
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent
+    component: HomeViewComponent
   }
 ]
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeViewComponent
   ],
   imports: [
     RouterModule.forChild(routes),

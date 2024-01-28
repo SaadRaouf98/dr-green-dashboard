@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NavigationItem } from '../../../../view/layout/admin/navigation/navigation';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class BreadcrumbComponent {
   @Input() type: string;
-
+  navUrl : any;
   navigation: any;
   breadcrumbList: Array<any> = [];
   navigationList: any;
@@ -27,6 +27,8 @@ export class BreadcrumbComponent {
   setBreadcrumb() {
     let routerUrl: string;
     this._router.events.subscribe((router: any) => {
+      this.navUrl = this._router.url
+      this.navUrl=this.navUrl.split("/").slice(3)
       routerUrl = router.urlAfterRedirects;
       if (routerUrl && typeof routerUrl === 'string') {
         this.breadcrumbList.length = 0;
@@ -39,6 +41,7 @@ export class BreadcrumbComponent {
   filterNavigation(activeLink) {
     let result: any;
     let title = 'Welcome';
+    let url = 'Welcome';
     this.navigation.forEach(function (a) {
       if (a.type === 'item' && 'url' in a && a.url === activeLink) {
         result = [
@@ -50,6 +53,7 @@ export class BreadcrumbComponent {
           },
         ];
         title = a.title;
+        url = a.url;
       } else {
         if (a.type === 'group' && 'children' in a) {
           a.children.forEach(function (b) {
@@ -63,6 +67,7 @@ export class BreadcrumbComponent {
                 },
               ];
               title = b.title;
+              url = b.url;
             } else {
               if (b.type === 'collapse' && 'children' in b) {
                 b.children.forEach(function (c) {
@@ -82,6 +87,7 @@ export class BreadcrumbComponent {
                       },
                     ];
                     title = c.title;
+                    url = c.url;
                   }
                 });
               }
