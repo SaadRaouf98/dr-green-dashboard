@@ -6,6 +6,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 // bootstrap import
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgSelectModule} from "@ng-select/ng-select";
+
 
 @NgModule({
   declarations: [SpinnerComponent],
@@ -17,6 +19,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     BreadcrumbModule,
     NgbModule,
     NgScrollbarModule,
+    NgSelectModule,
   ],
   exports: [
     CommonModule,
@@ -27,6 +30,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SpinnerComponent,
     NgbModule,
     NgScrollbarModule,
+    NgSelectModule,
   ],
 })
 export class SharedModule {}

@@ -4,6 +4,7 @@ import {AdsComponent} from './ads.component';
 import {RouterModule, Routes} from "@angular/router";
 import {CardModule} from "../../../theme/shared/components";
 import {FormsModule} from "@angular/forms";
+import {SharedModule} from "../../../theme/shared/shared.module";
 
 const routes: Routes = [
   {
@@ -19,8 +20,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
-    CardModule,
-    FormsModule
+    SharedModule
   ]
 })
 export class AdsModule {

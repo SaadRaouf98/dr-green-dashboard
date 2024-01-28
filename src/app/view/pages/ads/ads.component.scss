@@ -8,3 +8,18 @@
 .ads-cards-img{
   min-height: 310px;
 }
+:host ::ng-deep.ng-select.ng-select-single .ng-select-container
+.ng-value-container, .ng-select.ng-select-single
+.ng-select-container .ng-value-container .ng-value {
+  font-weight: 600!important;
+}
+:host ::ng-deep.custom-select, .form-control {
+  border-radius: 8px;
+  background: none;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+::placeholder {
+  font-weight: 600;
+  color: #000000;
+}

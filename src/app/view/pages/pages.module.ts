@@ -4,6 +4,10 @@ import {RouterModule, Routes} from "@angular/router";
 
 const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'home',
+  },
+  {
     path: 'home',
     loadChildren: () => import('./home/home.module').then(
       (m) => m.HomeModule
