@@ -32,7 +32,7 @@ const NavigationItems = [
     title: 'Dashboard',
     type: 'item',
     // url: '/dashboard',
-    url: '/view/pages/home',
+    url: '/home',
     icon: '/assets/icon/custom-icons/dashboard.png',
     classes: 'nav-item',
   },
