@@ -6,10 +6,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 let domain = '';      //Live
-import packageInfo from '../../package.json';
 export const environment = {
   production: true,
-  appVersion: packageInfo.version,
   domainUrl: domain,
   apiPath: `${domain}api/`,
 };

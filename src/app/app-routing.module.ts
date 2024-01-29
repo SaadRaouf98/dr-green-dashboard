@@ -17,13 +17,14 @@ const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () => import('./demo/dashboard/dashboard.component'),
-        // canActivate: [AuthGuard]
+        canActivate: [AuthGuard]
       },
       {
         path: 'home',
         loadChildren: () => import('./view/home/home.module') .then(
           (m) => m.HomeModule
         ),
+        canActivate: [AuthGuard]
       },
       {
         path: 'view',

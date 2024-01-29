@@ -4,14 +4,12 @@
 
 
 let domain = 'http://192.168.0.165:5021/';      //Local
-import packageInfo from '../../package.json';
 //**************************************************************//
 
 // let domain = '';      // live
 
 export const environment = {
   production: false,
-  appVersion: packageInfo.version,
   domainUrl: domain,
   apiPath: `${domain}api/`,
 };
