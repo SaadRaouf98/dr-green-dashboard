@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const authToken = localStorage.getItem('authToken')
     const authRequest = req.clone({
       setHeaders: {
-        Authorization: `bearer ${authToken}`,
+        // Authorization: `bearer ${authToken}`,
         // setParams: {
         //   lang: this.translateService.currentLang,
         // },

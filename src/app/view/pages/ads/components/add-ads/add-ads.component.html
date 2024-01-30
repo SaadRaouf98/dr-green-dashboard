@@ -1,5 +1,5 @@
 <!--<app-breadcrumb></app-breadcrumb>-->
-<div class="row">
+<div class="row" [formGroup]="addFrom" (submit)="submit()">
   <div class="col-8">
     <div class="card" style="border-radius: 8px">
       <div class="card-body">
@@ -7,11 +7,11 @@
         <div class="row px-2">
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" formControlName="">
           </div>
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Title in Arabic</label>
-            <input type="text" class="form-control">
+            <input type="text" class="form-control" formControlName="">
           </div>
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Display Page</label>
@@ -19,13 +19,13 @@
                        [clearable]="false"
                        bindLabel="name"
                        bindValue="id"
-                       [(ngModel)]="selectedFilter">
+                       [(ngModel)]="selectedFilter" formControlName="">
             </ng-select>
           </div>
 
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">End Date</label>
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" formControlName="">
           </div>
         </div>
       </div>
@@ -48,6 +48,7 @@
                       id="gridRadios1"
                       value="option1"
                       checked
+                      formControlName="Status"
                     />
                     <label class="form-check-label" for="gridRadios1"
                     >Published</label
@@ -60,6 +61,7 @@
                       name="gridRadios"
                       id="gridRadios2"
                       value="option2"
+                      formControlName="Status"
                     />
                     <label class="form-check-label" for="gridRadios2"
                     >Scheduled</label
@@ -72,6 +74,7 @@
                       name="gridRadios"
                       id="gridRadios3"
                       value="option3"
+                      formControlName="Status"
                     />
                     <label class="form-check-label" for="gridRadios3"
                     >Hidden</label
@@ -83,14 +86,14 @@
           </div>
           <div class="col-12 mb-3">
             <label class="text-start mb-1 fw-semibold text-black">Publish Date</label>
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" formControlName="DatePublished">
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-12">
-    <div class="card" style="border-radius: 8px">
+    <div class="card" style="border-radius: 8px" >
       <div class="card-body position-relative">
         <button (click)="fileInput.click()"
                 style="top: 54%; right: 3%; transform: translate(0, -50%)"
@@ -115,8 +118,6 @@
           <div class="px-2">
             <img width="265" height="265" src="/assets/images/img.png">
           </div>
-
-
           <input
             style="display: none"
             type="file" (change)="onFileChanged($event)"

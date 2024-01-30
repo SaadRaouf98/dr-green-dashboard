@@ -13,16 +13,15 @@ export class AuthGuard implements CanActivate {
   canActivate(
     childRoute: ActivatedRouteSnapshot,
   ): boolean {
-    const token = localStorage.getItem('QualityToken') as string;
-    const currentUser = JSON.parse(localStorage.getItem('User_Login_Data')!);
-    console.log(666666666666666666)
+    const token = localStorage.getItem('authToken') as string;
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')!);
     if (!token) {
-
       this.router.navigateByUrl('/auth/login');
       return false;
     } else {
+      // this.router.navigateByUrl('/');
       let allowRoles = childRoute.data['roles'];
-      if (childRoute.data['roles'] && childRoute.data['roles'].indexOf(currentUser.role) === -1) {
+      if (allowRoles && allowRoles.indexOf(currentUser.role) === -1) {
         // role not authorised so redirect to not-authorized page
         this.router.navigate(['401']);
         return false;

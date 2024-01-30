@@ -10,6 +10,7 @@ import {NgSelectModule} from "@ng-select/ng-select";
 import {NgApexchartsModule} from "ng-apexcharts";
 import {ChartsModule} from "../../core/shared/components/charts/charts.module";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
+    HttpClientModule
   ],
   exports: [
     CommonModule,
@@ -48,6 +50,7 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
     NgbDropdown,
     NgbDropdownToggle,
     NgbDropdownMenu,
+    HttpClientModule
 
   ],
 })

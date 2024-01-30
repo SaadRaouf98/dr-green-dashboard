@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {AuthService} from "./auth.service";
 import { LoginComponent } from './login/login.component';
+import {SharedModule} from "../theme/shared/shared.module";
 
 const routes: Routes = [
   {
@@ -15,12 +16,13 @@ const routes: Routes = [
   declarations: [
     LoginComponent
   ],
-  imports: [
-    RouterModule.forChild(routes),
-    CommonModule
-  ],
+    imports: [
+        RouterModule.forChild(routes),
+        CommonModule,
+        SharedModule
+    ],
   providers: [
-    AuthService
+    AuthService,
   ]
 })
 export class AuthModule {

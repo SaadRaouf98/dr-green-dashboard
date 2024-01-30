@@ -20,7 +20,7 @@ import { NavItemComponent } from './view/layout/admin/navigation/nav-content/nav
 import { NavSearchComponent } from './view/layout/admin/nav-bar/nav-left/nav-search/nav-search.component';
 import { NavigationItem } from './view/layout/admin/navigation/navigation';
 import { ToggleFullScreenDirective } from './theme/shared/components/full-screen/toggle-full-screen';
-import {InterceptorsProvider} from "./core/interceptor/error.interface";
+import {InterceptorsProvider} from "./core/interceptor/interceptor-index";
 
 
 @NgModule({

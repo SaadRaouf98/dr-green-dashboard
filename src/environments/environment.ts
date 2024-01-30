@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 
-let domain = 'http://192.168.0.165:5021/';      //Local
+let domain = 'http://192.168.0.175:6600/';      //Local
 //**************************************************************//
 
 // let domain = '';      // live

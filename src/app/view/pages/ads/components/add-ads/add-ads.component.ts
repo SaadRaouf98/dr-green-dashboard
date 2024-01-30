@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-add-ads',
@@ -6,6 +7,7 @@ import {Component} from '@angular/core';
   styleUrls: ['./add-ads.component.scss']
 })
 export class AddAdsComponent {
+  addFrom: FormGroup
   Filters = [
     {id: 1, name: 'Today'},
     {id: 2, name: 'Tomorrow'},
@@ -23,10 +25,24 @@ export class AddAdsComponent {
   public selectedFilter = 1;
   public selectedGroup = 10;
 
-  constructor() {
+  constructor(
+    private _formBuilder: FormBuilder,
+  ) {
+    this.addFrom = _formBuilder.group({
+      Id: ['', Validators.required],
+      TitleAr: ['', Validators.required],
+      TitleEn: ['', Validators.required],
+      Status: ['', Validators.required],
+      DisplayPage: ['', Validators.required],
+      DatePublished: ['', Validators.required],
+      DateEnd: ['', Validators.required],
+    })
   }
 
   onFileChanged(event) {
     const file = event.target.files[0]
+  }
+  submit() {
+    console.log(this.addFrom.value)
   }
 }
