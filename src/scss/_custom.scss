@@ -171,3 +171,13 @@ pre code {
   background-color: $secondary-color;
   border-color: $secondary-color;
 }
+.ng-select .ng-select-container {
+  border: none;
+}
+.ng-select .ng-select-container {
+  background: none;
+}
+.ng-select .ng-arrow-wrapper {
+  padding-right: 45px;
+  padding-left: 45px;
+}

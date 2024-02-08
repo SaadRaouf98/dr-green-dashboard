@@ -1,5 +1,6 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, inject, ViewChild} from '@angular/core';
 import {ColumnMode, DatatableComponent} from "@swimlane/ngx-datatable";
+import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-categories-list',
@@ -30,7 +31,8 @@ export class CategoriesListComponent {
   ]
   public selectedFilter = 1;
   public selectedGroup = 10;
-
+  private modalService = inject(NgbModal)
+  closeResult = '';
   constructor() {
     this.rowsUsers = [
       {
@@ -82,5 +84,29 @@ export class CategoriesListComponent {
         status: 0,
       },
     ]
+  }
+  open(content: any){
+    this.modalService.open(content, {
+      centered: true,
+      size: 'lg',
+      ariaLabelledBy: 'modal-basic-title'
+    }).result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      },
+    );
+  }
+  private getDismissReason(reason: any): string {
+    switch (reason) {
+      case ModalDismissReasons.ESC:
+        return 'by pressing ESC';
+      case ModalDismissReasons.BACKDROP_CLICK:
+        return 'by clicking on a backdrop';
+      default:
+        return `with: ${reason}`;
+    }
   }
 }

@@ -1,5 +1,5 @@
 <!--<app-breadcrumb></app-breadcrumb>-->
-<div class="row" [formGroup]="addFrom" (submit)="submit()">
+<div class="row" [formGroup]="addFrom">
   <div class="col-8">
     <div class="card" style="border-radius: 8px">
       <div class="card-body">
@@ -7,25 +7,31 @@
         <div class="row px-2">
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
-            <input type="text" class="form-control" formControlName="">
+            <input type="text" class="form-control" formControlName="TitleEn"
+                   [ngClass]="{'is-invalid': (addFrom.get('TitleEn')?.dirty && addFrom.get('TitleEn')?.invalid && addFrom.get('TitleEn')?.touched) ||
+                 (addFrom.get('TitleEn')?.invalid && addFrom.get('TitleEn')?.touched) , 'is-valid': addFrom.get('TitleEn')?.valid }">
           </div>
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Title in Arabic</label>
-            <input type="text" class="form-control" formControlName="">
+            <input type="text" class="form-control" formControlName="TitleAr"
+                   [ngClass]="{'is-invalid': (addFrom.get('TitleAr')?.dirty && addFrom.get('TitleAr')?.invalid && addFrom.get('TitleAr')?.touched) ||
+                 (addFrom.get('TitleAr')?.invalid && addFrom.get('TitleAr')?.touched) , 'is-valid': addFrom.get('TitleAr')?.valid }">
           </div>
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Display Page</label>
-            <ng-select [items]="Filters"
-                       [clearable]="false"
-                       bindLabel="name"
-                       bindValue="id"
-                       [(ngModel)]="selectedFilter" formControlName="">
+            <ng-select [items]="Filters" [clearable]="false" bindLabel="name"
+                       bindValue="id" formControlName="DisplayPage" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addFrom.get('DisplayPage')?.dirty && addFrom.get('DisplayPage')?.invalid && addFrom.get('DisplayPage')?.touched) ||
+                 (addFrom.get('DisplayPage')?.invalid && addFrom.get('DisplayPage')?.touched) , 'is-valid': addFrom.get('DisplayPage')?.valid }"
+            >
             </ng-select>
           </div>
 
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">End Date</label>
-            <input type="date" class="form-control" formControlName="">
+            <input type="date" class="form-control" formControlName="EndDate"
+                   [ngClass]="{'is-invalid': (addFrom.get('EndDate')?.dirty && addFrom.get('EndDate')?.invalid && addFrom.get('EndDate')?.touched) ||
+                 (addFrom.get('EndDate')?.invalid && addFrom.get('EndDate')?.touched) , 'is-valid': addFrom.get('EndDate')?.valid }">
           </div>
         </div>
       </div>
@@ -40,44 +46,15 @@
             <fieldset class="form-group">
               <div class="row">
                 <div class="col-sm-9">
-                  <div class="form-check">
+                  <div class="form-check" *ngFor="let status of RadioStatuses">
                     <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios1"
-                      value="option1"
-                      checked
-                      formControlName="Status"
+                      (change)="radioChanged(status.id)"
+                      class="form-check-input" type="radio"
+                      name="status" id="{{status.name}}"
+                      value="{{status.id}}" [checked]="status.id === 10"
                     />
-                    <label class="form-check-label" for="gridRadios1"
-                    >Published</label
-                    >
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios2"
-                      value="option2"
-                      formControlName="Status"
-                    />
-                    <label class="form-check-label" for="gridRadios2"
-                    >Scheduled</label
-                    >
-                  </div>
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      name="gridRadios"
-                      id="gridRadios3"
-                      value="option3"
-                      formControlName="Status"
-                    />
-                    <label class="form-check-label" for="gridRadios3"
-                    >Hidden</label
+                    <label class="form-check-label" for="{{status.name}}"
+                    >{{ status.name }}</label
                     >
                   </div>
                 </div>
@@ -86,49 +63,63 @@
           </div>
           <div class="col-12 mb-3">
             <label class="text-start mb-1 fw-semibold text-black">Publish Date</label>
-            <input type="date" class="form-control" formControlName="DatePublished">
+            <input type="date" class="form-control" formControlName="DatePublished"
+                   [ngClass]="{'is-invalid': (addFrom.get('DatePublished')?.dirty && addFrom.get('DatePublished')?.invalid && addFrom.get('DatePublished')?.touched) ||
+                 (addFrom.get('DatePublished')?.invalid && addFrom.get('DatePublished')?.touched) , 'is-valid': addFrom.get('DatePublished')?.valid }">
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-12">
-    <div class="card" style="border-radius: 8px" >
-      <div class="card-body position-relative">
-        <button (click)="fileInput.click()"
-                style="top: 54%; right: 3%; transform: translate(0, -50%)"
-                class="btn btn-outline-primary position-absolute m-0">
-          <i class="bx bx-plus m-0 fs-5"></i>
-        </button>
-        <h5 class="fw-semibold mb-3">Add Image</h5>
-        <div class="d-flex py-2 pe-5"
-        style="overflow: auto; white-space: nowrap;">
-          <div class="px-2">
-            <img width="265" height="265" src="/assets/images/img.png">
+    <div class="card position-relative" style="border-radius: 8px">
+      <button (click)="fileInput.click()"
+              style="top: 54%; right: 3%; transform: translate(0, -50%)"
+              class="btn btn-outline-primary position-absolute m-0">
+        <i class="bx bx-plus m-0 fs-5"></i>
+      </button>
+      <div class="card-body row">
+        <div class="col-11">
+          <h5 class="fw-semibold mb-3">Add Image</h5>
+          <div class="d-flex py-2 pe-5" style="overflow: auto; white-space: nowrap;">
+            <div class="mx-2 position-relative" style="border: 1px solid #eeee; border-radius: 4px"
+                 *ngFor="let img of images; index as i">
+              <i class="position-absolute bx bx-x-circle text-white"
+                 style="background: red; top: -3px; right: -3px; font-size: 1rem;
+                 border-radius: 50% " (click)="removeImage(i)"
+              ></i>
+              <img class="p-2" width="258" height="258" [src]="img">
+            </div>
           </div>
-          <div class="px-2">
-            <img width="265" height="265" src="/assets/images/img.png">
-          </div>
-          <div class="px-2">
-            <img width="265" height="265" src="/assets/images/img.png">
-          </div>
-          <div class="px-2">
-            <img width="265" height="265" src="/assets/images/img.png">
-          </div>
-          <div class="px-2">
-            <img width="265" height="265" src="/assets/images/img.png">
+          <div class="d-flex py-2 pe-5" *ngIf="images.length == 0"
+               style="overflow: auto; white-space: nowrap;">
+            <div class="px-2">
+              <img width="258" height="258" src="/assets/images/img.png">
+            </div>
+            <div class="px-2">
+              <img width="258" height="258" src="/assets/images/img.png">
+            </div>
+            <div class="px-2">
+              <img width="258" height="258" src="/assets/images/img.png">
+            </div>
+            <div class="px-2">
+              <img width="258" height="258" src="/assets/images/img.png">
+            </div>
+            <div class="px-2">
+              <img width="258" height="258" src="/assets/images/img.png">
+            </div>
           </div>
           <input
             style="display: none"
             type="file" (change)="onFileChanged($event)"
-            #fileInput>
+            #fileInput multiple>
         </div>
       </div>
     </div>
   </div>
   <div class="col-12">
     <div class="d-flex justify-content-end">
-      <button class="btn btn-primary">Publish</button>
+      <button class="btn btn-primary" (click)="submit()">Publish</button>
       <button class="btn btn-outline-primary">Cancel</button>
     </div>
   </div>
