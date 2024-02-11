@@ -1,12 +1,15 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AdsService} from "../../services/ads.service";
+import {environment as env} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-ads-list',
   templateUrl: './ads-list.component.html',
   styleUrls: ['./ads-list.component.scss']
 })
-export class AdsListComponent {
-  cards: any
+export class AdsListComponent implements OnInit{
+  allAds : any
+  domain = env.domainUrl
   Filters = [
     {id: 1, name: 'Today'},
     {id: 2, name: 'Tomorrow'},
@@ -24,56 +27,20 @@ export class AdsListComponent {
   public selectedFilter = 1;
   public selectedGroup = 10;
 
-  constructor() {
-    this.cards = [
-      {
-        id: 1,
-        image: 'assets/images/img1.jpg',
-        title: 'Ads free',
-        show: 'Hidden',
-        date1: '12/12/2019',
-        date2: '15/12/2020',
-      },
-      {
-        id: 1,
-        image: 'assets/images/img2.jpg',
-        title: 'Ads free',
-        show: 'visible',
-        date1: '12/12/2019',
-        date2: '15/12/2020',
-      },
-      {
-        id: 1,
-        image: 'assets/images/img3.jpg',
-        title: 'Ads free',
-        show: 'Hidden',
-        date1: '12/12/2019',
-        date2: '15/12/2020',
-      },
-      {
-        id: 1,
-        image: 'assets/images/img1.jpg',
-        title: 'Ads free',
-        show: 'visible',
-        date1: '12/12/2019',
-        date2: '15/12/2020',
-      },
-      {
-        id: 1,
-        image: 'assets/images/img2.jpg',
-        title: 'Ads free',
-        show: 'Hidden',
-        date1: '12/12/2019',
-        date2: '15/12/2020',
-      },
-      {
-        id: 1,
-        image: 'assets/images/img3.jpg',
-        title: 'Ads free',
-        show: 'visible',
-        date1: '12/12/2019',
-        date2: '15/12/2020',
-      },
-    ]
+  constructor(private _adsService: AdsService) {
+
+  }
+  // on initialization
+  ngOnInit() {
+    this.getAllAds()
+  }
+  getAllAds() {
+    let query = {}
+    this._adsService.getAdsApi(query).subscribe({
+      next: (res) => {
+        this.allAds = res.data
+        console.log(res.data)
+      }
+    })
   }
 }

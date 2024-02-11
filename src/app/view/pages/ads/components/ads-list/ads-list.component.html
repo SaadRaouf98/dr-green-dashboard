@@ -10,6 +10,7 @@
             <label class="d-flex align-items-center mx-2"
             >
               <ng-select [items]="Filters"
+                         class="form-control m-0 p-0"
                          [clearable]="false"
                          bindLabel="name"
                          bindValue="id"
@@ -19,6 +20,7 @@
             <label class="d-flex align-items-center mx-2"
             >
               <ng-select [items]="Groups"
+                         class="form-control m-0 p-0"
                          [clearable]="false"
                          bindLabel="name"
                          bindValue="id"
@@ -41,16 +43,38 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-3" *ngFor="let card of cards">
-        <div class="card card-border-radius">
+      <div class="col-3 position-relative" *ngFor="let ad of allAds">
+        <div class="dropdown position-absolute" style="font-size: 20px; top: 5px; left: 25px; z-index: 999999"
+             ngbDropdown placement="bottom-left">
+          <a ngbDropdownToggle href="javascript:" data-toggle="dropdown">
+            <i class="icon feather icon-more-horizontal text-secondary"></i>
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end p-0">
+            <ul class="p-0 m-0">
+              <li>
+                <button class="dropdown-item" routerLink="add" [queryParams]="{adId:ad.id}">
+                  <i class="feather icon-edit"></i>
+                  Edit
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" routerLink="">
+                  <i class="feather icon-trash"></i>
+                  Delete
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card card-border-radius ">
           <div class="ads-cards-img">
             <img class="w-100 card-border-radius ads-cards"
-                 src="{{card.image}}" alt="">
+                 src="{{domain+'AdsDrGreenMedia/'+ad.adsImages[0]}}" alt="">
           </div>
           <div class="py-3 px-2">
             <div class="d-flex justify-content-between align-items-center">
               <span>
-                <h6 class="fw-semibold">{{ card.title }}</h6>
+                <h6 class="fw-semibold">{{ ad.titleEn }}</h6>
               </span>
               <span class="card-border-radius p-2"
                     style="background: rgba(128, 128, 143, 0.2); "
@@ -62,10 +86,10 @@
           <div class="pb-3 px-2">
             <div class="d-flex justify-content-between align-items-center">
               <span>
-                End Date : {{ card.date1 }}
+                End Date : {{ ad.endDate | date: 'mediumDate' }}
               </span>
               <span class="">
-                Creation Date : {{ card.date1 }}
+                Creation Date : {{ ad.datePublished | date: 'mediumDate' }}
               </span>
             </div>
           </div>

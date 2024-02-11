@@ -13,6 +13,10 @@ export class AdsService {
 
   }
   addAdsApi(body: any): Observable<any>{
-    return this._httpClient.post<any>(`${this.baseUrl}/Register`, body)
+    return this._httpClient.post<any>(`${this.baseUrl}/AddNewAds`, body)
+  }
+  getAdsApi(query: any): Observable<any>{
+    return this._httpClient.post<any>(`${this.baseUrl}/GetAllAds`,
+      {}, {params: query})
   }
 }

@@ -181,3 +181,9 @@ pre code {
   padding-right: 45px;
   padding-left: 45px;
 }
+.dropdown-toggle:after {
+  display: none !important;
+}
+li {
+  list-style: none;
+}

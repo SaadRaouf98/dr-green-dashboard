@@ -17,6 +17,7 @@
             <label class="text-start mb-1 fw-semibold text-black">Display Page</label>
             <ng-select [items]="Filters"
                        [clearable]="false"
+                       class="form-control m-0 p-0"
                        bindLabel="name"
                        bindValue="id"
                        [(ngModel)]="selectedFilter">
