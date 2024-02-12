@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
       let allowRoles = childRoute.data['roles'];
       if (allowRoles && allowRoles.indexOf(currentUser.role) === -1) {
         // role not authorised so redirect to not-authorized page
-        this.router.navigate(['401']);
+        this.router.navigate(['/auth/login']);
         return false;
       }
       if (allowRoles == null || allowRoles.length == 0) {
