@@ -20,6 +20,7 @@ export class CategoriesListComponent implements OnInit {
   images: any[] = []
   protected readonly ColumnMode = ColumnMode;
   rowsUsers: any;
+  categoriesList: any;
   filters: any;
   public selectedOption = 10;
   selected: any = []
@@ -58,13 +59,14 @@ export class CategoriesListComponent implements OnInit {
       NameEn: ['', Validators.required],
       Description: ['', Validators.required],
       CategoryStatus: ['', Validators.required],
-      CategoryParentId: ['', Validators.required],
+      CategoryParentId: [''],
       DatePublished: ['', Validators.required],
     })
   }
 
   ngOnInit() {
     this.getCategories()
+    this.getCategoriesForList()
   }
 
 
@@ -85,7 +87,6 @@ export class CategoriesListComponent implements OnInit {
 
   radioChanged(event: any) {
     this.statusValue = event
-    this.addFrom.get('CategoryStatus').patchValue(event)
   }
 
   removeImage(index: number) {
@@ -97,6 +98,15 @@ export class CategoriesListComponent implements OnInit {
     this._categoriesService.getCategoriesApi(query).subscribe({
       next: res =>{
         this.rowsUsers = res.data
+        console.log(res.data)
+      }
+    })
+  }
+  getCategoriesForList() {
+    let query = {}
+    this._categoriesService.getCategoriesForListApi().subscribe({
+      next: res =>{
+        this.categoriesList = res.data
         console.log(res.data)
       }
     })
@@ -119,6 +129,7 @@ export class CategoriesListComponent implements OnInit {
   }
 
   submit() {
+    this.addFrom.get('CategoryStatus').patchValue(this.statusValue)
     let formData: FormData = new FormData();
     for (let i = 0; i < this.files.length; i++) {
       formData.append(`Files`, this.files[i]);
@@ -131,8 +142,10 @@ export class CategoriesListComponent implements OnInit {
     formData.append(`meta_image`, this.addFrom.value.EndDate);
     this._categoriesService.addCategoriesApi(formData).subscribe({
       next: (res) => {
+        this.ngOnInit()
         console.log(res)
         this.addFrom.reset()
+        this.modalService.dismissAll()
         for (let i = 0; i < this.files.length; i++) {
           this.files.splice(i, 1)
         }

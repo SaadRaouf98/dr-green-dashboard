@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "datta-able-free-angular-admin-template": {
+    "dr-green-dashboard": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
             "allowedCommonJsDependencies": [
               "apexcharts"
             ],
-            "outputPath": "dist",
+            "outputPath": "dist/dr-green-dashboard",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -45,8 +45,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "2mb"
+                  "maximumWarning": "10mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -77,10 +77,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "datta-able-free-angular-admin-template:build:production"
+              "browserTarget": "dr-green-dashboard:build:production"
             },
             "development": {
-              "browserTarget": "datta-able-free-angular-admin-template:build:development"
+              "browserTarget": "dr-green-dashboard:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -88,7 +88,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "datta-able-free-angular-admin-template:build"
+            "browserTarget": "dr-green-dashboard:build"
           }
         },
         "test": {

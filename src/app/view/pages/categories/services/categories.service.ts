@@ -12,11 +12,14 @@ export class CategoriesService {
 
   }
   addCategoriesApi(body: any): Observable<any>{
-    return this._httpClient.post<any>(`${this.baseUrl}/AddNewCategories`, body)
+    return this._httpClient.post<any>(`${this.baseUrl}/AddNewCategory`, body)
   }
   getCategoriesApi(query: any): Observable<any>{
     return this._httpClient.post<any>(`${this.baseUrl}/GetAllCategories`,
       {}, {params: query})
+  }
+  getCategoriesForListApi(): Observable<any>{
+    return this._httpClient.get<any>(`${this.baseUrl}/GetAllCategoriesWithoutPagination`)
   }
   getCategoriesByIdApi(id: number): Observable<any>{
     return this._httpClient.get<any>(`${this.baseUrl}/GetCategoryById/${id}`)

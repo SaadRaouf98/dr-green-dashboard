@@ -221,10 +221,9 @@
                 <div class="custom-form-cards">
                   <div class="p-3 pt-2">
                     <label class="text-start mb-3 fw-bold text-black">Category Status</label>
-                    <ng-select [items]="Filters" [clearable]="false" bindLabel="name"
+                    <ng-select [items]="categoriesList" [clearable]="false" bindLabel="nameEn"
                                bindValue="id" formControlName="CategoryParentId" class="form-control m-0 p-0"
-                               [ngClass]="{'is-invalid': (addFrom.get('CategoryParentId')?.dirty && addFrom.get('CategoryParentId')?.invalid && addFrom.get('CategoryParentId')?.touched) ||
-                               (addFrom.get('CategoryParentId')?.invalid && addFrom.get('CategoryParentId')?.touched) , 'is-valid': addFrom.get('CategoryParentId')?.valid }"
+                               [ngClass]="{'is-valid': addFrom.get('CategoryParentId')?.valid && addFrom.get('CategoryParentId')?.value }"
                     >
                     </ng-select>
                   </div>
