@@ -59,6 +59,7 @@
           [footerHeight]="50"
           [scrollbarH]="true"
           [selected]="selected"
+
         >
           <ngx-datatable-column [sortable]="true" name="id" prop="id" [width]="50">
             <ng-template let-i="value" ngx-datatable-cell-template>
@@ -75,14 +76,14 @@
               <span class="font-weight-bold">{{ i | date: 'fullDate'}}</span>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column [sortable]="true" name="Description" prop="description" [width]="20">
+          <ngx-datatable-column [sortable]="true" name="Description" prop="descriptionEn" [width]="20">
             <ng-template let-i="value" ngx-datatable-cell-template>
               <span class="font-weight-bold">{{ i }}</span>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column [sortable]="false" name="Status" prop="categoryStatus" [width]="20">
             <ng-template let-i="value" ngx-datatable-cell-template>
-              <span class="font-weight-bold text-white {{i === 10? 'badge bg-success' : i === 20? 'badge bg-success' : i === 30? 'badge bg-success' : ''}}">
+              <span class="font-weight-bold text-white {{i === 10? 'badge bg-success' : i === 20? 'badge bg-info' : i === 30? 'badge  bg-warning' : ''}} bg-">
                 {{ i === 10? 'Published' : i === 20? 'Scheduled' : i === 30? 'Hidden' : 'Not Found'}}</span>
             </ng-template>
           </ngx-datatable-column>
@@ -102,14 +103,14 @@
                           Show
                         </button>
                       </li>
-                      <li (click)="open(content, 1)">
+                      <li (click)="open(content, 1, row.id)">
                         <button class="dropdown-item">
                           <i class="feather icon-edit"></i>
                           Edit
                         </button>
                       </li>
                       <li>
-                        <button class="dropdown-item">
+                        <button (click)="deleteCategories(row.id)" class="dropdown-item">
                           <i class="feather icon-trash"></i>
                           Delete
                         </button>
@@ -140,12 +141,16 @@
                   <option value="100">100</option>
                 </select>
               </label>
-              <div style="padding: 5px 10px">
+              <div class="d-flex align-items-center">
+                <ngb-pagination (pageChange)="getCategories($event)"
+                  [collectionSize]="collectionSize" [(page)]="page" [boundaryLinks]="true" />
+              </div>
+              <div class="d-flex align-items-center">
                 <div>
-                  Rows: {{ rowCount }} | Size: {{ pageSize }} | Current:
-                  {{ curPage }}
+                  Rows: {{ rowCount }} | Size: {{ pageSize }} | Current:{{ page }}
                 </div>
               </div>
+
             </ng-template>
           </ngx-datatable-footer>
         </ngx-datatable>
@@ -157,7 +162,7 @@
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Category Details</h4>
     <div class="d-flex">
-      <img *ngIf="modalStatus === 2" (click)="modal.dismiss('Cross click')"
+      <img *ngIf="modalStatus === 2" (click)="deleteCategories(catId)"
            alt="" src="assets/icon/custom-icons/delete.png" class="mx-2 pointer">
       <img *ngIf="modalStatus === 2" (click)="modalStatus = 1"
            alt="" src="assets/icon/custom-icons/edit.png" class="mx-2 pointer">
@@ -206,9 +211,8 @@
                     </div>
                     <div class="col-12 mb-2">
                       <label class="text-start mb-3 mt-1 fw-bold text-black">Publish Date</label>
-                      <input type="date" class="form-control" formControlName="DatePublished"
-                             [ngClass]="{'is-invalid': (addFrom.get('DatePublished')?.dirty && addFrom.get('DatePublished')?.invalid && addFrom.get('DatePublished')?.touched) ||
-                      (addFrom.get('DatePublished')?.invalid && addFrom.get('DatePublished')?.touched) , 'is-valid': addFrom.get('DatePublished')?.valid }">
+                      <input style="{{statusValue !== 20? 'pointer-events: none; opacity: 60%':''}}" type="date" class="form-control" formControlName="DatePublished"
+                             [ngClass]="{'is-valid': addFrom.get('DatePublished')?.valid && addFrom.get('DatePublished')?.value }">
                     </div>
                   </div>
                 </div>
@@ -220,8 +224,8 @@
               <div class="col-12 mb-4">
                 <div class="custom-form-cards">
                   <div class="p-3 pt-2">
-                    <label class="text-start mb-3 fw-bold text-black">Category Status</label>
-                    <ng-select [items]="categoriesList" [clearable]="false" bindLabel="nameEn"
+                    <label class="text-start mb-3 fw-bold text-black">Category Parent Id</label>
+                    <ng-select [items]="categoriesList" [clearable]="true" bindLabel="nameEn"
                                bindValue="id" formControlName="CategoryParentId" class="form-control m-0 p-0"
                                [ngClass]="{'is-valid': addFrom.get('CategoryParentId')?.valid && addFrom.get('CategoryParentId')?.value }"
                     >
@@ -262,11 +266,18 @@
               </div>
             </div>
           </div>
-          <div class="col-12 my-3">
-            <label class="text-start mb-1 fw-bold text-black">Title In English</label>
-            <textarea class="form-control" formControlName="Description"
-                      [ngClass]="{'is-invalid': (addFrom.get('Description')?.dirty && addFrom.get('Description')?.invalid && addFrom.get('Description')?.touched) ||
-                 (addFrom.get('Description')?.invalid && addFrom.get('Description')?.touched) , 'is-valid': addFrom.get('Description')?.valid }"></textarea>
+          <div class="col-6 my-3">
+            <label class="text-start mb-1 fw-bold text-black">Description In English</label>
+            <textarea class="form-control" formControlName="DescriptionEn"
+                      [ngClass]="{'is-invalid': (addFrom.get('DescriptionEn')?.dirty && addFrom.get('DescriptionEn')?.invalid && addFrom.get('DescriptionEn')?.touched) ||
+                 (addFrom.get('DescriptionEn')?.invalid && addFrom.get('DescriptionEn')?.touched) , 'is-valid': addFrom.get('DescriptionEn')?.valid }"></textarea>
+
+          </div>
+          <div class="col-6 my-3">
+            <label class="text-start mb-1 fw-bold text-black">Description In Arabic</label>
+            <textarea class="form-control" formControlName="DescriptionAr"
+                      [ngClass]="{'is-invalid': (addFrom.get('DescriptionAr')?.dirty && addFrom.get('DescriptionAr')?.invalid && addFrom.get('DescriptionAr')?.touched) ||
+                 (addFrom.get('DescriptionAr')?.invalid && addFrom.get('DescriptionAr')?.touched) , 'is-valid': addFrom.get('DescriptionAr')?.valid }"></textarea>
 
           </div>
         </div>

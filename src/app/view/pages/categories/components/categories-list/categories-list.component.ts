@@ -4,6 +4,8 @@ import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdsService} from "../../../ads/services/ads.service";
 import {CategoriesService} from "../../services/categories.service";
+import {environment as env} from "../../../../../../environments/environment";
+import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
 
 @Component({
   selector: 'app-categories-list',
@@ -12,7 +14,9 @@ import {CategoriesService} from "../../services/categories.service";
 })
 export class CategoriesListComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
+  domain = env.domainUrl
   addFrom: FormGroup
+  page = 1;
   statusValue: any = 10
   modalStatus: any = 10
   catId: any = 10
@@ -20,6 +24,7 @@ export class CategoriesListComponent implements OnInit {
   images: any[] = []
   protected readonly ColumnMode = ColumnMode;
   rowsUsers: any;
+  collectionSize: any;
   categoriesList: any;
   filters: any;
   public selectedOption = 10;
@@ -57,15 +62,17 @@ export class CategoriesListComponent implements OnInit {
       Id: ['', Validators.required],
       NameAr: ['', Validators.required],
       NameEn: ['', Validators.required],
-      Description: ['', Validators.required],
+      DescriptionEn: ['', Validators.required],
+      DescriptionAr: ['', Validators.required],
       CategoryStatus: ['', Validators.required],
       CategoryParentId: [''],
-      DatePublished: ['', Validators.required],
+      DatePublished: [''],
+      Files: [''],
     })
   }
 
   ngOnInit() {
-    this.getCategories()
+    this.getCategories(1)
     this.getCategoriesForList()
   }
 
@@ -87,27 +94,40 @@ export class CategoriesListComponent implements OnInit {
 
   radioChanged(event: any) {
     this.statusValue = event
+    event !== 20? this.addFrom.get('DatePublished').reset() : '';
   }
 
   removeImage(index: number) {
     this.files.splice(index, 1)
     this.images.splice(index, 1)
   }
-  getCategories() {
-    let query = {}
+  getCategories(pageNumber? :any) {
+    this.page = pageNumber
+    let query = {
+      pageNumber: pageNumber,
+      pageSize: 10,
+    }
     this._categoriesService.getCategoriesApi(query).subscribe({
       next: res =>{
         this.rowsUsers = res.data
+        this.collectionSize = res.totalItems
         console.log(res.data)
       }
     })
   }
   getCategoriesForList() {
-    let query = {}
     this._categoriesService.getCategoriesForListApi().subscribe({
       next: res =>{
         this.categoriesList = res.data
         console.log(res.data)
+      }
+    })
+  }
+  deleteCategories(id: number) {
+    this._categoriesService.deleteCategoriesApi(id).subscribe({
+      next: res =>{
+        this.ngOnInit()
+        console.log(res)
       }
     })
   }
@@ -118,50 +138,60 @@ export class CategoriesListComponent implements OnInit {
           Id: this.catId,
           NameAr: res.data.nameAr,
           NameEn: res.data.nameEn,
-          Description: res.data.description,
+          DescriptionAr: res.data.descriptionAr,
+          DescriptionEn: res.data.descriptionEn,
           CategoryStatus: res.data.categoryStatus,
           CategoryParentId: res.data.categoryParentId,
           DatePublished: res.data.datePublished,
+        })
+        this.statusValue = res.data.categoryStatus
+        res.data.categoryImages.forEach((ele: any)=>{
+          this.images.push(this.domain+'CategoriesImages/'+ele)
         })
         console.log(res.data)
       }
     })
   }
-
+  resetForm() {
+    this.images.splice(0, this.images.length)
+    this.files.splice(0, this.files.length)
+    this.addFrom.reset()
+    this.statusValue = 10
+  }
   submit() {
     this.addFrom.get('CategoryStatus').patchValue(this.statusValue)
-    let formData: FormData = new FormData();
-    for (let i = 0; i < this.files.length; i++) {
-      formData.append(`Files`, this.files[i]);
+    this.addFrom.get('Files').patchValue(this.files)
+    console.log(this.statusValue)
+    console.log(this.addFrom.value)
+    if (this.modalStatus == 0){
+      this._categoriesService.addCategoriesApi(this.addFrom.value).subscribe({
+        next: (res) => {
+          this.ngOnInit()
+          this.resetForm()
+          this.modalService.dismissAll()
+        },
+        error: (err) => {
+          console.log(err)
+        },
+      })
+    } else if (this.modalStatus == 1){
+      this._categoriesService.updateCategoriesApi(this.addFrom.value, this.catId).subscribe({
+        next: (res) => {
+          this.ngOnInit()
+          this.resetForm()
+          this.modalService.dismissAll()
+        },
+        error: (err) => {
+          console.log(err)
+        },
+      })
     }
-    formData.append(`NameEn`, this.addFrom.value.NameEn);
-    formData.append(`NameAr`, this.addFrom.value.NameAr);
-    formData.append(`CategoryStatus`, this.addFrom.value.CategoryStatus);
-    formData.append(`CategoryParentId`, this.addFrom.value.CategoryParentId);
-    formData.append(`DatePublished`, this.addFrom.value.DatePublished);
-    formData.append(`meta_image`, this.addFrom.value.EndDate);
-    this._categoriesService.addCategoriesApi(formData).subscribe({
-      next: (res) => {
-        this.ngOnInit()
-        console.log(res)
-        this.addFrom.reset()
-        this.modalService.dismissAll()
-        for (let i = 0; i < this.files.length; i++) {
-          this.files.splice(i, 1)
-        }
-        for (let i = 0; i < this.images.length; i++) {
-          this.images.splice(i, 1)
-        }
-      },
-      error: (err) => {
-        console.log(err)
-      },
-    })
   }
 
   open(content: any, modalStatus: number, id?: number) {
     this.modalStatus = modalStatus
     this.catId = id
+    this.resetForm()
     if (modalStatus === 1 || modalStatus === 2){
       this.getCategoriesById()
     }
