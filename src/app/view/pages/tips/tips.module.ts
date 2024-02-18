@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'edit',
-    component: TipsListComponent
+    component: AddTipsComponent
   }
 ]
 
@@ -31,5 +31,5 @@ const routes: Routes = [
     SharedModule
   ]
 })
-export class CategoriesModule {
+export class TipsModule {
 }

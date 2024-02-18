@@ -1,14 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {AdsService} from "../../services/ads.service";
-import {environment as env} from "../../../../../../environments/environment";
+ import {environment as env} from "../../../../../../environments/environment";
+import {TipsService} from "../../services/tips.service";
+import {Tips, TipsData} from "../../modals/tips";
 
 @Component({
-  selector: 'app-ads-list',
-  templateUrl: './ads-list.component.html',
-  styleUrls: ['./ads-list.component.scss']
+  selector: 'app-tips-list',
+  templateUrl: './tips-list.component.html',
+  styleUrls: ['./tips-list.component.scss']
 })
-export class AdsListComponent implements OnInit{
-  allAds : any
+export class TipsListComponent implements OnInit{
+  allTips : TipsData[]
+  page : number = 1
+  collectionSize : number = 10
   domain = env.domainUrl
   Filters = [
     {id: 1, name: 'Today'},
@@ -27,19 +30,32 @@ export class AdsListComponent implements OnInit{
   public selectedFilter = 1;
   public selectedGroup = 10;
 
-  constructor(private _adsService: AdsService) {
+  constructor(private _tipsService: TipsService) {
 
   }
   // on initialization
   ngOnInit() {
-    this.getAllAds()
+    this.getAllTips(1)
   }
-  getAllAds() {
-    let query = {}
-    this._adsService.getAdsApi(query).subscribe({
-      next: (res) => {
-        this.allAds = res.data
+  getAllTips(pageNumber: number) {
+    this.page = pageNumber
+    let query = {
+      pageNumber: pageNumber,
+      pageSize: 10,
+    }
+    this._tipsService.getTipsApi(query).subscribe({
+      next: (res: Tips) => {
+        this.allTips = res.data
+        this.collectionSize = res.totalItems
         console.log(res.data)
+      }
+    })
+  }
+  deleteTip(id: number) {
+    this._tipsService.deleteTipsApi(id).subscribe({
+      next: res  => {
+        this.getAllTips(this.page)
+        console.log(res)
       }
     })
   }

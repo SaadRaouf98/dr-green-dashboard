@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AdsService} from "../../services/ads.service";
 import {environment as env} from "../../../../../../environments/environment";
+import {Ads, AdsData} from "../../modals/ads";
 
 @Component({
   selector: 'app-ads-list',
@@ -8,7 +9,7 @@ import {environment as env} from "../../../../../../environments/environment";
   styleUrls: ['./ads-list.component.scss']
 })
 export class AdsListComponent implements OnInit{
-  allAds : any
+  allAds : AdsData[]
   domain = env.domainUrl
   Filters = [
     {id: 1, name: 'Today'},
@@ -37,9 +38,17 @@ export class AdsListComponent implements OnInit{
   getAllAds() {
     let query = {}
     this._adsService.getAdsApi(query).subscribe({
-      next: (res) => {
+      next: (res: Ads) => {
         this.allAds = res.data
         console.log(res.data)
+      }
+    })
+  }
+  deleteAds(id: number) {
+    this._adsService.deleteAdsApi(id).subscribe({
+      next: (res) => {
+        this.getAllAds()
+        console.log(res)
       }
     })
   }

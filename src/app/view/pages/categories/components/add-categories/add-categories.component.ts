@@ -40,7 +40,7 @@ export class AddCategoriesComponent {
       TitleEn: ['', Validators.required],
       Status: ['', Validators.required],
       DisplayPage: ['', Validators.required],
-      DatePublished: ['', Validators.required],
+      DatePublished: [''],
       EndDate: ['', Validators.required],
     })
   }
@@ -61,6 +61,7 @@ export class AddCategoriesComponent {
   }
 
   radioChanged(event: any) {
+    event !== 20 ? this.addFrom.get('DatePublished').reset() : '';
     this.statusValue = event
   }
 

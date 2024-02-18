@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment as env} from "../../../../../environments/environment";
 import {SharedService} from "../../../../core/shared/sahred-service/shared.service";
+import {Categories, CategoriesList} from "../modals/categories";
 
 @Injectable({
   providedIn: 'root'
@@ -20,14 +21,17 @@ export class CategoriesService {
     let form = this._sharedService.formatFormData(body)
     return this._httpClient.put<any>(`${this.baseUrl}/EditCategoryById/${id}`, form)
   }
-  getCategoriesApi(query: any): Observable<any>{
-    return this._httpClient.post<any>(`${this.baseUrl}/GetAllCategories`, query)
+  getCategoriesApi(query: any): Observable<Categories>{
+    return this._httpClient.post<Categories>(`${this.baseUrl}/GetAllCategories`, query)
   }
   deleteCategoriesApi(id: any): Observable<any>{
     return this._httpClient.delete<any>(`${this.baseUrl}/DeleteCategoryById/${id}`)
   }
-  getCategoriesForListApi(): Observable<any>{
-    return this._httpClient.get<any>(`${this.baseUrl}/GetAllCategoriesWithoutPagination`)
+  deleteImagesApi(id: any): Observable<any>{
+    return this._httpClient.delete<any>(`${this.baseUrl}/DeleteImageByPath/${id}`)
+  }
+  getCategoriesForListApi(): Observable<CategoriesList>{
+    return this._httpClient.get<CategoriesList>(`${this.baseUrl}/GetAllCategoriesWithoutPagination`)
   }
   getCategoriesByIdApi(id: number): Observable<any>{
     return this._httpClient.get<any>(`${this.baseUrl}/GetCategoryById/${id}`)

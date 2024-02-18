@@ -15,6 +15,12 @@ const routes: Routes = [
       (m) => m.AdsModule
     )
   },
+  {
+    path: 'tips',
+    loadChildren: () => import('./tips/tips.module').then(
+      (m) => m.TipsModule
+    )
+  },
 ]
 
 @NgModule({

@@ -1,22 +1,30 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TipsService} from "../../services/tips.service";
+import {Departments, DepartmentsData, TipById, TipByIdData} from "../../modals/tips";
+import {ActivatedRoute} from "@angular/router";
+import {environment as env} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-add-tips',
-  templateUrl: './add-ads.component.html',
-  styleUrls: ['./add-ads.component.scss']
+  templateUrl: './add-tips.component.html',
+  styleUrls: ['./add-tips.component.scss']
 })
 
-export class AddAdsComponent {
+export class AddTipsComponent implements OnInit{
+  @ViewChild('inputFile') fileInput: any;
+  domain = env.domainUrl
   addFrom: FormGroup
-  statusValue: any = 10
+  statusValue: number = 10
   Filters = [
     {id: 10, name: 'Home'},
   ];
+  tipsDeps: DepartmentsData[]
+  tipData: TipByIdData
+  tipId: number
   files: any[] = []
   images: any[] = []
-  Groups = [
+  Status = [
     {id: 10, name: '10'},
     {id: 20, name: '20'},
     {id: 30, name: '30'},
@@ -31,16 +39,63 @@ export class AddAdsComponent {
 
   constructor(
     private _formBuilder: FormBuilder,
+    private _activatedRoute: ActivatedRoute,
     private _tipsService: TipsService,
   ) {
+    this.tipId = +this._activatedRoute.snapshot.queryParamMap.get('tipId')
     this.addFrom = _formBuilder.group({
       Id: ['', Validators.required],
       TitleAr: ['', Validators.required],
       TitleEn: ['', Validators.required],
+      AuthorAr: ['', Validators.required],
+      AuthorEn: ['', Validators.required],
+      DescriptionAr: ['', Validators.required],
+      DescriptionEn: ['', Validators.required],
+      ContentAr: ['', Validators.required],
+      ContentEn: ['', Validators.required],
+      File: ['', Validators.required],
       Status: ['', Validators.required],
-      DisplayPage: ['', Validators.required],
-      DatePublished: ['', Validators.required],
-      EndDate: ['', Validators.required],
+      VisibleStatus: ['', Validators.required],
+      TipsDepartmentId: ['', Validators.required],
+      DatePublished: [''],
+    })
+  }
+  ngOnInit() {
+    this.getAllDeps()
+    console.log(this.tipId)
+    this.tipId? this.getTipById(): ''
+  }
+  getAllDeps() {
+    this._tipsService.getDepartmentTipsApi().subscribe({
+      next: (res: Departments) => {
+        this.tipsDeps = res['data']
+        console.log(this.tipsDeps)
+      }
+    })
+  }
+  getTipById() {
+    this._tipsService.getTipsByIdApi(this.tipId).subscribe({
+      next: (res: TipById) => {
+        this.tipData = res.data
+        this.addFrom.patchValue({
+          Id: this.tipId,
+          TitleAr: this.tipData.titleAr,
+          TitleEn: this.tipData.titleEn,
+          AuthorAr: this.tipData.authorAr,
+          AuthorEn: this.tipData.authorEn,
+          DescriptionAr: this.tipData.descriptionAr,
+          DescriptionEn: this.tipData.descriptionEn,
+          ContentAr: this.tipData.contentAr,
+          ContentEn: this.tipData.contentEn,
+          Status: this.tipData.status,
+          VisibleStatus: this.tipData.visibleStatus,
+          TipsDepartmentId: this.tipData.tipsDepartmentId,
+          DatePublished: this.tipData.datePublished? this.tipData.datePublished.slice(0, 10) : '',
+        })
+        this.removeImage()
+        this.statusValue = this.tipData.visibleStatus
+        this.images.push(this.domain+'TipsDrGreenMedia/'+this.tipData.url)
+      }
     })
   }
 
@@ -55,44 +110,53 @@ export class AddAdsComponent {
         };
         reader.readAsDataURL(event.target.files[i]);
       }
-      // this.cd.markForCheck();
+      this.addFrom.get('File').patchValue(this.files)
     }
   }
 
   radioChanged(event: any) {
     this.statusValue = event
+    if (event !== 20){
+      this.addFrom.get('DatePublished').patchValue('')
+    }
   }
 
-  removeImage(index: number) {
-    this.files.splice(index, 1)
-    this.images.splice(index, 1)
+  removeImage() {
+    this.fileInput.nativeElement.value = '';
+    this.files.splice(0, this.files.length)
+    this.images.splice(0, this.images.length)
   }
 
   submit() {
-    let formData: FormData = new FormData();
-    for (let i = 0; i < this.files.length; i++) {
-      formData.append(`Files`, this.files[i]);
+    this.addFrom.get('VisibleStatus').patchValue(this.statusValue)
+    if (this.tipId){
+      this._tipsService.updateTipsApi(this.addFrom.value, this.tipId).subscribe({
+        next: (res) => {
+          console.log(res)
+          this.getTipById()
+        },
+        error: (err) => {
+          console.log(err)
+        },
+      })
+    } else {
+      this._tipsService.addTipsApi(this.addFrom.value).subscribe({
+        next: (res) => {
+          console.log(res)
+          this.resetAllForm()
+        },
+        error: (err) => {
+          console.log(err)
+        },
+      })
     }
-    formData.append(`TitleAr`, this.addFrom.value.TitleAr);
-    formData.append(`TitleEn`, this.addFrom.value.TitleEn);
-    formData.append(`Status`, this.statusValue);
-    formData.append(`DisplayPage`, this.addFrom.value.DisplayPage);
-    formData.append(`DatePublished`, this.addFrom.value.DatePublished);
-    formData.append(`meta_image`, this.addFrom.value.EndDate);
-    // this._tipsService.addAdsApi(formData).subscribe({
-    //   next: (res) => {
-    //     console.log(res)
-    //     this.addFrom.reset()
-    //     for (let i=0; i< this.files.length; i++){
-    //       this.files.splice(i, 1)
-    //     }
-    //     for (let i=0; i< this.images.length; i++){
-    //       this.images.splice(i, 1)
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.log(err)
-    //   },
-    // })
+  }
+  resetAllForm(){
+    this.addFrom.reset();
+    this.fileInput.nativeElement.value = '';
+    console.log(this.fileInput.nativeElement.value);
+    this.files.splice(0, this.files.length)
+    this.images.splice(0, this.images.length)
+    this.statusValue = 10
   }
 }

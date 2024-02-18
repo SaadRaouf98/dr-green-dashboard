@@ -6,6 +6,7 @@ import {AdsService} from "../../../ads/services/ads.service";
 import {CategoriesService} from "../../services/categories.service";
 import {environment as env} from "../../../../../../environments/environment";
 import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
+import {Categories, CategoriesData, CategoriesList, CategoriesListData} from "../../modals/categories";
 
 @Component({
   selector: 'app-categories-list',
@@ -14,6 +15,7 @@ import {SharedService} from "../../../../../core/shared/sahred-service/shared.se
 })
 export class CategoriesListComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild('inputFile') fileInput: any;
   domain = env.domainUrl
   addFrom: FormGroup
   page = 1;
@@ -23,9 +25,9 @@ export class CategoriesListComponent implements OnInit {
   files: any[] = []
   images: any[] = []
   protected readonly ColumnMode = ColumnMode;
-  rowsUsers: any;
+  rowsUsers: CategoriesData[];
   collectionSize: any;
-  categoriesList: any;
+  categoriesList: CategoriesListData[];
   filters: any;
   public selectedOption = 10;
   selected: any = []
@@ -77,14 +79,14 @@ export class CategoriesListComponent implements OnInit {
   }
 
 
-  onFileChanged(event: any) : void {
+  onFileChanged(event: any): void {
     if (event.target.files && event.target.files[0]) {
       let filesAmount = event.target.files.length;
       for (let i = 0; i < filesAmount; i++) {
         let reader = new FileReader();
         this.files.push(event.target.files.item(i));
         reader.onload = (event: any) => {
-          this.images.push(event.target.result);
+          this.images.push({path: event.target.result, completePath: event.target.result});
         };
         reader.readAsDataURL(event.target.files[i]);
       }
@@ -94,46 +96,61 @@ export class CategoriesListComponent implements OnInit {
 
   radioChanged(event: any) {
     this.statusValue = event
-    event !== 20? this.addFrom.get('DatePublished').reset() : '';
+    event !== 20 ? this.addFrom.get('DatePublished').reset() : '';
   }
 
   removeImage(index: number) {
+    this.fileInput.nativeElement.value = '';
     this.files.splice(index, 1)
     this.images.splice(index, 1)
   }
-  getCategories(pageNumber? :any) {
+
+  deleteImage(path: string, index: number) {
+    this._categoriesService.deleteImagesApi(path).subscribe({
+      next: res => {
+        this.getCategoriesById()
+        console.log(res)
+      }
+    })
+    this.images.splice(index, 1)
+  }
+
+  getCategories(pageNumber?: any) {
     this.page = pageNumber
     let query = {
       pageNumber: pageNumber,
       pageSize: 10,
     }
     this._categoriesService.getCategoriesApi(query).subscribe({
-      next: res =>{
+      next: (res: Categories) => {
         this.rowsUsers = res.data
         this.collectionSize = res.totalItems
         console.log(res.data)
       }
     })
   }
+
   getCategoriesForList() {
     this._categoriesService.getCategoriesForListApi().subscribe({
-      next: res =>{
+      next: (res: CategoriesList)=> {
         this.categoriesList = res.data
         console.log(res.data)
       }
     })
   }
+
   deleteCategories(id: number) {
     this._categoriesService.deleteCategoriesApi(id).subscribe({
-      next: res =>{
+      next: res => {
         this.ngOnInit()
         console.log(res)
       }
     })
   }
+
   getCategoriesById() {
     this._categoriesService.getCategoriesByIdApi(this.catId).subscribe({
-      next: res =>{
+      next: res => {
         this.addFrom.patchValue({
           Id: this.catId,
           NameAr: res.data.nameAr,
@@ -142,28 +159,35 @@ export class CategoriesListComponent implements OnInit {
           DescriptionEn: res.data.descriptionEn,
           CategoryStatus: res.data.categoryStatus,
           CategoryParentId: res.data.categoryParentId,
-          DatePublished: res.data.datePublished,
+          DatePublished: res.data.datePublished? res.data.datePublished.slice(0, 10) : '',
         })
         this.statusValue = res.data.categoryStatus
-        res.data.categoryImages.forEach((ele: any)=>{
-          this.images.push(this.domain+'CategoriesImages/'+ele)
-        })
-        console.log(res.data)
+        if (res.data.categoryImages.length){
+          res.data.categoryImages.forEach((ele: any) => {
+            let status = this.images.findIndex((elem)=> elem?.path === ele)
+            console.log(status)
+            if (status === -1){
+              this.images.push({completePath: this.domain + 'CategoriesImages/' + ele, path: ele})
+            }
+          })
+        }
+        console.log(this.images)
       }
     })
   }
+
   resetForm() {
+    this.fileInput.nativeElement.value = '';
     this.images.splice(0, this.images.length)
     this.files.splice(0, this.files.length)
     this.addFrom.reset()
     this.statusValue = 10
   }
+
   submit() {
     this.addFrom.get('CategoryStatus').patchValue(this.statusValue)
     this.addFrom.get('Files').patchValue(this.files)
-    console.log(this.statusValue)
-    console.log(this.addFrom.value)
-    if (this.modalStatus == 0){
+    if (this.modalStatus == 0) {
       this._categoriesService.addCategoriesApi(this.addFrom.value).subscribe({
         next: (res) => {
           this.ngOnInit()
@@ -174,7 +198,7 @@ export class CategoriesListComponent implements OnInit {
           console.log(err)
         },
       })
-    } else if (this.modalStatus == 1){
+    } else if (this.modalStatus == 1) {
       this._categoriesService.updateCategoriesApi(this.addFrom.value, this.catId).subscribe({
         next: (res) => {
           this.ngOnInit()
@@ -192,7 +216,7 @@ export class CategoriesListComponent implements OnInit {
     this.modalStatus = modalStatus
     this.catId = id
     this.resetForm()
-    if (modalStatus === 1 || modalStatus === 2){
+    if (modalStatus === 1 || modalStatus === 2) {
       this.getCategoriesById()
     }
     this.modalService.open(content, {

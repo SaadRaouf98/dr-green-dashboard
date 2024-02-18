@@ -1,6 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AdsService} from "../../services/ads.service";
+import {ActivatedRoute} from "@angular/router";
+import {AdsList, AdsListData} from "../../modals/ads";
+import {environment as env} from "../../../../../../environments/environment";
 
 @Component({
   selector: 'app-add-ads',
@@ -8,9 +11,13 @@ import {AdsService} from "../../services/ads.service";
   styleUrls: ['./add-ads.component.scss']
 })
 
-export class AddAdsComponent {
+export class AddAdsComponent implements OnInit{
+  @ViewChild('inputFile') fileInput: any;
+  domain = env.domainUrl
   addFrom: FormGroup
   statusValue: any = 10
+  adId: number = 10
+  adsList: AdsListData
   Filters = [
     {id: 10, name: 'Home'},
   ];
@@ -31,17 +38,23 @@ export class AddAdsComponent {
 
   constructor(
     private _formBuilder: FormBuilder,
+    private _activatedRoute: ActivatedRoute,
     private _adsService: AdsService,
   ) {
+    this.adId = +this._activatedRoute.snapshot.queryParamMap.get('adId')
     this.addFrom = _formBuilder.group({
       Id: ['', Validators.required],
       TitleAr: ['', Validators.required],
       TitleEn: ['', Validators.required],
       Status: ['', Validators.required],
       DisplayPage: ['', Validators.required],
-      DatePublished: ['', Validators.required],
+      DatePublished: [''],
       EndDate: ['', Validators.required],
+      Files: [''],
     })
+  }
+  ngOnInit() {
+    this.adId? this.getAdById(): ''
   }
 
   onFileChanged(event: any) {
@@ -51,15 +64,50 @@ export class AddAdsComponent {
         let reader = new FileReader();
         this.files.push(event.target.files.item(i));
         reader.onload = (event: any) => {
-          this.images.push(event.target.result);
+          this.images.push({path: event.target.result, completePath: event.target.result});
         };
         reader.readAsDataURL(event.target.files[i]);
       }
-      // this.cd.markForCheck();
     }
   }
-
+  getAdById() {
+    this._adsService.getAdByIdApi(this.adId).subscribe({
+      next: (res: AdsList) =>{
+        this.adsList = res.data
+        this.addFrom.patchValue({
+          Id: this.adId,
+          TitleAr: res.data.titleAr,
+          TitleEn: res.data.titleEn,
+          Status: res.data.status,
+          DisplayPage: res.data.displayPage,
+          EndDate: res.data.datePublished? res.data.endDate.slice(0, 10) : '',
+          DatePublished: res.data.datePublished? res.data.datePublished.slice(0, 10) : '',
+        })
+        this.statusValue = res.data.status
+        if (res.data.adsImages.length){
+          res.data.adsImages.forEach((ele: any) => {
+            let status = this.images.findIndex((elem)=> elem?.path === ele)
+            console.log(status)
+            if (status === -1){
+              this.images.push({completePath: this.domain + 'AdsDrGreenMedia/' + ele, path: ele})
+            }
+          })
+        }
+        console.log(this.images)
+      }
+    })
+  }
+  deleteImage(path: string, index: number) {
+    this._adsService.deleteImagesApi(path).subscribe({
+      next: res => {
+        this.getAdById()
+        console.log(res)
+      }
+    })
+    this.images.splice(index, 1)
+  }
   radioChanged(event: any) {
+    event !== 20 ? this.addFrom.get('DatePublished').reset() : '';
     this.statusValue = event
   }
 
@@ -69,30 +117,35 @@ export class AddAdsComponent {
   }
 
   submit() {
-    let formData: FormData = new FormData();
-    for (let i = 0; i < this.files.length; i++) {
-      formData.append(`Files`, this.files[i]);
+    this.addFrom.get('Status').patchValue(this.statusValue)
+    this.addFrom.get('Files').patchValue(this.files)
+    if (this.adId){
+      this._adsService.updateAdsApi(this.addFrom.value, this.adId).subscribe({
+        next: (res) => {
+          console.log(res)
+          this.getAdById()
+        },
+        error: (err) => {
+          console.log(err)
+        },
+      })
+    } else {
+      this._adsService.addAdsApi(this.addFrom.value).subscribe({
+        next: (res) => {
+          console.log(res)
+          this.resetForm()
+        },
+        error: (err) => {
+          console.log(err)
+        },
+      })
     }
-    formData.append(`TitleAr`, this.addFrom.value.TitleAr);
-    formData.append(`TitleEn`, this.addFrom.value.TitleEn);
-    formData.append(`Status`, this.statusValue);
-    formData.append(`DisplayPage`, this.addFrom.value.DisplayPage);
-    formData.append(`DatePublished`, this.addFrom.value.DatePublished);
-    formData.append(`meta_image`, this.addFrom.value.EndDate);
-    this._adsService.addAdsApi(formData).subscribe({
-      next: (res) => {
-        console.log(res)
-        this.addFrom.reset()
-        for (let i=0; i< this.files.length; i++){
-          this.files.splice(i, 1)
-        }
-        for (let i=0; i< this.images.length; i++){
-          this.images.splice(i, 1)
-        }
-      },
-      error: (err) => {
-        console.log(err)
-      },
-    })
+  }
+  resetForm(){
+    this.addFrom.reset()
+    this.files.splice(0, this.files.length)
+    this.images.splice(0, this.images.length)
+    this.fileInput.nativeElement.value = '';
+    this.statusValue = 10
   }
 }

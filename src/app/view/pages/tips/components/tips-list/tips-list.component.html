@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-12">
-    <div class="card" style="border-radius: 8px">
+    <div class="card" style="border-rtipius: 8px">
       <div class="card-body">
         <div class="row">
           <div class="col-6 d-flex justify-content-start align-items-center">
             <span class="me-3">
-              <h6 class="fw-semibold mb-0">All Ads</h6>
+              <h6 class="fw-semibold mb-0">All Tips</h6>
             </span>
             <label class="d-flex align-items-center mx-2"
             >
@@ -35,7 +35,7 @@
             </div>
             <div class="mx-2">
               <button routerLink="add" class="btn btn-primary mb-0">
-                Add Ads
+                Add Tips
               </button>
             </div>
           </div>
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-3 position-relative" *ngFor="let ad of allAds">
+      <div class="col-3 position-relative" *ngFor="let tip of allTips">
         <div class="dropdown position-absolute" style="font-size: 20px; top: 5px; left: 25px; z-index: 999999"
              ngbDropdown placement="bottom-left">
           <a ngbDropdownToggle href="javascript:" data-toggle="dropdown">
@@ -52,13 +52,13 @@
           <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end p-0">
             <ul class="p-0 m-0">
               <li>
-                <button class="dropdown-item" routerLink="add" [queryParams]="{adId:ad.id}">
+                <button class="dropdown-item" routerLink="add" [queryParams]="{tipId:tip.id}">
                   <i class="feather icon-edit"></i>
                   Edit
                 </button>
               </li>
               <li>
-                <button class="dropdown-item" routerLink="">
+                <button class="dropdown-item" (click)="deleteTip(tip.id)">
                   <i class="feather icon-trash"></i>
                   Delete
                 </button>
@@ -69,32 +69,38 @@
         <div class="card card-border-radius ">
           <div class="ads-cards-img">
             <img class="w-100 card-border-radius ads-cards"
-                 src="{{domain+'AdsDrGreenMedia/'+ad.adsImages[0]}}" alt="">
+                 src="{{domain+'TipsDrGreenMedia/'+tip?.url}}" alt="">
           </div>
           <div class="py-3 px-2">
             <div class="d-flex justify-content-between align-items-center">
               <span>
-                <h6 class="fw-semibold">{{ ad.titleEn }}</h6>
+                <h6 class="fw-semibold">{{ tip.titleEn }}</h6>
               </span>
-              <span class="card-border-radius p-2"
+              <span class="card-border-radius p-2 text-secondary"
                     style="background: rgba(128, 128, 143, 0.2); "
               >
-                Hidden
+                {{tip.tipsDepartmentNameEn}}
               </span>
             </div>
           </div>
           <div class="pb-3 px-2">
             <div class="d-flex justify-content-between align-items-center">
               <span>
-                End Date : {{ ad.endDate | date: 'mediumDate' }}
+                By {{ tip.authorEn }}
               </span>
-              <span class="">
-                Creation Date : {{ ad.datePublished | date: 'mediumDate' }}
-              </span>
+<!--              <span class="">-->
+<!--                Creation Date : {{ tip.datePublished | date: 'mediumDate' }}-->
+<!--              </span>-->
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+  <ngb-pagination (pageChange)="getAllTips($event)"
+                  [collectionSize]="collectionSize"
+                  [(page)]="page" [boundaryLinks]="true"
+  />
 </div>

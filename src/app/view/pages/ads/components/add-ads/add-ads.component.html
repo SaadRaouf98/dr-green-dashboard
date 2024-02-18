@@ -51,7 +51,7 @@
                       (change)="radioChanged(status.id)"
                       class="form-check-input" type="radio"
                       name="status" id="{{status.name}}"
-                      value="{{status.id}}" [checked]="status.id === 10"
+                      value="{{status.id}}" [checked]="status.id === statusValue"
                     />
                     <label class="form-check-label" for="{{status.name}}"
                     >{{ status.name }}</label
@@ -63,9 +63,8 @@
           </div>
           <div class="col-12 mb-3">
             <label class="text-start mb-1 fw-semibold text-black">Publish Date</label>
-            <input type="date" class="form-control" formControlName="DatePublished"
-                   [ngClass]="{'is-invalid': (addFrom.get('DatePublished')?.dirty && addFrom.get('DatePublished')?.invalid && addFrom.get('DatePublished')?.touched) ||
-                 (addFrom.get('DatePublished')?.invalid && addFrom.get('DatePublished')?.touched) , 'is-valid': addFrom.get('DatePublished')?.valid }">
+            <input style="{{statusValue !== 20? 'pointer-events: none; opacity: 80%' : ''}}" type="date" class="form-control" formControlName="DatePublished"
+                   [ngClass]="{'is-valid': addFrom.get('DatePublished')?.valid && addFrom.get('DatePublished')?.value && statusValue === 20}">
           </div>
         </div>
       </div>
@@ -73,7 +72,7 @@
   </div>
   <div class="col-12">
     <div class="card position-relative" style="border-radius: 8px">
-      <button (click)="fileInput.click()"
+      <button (click)="inputFile.click()"
               style="top: 54%; right: 3%; transform: translate(0, -50%)"
               class="btn btn-outline-primary position-absolute m-0">
         <i class="bx bx-plus m-0 fs-5"></i>
@@ -86,9 +85,9 @@
                  *ngFor="let img of images; index as i">
               <i class="position-absolute bx bx-x-circle text-white"
                  style="background: red; top: -3px; right: -3px; font-size: 1rem;
-                 border-radius: 50% " (click)="removeImage(i)"
+                 border-radius: 50% " (click)="img.completePath.startsWith('http')? deleteImage(img.path, i): removeImage(i)"
               ></i>
-              <img class="p-2" width="258" height="258" [src]="img">
+              <img class="p-2" width="258" height="258" [src]="img.completePath">
             </div>
           </div>
           <div class="d-flex py-2 pe-5" *ngIf="images.length == 0"
@@ -112,7 +111,7 @@
           <input
             style="display: none"
             type="file" (change)="onFileChanged($event)"
-            #fileInput multiple>
+            #inputFile multiple>
         </div>
       </div>
     </div>

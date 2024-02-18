@@ -199,7 +199,7 @@
                                 (change)="radioChanged(status.id)"
                                 class="form-check-input" type="radio"
                                 name="status" id="{{status.name}}"
-                                value="{{status.id}}" [checked]="status.id === 10"
+                                value="{{status.id}}" [checked]="status.id === statusValue"
                               />
                               <label class="form-check-label" for="{{status.name}}"
                               >{{ status.name }}</label
@@ -250,17 +250,17 @@
                       </div>
                       <div class="mx-2 position-relative" style="border: 1px solid #eeee; border-radius: 4px"
                            *ngFor="let img of images; index as i">
-                        <i class="position-absolute bx bx-x-circle text-white"
+                        <i *ngIf="modalStatus === 0 || modalStatus === 1" class="position-absolute bx bx-x-circle text-white"
                            style="background: red; top: -3px; right: -3px; font-size: 1rem;
-                            border-radius: 50% " (click)="removeImage(i)"
+                            border-radius: 50% " (click)="img.completePath.startsWith('http')? deleteImage(img.path, i): removeImage(i)"
                         ></i>
-                        <img class="p-2" width="74" height="71" [src]="img" alt="">
+                        <img class="p-2" width="74" height="71" [src]="img.completePath" alt="">
                       </div>
                     </div>
                     <input
                       style="display: none"
                       type="file" (change)="onFileChanged($event)"
-                      #fileInput multiple>
+                      #inputFile multiple>
                   </div>
                 </div>
               </div>
