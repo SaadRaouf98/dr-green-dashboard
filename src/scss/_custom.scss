@@ -199,3 +199,13 @@ li {
   height: 5rem !important;
   justify-content: space-between;
 }
+.pcoded-navbar .pcoded-inner-navbar li > a {
+  margin: 2px 16px;
+  line-height: 150%;
+}
+.pcoded-navbar .pcoded-inner-navbar li.pcoded-hasmenu.pcoded-trigger.active > a {
+  color: $primary-color;
+}
+.pcoded-navbar .pcoded-inner-navbar li.pcoded-menu-caption {
+  padding: 15px 20px 5px;
+}

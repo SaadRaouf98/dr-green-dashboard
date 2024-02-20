@@ -109,7 +109,6 @@ export class CategoriesListComponent implements OnInit {
     this._categoriesService.deleteImagesApi(path).subscribe({
       next: res => {
         this.getCategoriesById()
-        console.log(res)
       }
     })
     this.images.splice(index, 1)
@@ -125,7 +124,6 @@ export class CategoriesListComponent implements OnInit {
       next: (res: Categories) => {
         this.rowsUsers = res.data
         this.collectionSize = res.totalItems
-        console.log(res.data)
       }
     })
   }
@@ -134,7 +132,6 @@ export class CategoriesListComponent implements OnInit {
     this._categoriesService.getCategoriesForListApi().subscribe({
       next: (res: CategoriesList)=> {
         this.categoriesList = res.data
-        console.log(res.data)
       }
     })
   }
@@ -143,7 +140,6 @@ export class CategoriesListComponent implements OnInit {
     this._categoriesService.deleteCategoriesApi(id).subscribe({
       next: res => {
         this.ngOnInit()
-        console.log(res)
       }
     })
   }
@@ -165,13 +161,11 @@ export class CategoriesListComponent implements OnInit {
         if (res.data.categoryImages.length){
           res.data.categoryImages.forEach((ele: any) => {
             let status = this.images.findIndex((elem)=> elem?.path === ele)
-            console.log(status)
             if (status === -1){
               this.images.push({completePath: this.domain + 'CategoriesImages/' + ele, path: ele})
             }
           })
         }
-        console.log(this.images)
       }
     })
   }
@@ -195,7 +189,6 @@ export class CategoriesListComponent implements OnInit {
           this.modalService.dismissAll()
         },
         error: (err) => {
-          console.log(err)
         },
       })
     } else if (this.modalStatus == 1) {

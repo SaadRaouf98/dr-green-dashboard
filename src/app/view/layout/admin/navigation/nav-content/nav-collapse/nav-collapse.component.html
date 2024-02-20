@@ -16,8 +16,12 @@
     <ng-container *ngTemplateOutlet="subMenuContent"></ng-container>
   </li>
   <ng-template #itemContent>
-    <span class="pcoded-micon" *ngIf="item.icon">
-      <i class="{{ item.icon }}"></i>
+<!--    <span class="pcoded-micon" *ngIf="item.icon">-->
+<!--      <i class="{{ item.icon }}"></i>-->
+<!--    </span>-->
+    <span *ngIf="item.icon" class="pcoded-micon">
+      <img width="20" height="20" *ngIf="item.icon && mouseover" [src]="item.icon" alt="icon">
+      <img width="20" height="20" *ngIf="item.icon2 && !mouseover" [src]="item.icon2" alt="icon">
     </span>
     <span class="pcoded-mtext"
       >{{ item.title }}
@@ -44,7 +48,8 @@
           *ngIf="item.type == 'group'"
           [item]="item"
         ></app-nav-group>
-        <app-nav-collapse
+        <app-nav-collapse (mouseout)="Mouseout();"
+                          (mouseover)="Mouseover();"
           *ngIf="item.type == 'collapse'"
           [item]="item"
         ></app-nav-collapse>

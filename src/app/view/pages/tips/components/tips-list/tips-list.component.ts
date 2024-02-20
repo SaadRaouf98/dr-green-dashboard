@@ -47,7 +47,6 @@ export class TipsListComponent implements OnInit{
       next: (res: Tips) => {
         this.allTips = res.data
         this.collectionSize = res.totalItems
-        console.log(res.data)
       }
     })
   }
@@ -55,7 +54,6 @@ export class TipsListComponent implements OnInit{
     this._tipsService.deleteTipsApi(id).subscribe({
       next: res  => {
         this.getAllTips(this.page)
-        console.log(res)
       }
     })
   }

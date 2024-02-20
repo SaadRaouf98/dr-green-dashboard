@@ -21,6 +21,12 @@ const routes: Routes = [
       (m) => m.TipsModule
     )
   },
+  {
+    path: 'about-us',
+    loadChildren: () => import('./about-us/about-us.module').then(
+      (m) => m.AboutUsModule
+    )
+  },
 ]
 
 @NgModule({

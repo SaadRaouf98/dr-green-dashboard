@@ -40,7 +40,6 @@ export class AdsListComponent implements OnInit{
     this._adsService.getAdsApi(query).subscribe({
       next: (res: Ads) => {
         this.allAds = res.data
-        console.log(res.data)
       }
     })
   }
@@ -48,7 +47,6 @@ export class AdsListComponent implements OnInit{
     this._adsService.deleteAdsApi(id).subscribe({
       next: (res) => {
         this.getAllAds()
-        console.log(res)
       }
     })
   }

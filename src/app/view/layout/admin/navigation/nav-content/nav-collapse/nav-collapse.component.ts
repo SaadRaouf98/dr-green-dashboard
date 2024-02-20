@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, HostListener, Input} from '@angular/core';
 import { NavigationItem } from '../../navigation';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { DattaConfig } from 'src/app/app-config';
@@ -23,6 +23,27 @@ export class NavCollapseComponent {
   public visible;
   @Input() item: NavigationItem;
   themeLayout: string;
+  navIconStatus: boolean;
+  @HostListener('window:click', ['$event'])
+  public onClick(event: Event): void {
+    let navs = document.querySelectorAll('.pcoded-hasmenu')
+    navs.forEach((ele)=>{
+      this.navIconStatus = ele.classList.contains('active')
+    })
+  }
+  mouseover:boolean;
+  @HostListener('mouseover')
+  Mouseover() {
+    this.mouseover = true
+  }
+  @HostListener('mouseout')
+  Mouseout() {
+    if(!this.navIconStatus) {
+      this.mouseover = false
+    }else {
+      this.mouseover = true
+    }
+  }
 
   constructor() {
     this.visible = false;

@@ -30,17 +30,14 @@ export class LoginComponent implements OnInit {
   }
 
   submitLogin(){
-    console.log(this.loginForm.value)
     this._authService.loginApi(this.loginForm.value).subscribe({
       next: (res: LoginModal)=>{
         localStorage.setItem('authToken', res.token)
         localStorage.setItem('authTokenBearer', `Bearer ${res.token}`)
         localStorage.setItem('currentUser', JSON.stringify(res.user))
-        console.log(res)
         this.router.navigateByUrl('/');
       },
       error: (err: ErrorInterface) => {
-        console.log(err)
       },
       complete: () => {
 

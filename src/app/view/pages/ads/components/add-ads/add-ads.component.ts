@@ -87,13 +87,11 @@ export class AddAdsComponent implements OnInit{
         if (res.data.adsImages.length){
           res.data.adsImages.forEach((ele: any) => {
             let status = this.images.findIndex((elem)=> elem?.path === ele)
-            console.log(status)
             if (status === -1){
               this.images.push({completePath: this.domain + 'AdsDrGreenMedia/' + ele, path: ele})
             }
           })
         }
-        console.log(this.images)
       }
     })
   }
@@ -101,7 +99,6 @@ export class AddAdsComponent implements OnInit{
     this._adsService.deleteImagesApi(path).subscribe({
       next: res => {
         this.getAdById()
-        console.log(res)
       }
     })
     this.images.splice(index, 1)
@@ -122,17 +119,14 @@ export class AddAdsComponent implements OnInit{
     if (this.adId){
       this._adsService.updateAdsApi(this.addFrom.value, this.adId).subscribe({
         next: (res) => {
-          console.log(res)
           this.getAdById()
         },
         error: (err) => {
-          console.log(err)
         },
       })
     } else {
       this._adsService.addAdsApi(this.addFrom.value).subscribe({
         next: (res) => {
-          console.log(res)
           this.resetForm()
         },
         error: (err) => {

@@ -6,7 +6,7 @@
       <span class="r s"></span>
       <span class="r"></span>
     </div>
-    <div class="card" style="border-radius: 8px;" [formGroup]="loginForm">
+    <form class="card" style="border-radius: 8px;" [formGroup]="loginForm" (submit)="submitLogin()">
       <div class="card-body text-center">
         <div class="mb-4">
           <img src="favicon.ico" alt="login-logo">
@@ -40,9 +40,7 @@
         <!--            <label for="checkbox-fill-a1" class="cr"> Save Details</label>-->
         <!--          </div>-->
         <!--        </div>-->
-        <button class="btn btn-primary my-4"
-                (click)="submitLogin()"
-        >Login</button>
+        <button class="btn btn-primary my-4" type="submit">Login</button>
         <!--        <p class="mb-2 text-muted">-->
         <!--          Forgot password? <a [routerLink]="['/auth/reset-password']">Reset</a>-->
         <!--        </p>-->
@@ -50,6 +48,6 @@
         <!--          Don’t have an account? <a [routerLink]="['/auth/signup']">Sign up</a>-->
         <!--        </p>-->
       </div>
-    </div>
+    </form>
   </div>
 </div>

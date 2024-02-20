@@ -62,14 +62,12 @@ export class AddTipsComponent implements OnInit{
   }
   ngOnInit() {
     this.getAllDeps()
-    console.log(this.tipId)
     this.tipId? this.getTipById(): ''
   }
   getAllDeps() {
     this._tipsService.getDepartmentTipsApi().subscribe({
       next: (res: Departments) => {
         this.tipsDeps = res['data']
-        console.log(this.tipsDeps)
       }
     })
   }
@@ -132,7 +130,6 @@ export class AddTipsComponent implements OnInit{
     if (this.tipId){
       this._tipsService.updateTipsApi(this.addFrom.value, this.tipId).subscribe({
         next: (res) => {
-          console.log(res)
           this.getTipById()
         },
         error: (err) => {
@@ -142,7 +139,6 @@ export class AddTipsComponent implements OnInit{
     } else {
       this._tipsService.addTipsApi(this.addFrom.value).subscribe({
         next: (res) => {
-          console.log(res)
           this.resetAllForm()
         },
         error: (err) => {
@@ -154,7 +150,6 @@ export class AddTipsComponent implements OnInit{
   resetAllForm(){
     this.addFrom.reset();
     this.fileInput.nativeElement.value = '';
-    console.log(this.fileInput.nativeElement.value);
     this.files.splice(0, this.files.length)
     this.images.splice(0, this.images.length)
     this.statusValue = 10
