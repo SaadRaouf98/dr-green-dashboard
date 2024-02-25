@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ErrorInterface} from "../../core/interceptor/error.interface";
 import {LoginModal} from "./login-modal";
 import {Router} from "@angular/router";
+import {SharedService} from "../../core/shared/sahred-service/shared.service";
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private _authService: AuthService,
     private _formBuilder: FormBuilder,
+    public _sharedService: SharedService,
     private router: Router,
   ) {
     this.loginForm = this._formBuilder.group({
@@ -38,6 +40,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/');
       },
       error: (err: ErrorInterface) => {
+        this._sharedService.handleError(err)
       },
       complete: () => {
 

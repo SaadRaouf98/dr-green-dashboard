@@ -48,6 +48,22 @@ const NavigationItems = [
         icon: '/assets/icon/custom-icons/candle-2-wh.svg',
         classes: 'nav-item',
       },
+      {
+        id: 'vision-and-mission',
+        title: 'Vision & mission',
+        type: 'item',
+        url: '/view/pages/about-us/vision-and-mission',
+        icon: '/assets/icon/custom-icons/candle-2-wh.svg',
+        classes: 'nav-item',
+      },
+      {
+        id: 'vision-and-mission',
+        title: 'Our Value',
+        type: 'item',
+        url: '/view/pages/about-us/our-value',
+        icon: '/assets/icon/custom-icons/candle-2-wh.svg',
+        classes: 'nav-item',
+      },
       // {
       //   id: 'Who-we-are',
       //   title: 'Who we are',
@@ -104,6 +120,14 @@ const NavigationItems = [
     type: 'item',
     url: '/view/pages/tips',
     icon: '/assets/icon/custom-icons/tips.png',
+    classes: 'nav-item',
+  },
+  {
+    id: 'reviews',
+    title: 'reviews',
+    type: 'item',
+    url: '/view/pages/reviews',
+    icon: '/assets/icon/custom-icons/reviews.png',
     classes: 'nav-item',
   },
   // {

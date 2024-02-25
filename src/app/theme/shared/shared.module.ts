@@ -18,6 +18,9 @@ import {NgApexchartsModule} from "ng-apexcharts";
 import {ChartsModule} from "../../core/shared/components/charts/charts.module";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {HttpClientModule} from "@angular/common/http";
+import {SharedService} from "../../core/shared/sahred-service/shared.service";
+import {provideToastr, ToastrModule, ToastrService} from "ngx-toastr";
+import {provideAnimations} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -39,7 +42,8 @@ import {HttpClientModule} from "@angular/common/http";
     NgbDropdownToggle,
     NgbDropdownMenu,
     HttpClientModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
+    ToastrModule.forRoot()
   ],
   exports: [
     CommonModule,
@@ -59,7 +63,12 @@ import {HttpClientModule} from "@angular/common/http";
     NgbDropdownToggle,
     NgbDropdownMenu,
     HttpClientModule,
-    NgbDatepickerModule
+    NgbDatepickerModule,
   ],
+  providers: [
+    // SharedService,
+
+    // ToastrService
+  ]
 })
 export class SharedModule {}

@@ -1,12 +1,49 @@
 import {Injectable} from '@angular/core';
 import {EMPTY} from "rxjs";
+import {ErrorInterface} from "../../interceptor/error.interface";
+import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
-
-  constructor() {
+  constructor(private router: Router, public toastr: ToastrService,) {
+  }
+  handleResponseMessage(type: string, title?: string, message?: string,){
+    this.toastr[type](message, title);
+  }
+  handleError(err: ErrorInterface){
+    let errors = []
+    console.log(err)
+    if (err.errors.length > 0){
+      Object.entries(err.errors).forEach(([key, value]) => {
+        console.log(`Key: ${key}, Value: ${value}`);
+        errors = [...value]
+        this.handleResponseMessage('error',
+          `Error: ${err.code}`,
+          err.code == 401? 'You are Not Authorized':
+            value
+        )
+      });
+    } else {
+      this.handleResponseMessage('error',
+        err.code == 0? 'Error: Connection Failed':
+          `Error: ${err.code}`,
+        err.code == 401? 'You are Not Authorized':
+          err.code == 403? 'You Are Not Authenticated':
+          err.code == 400? 'Bad Request' :
+          err.code == 404?  'Not Found or API name is not correct':
+          err.code == 0? 'Please check the Internet':
+          'Unknown Error'
+      )
+    }
+    if (err.code == 401 || err.code == 403) {
+      this.router.navigateByUrl('/auth/login');
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('authTokenBearer');
+    }
   }
 
   formatFormData(body) {
@@ -19,7 +56,6 @@ export class SharedService {
               ele[subKey] && subKey != 'path' ? formDate.append(`${key}[${index}].${subKey}`, ele[subKey]) : EMPTY;
               ele[subKey] === 0 && subKey != 'path' ? formDate.append(`${key}[${index}].${subKey}`, ele[subKey]) : EMPTY;
             }
-
           })
         } else {
           body[key].forEach((ele: any) => {

@@ -87,7 +87,7 @@ export class WhoWeAreComponent implements OnInit{
   }
   getAllLookUps() {
     let query = {
-      filterValue: 10,
+      filterValue: '10',
     }
     this._aboutUsService.getLookUpsApi(query).subscribe({
       next: (res: AllLookups) =>{

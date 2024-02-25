@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './theme/shared/shared.module';
@@ -21,7 +21,10 @@ import { NavSearchComponent } from './view/layout/admin/nav-bar/nav-left/nav-sea
 import { NavigationItem } from './view/layout/admin/navigation/navigation';
 import { ToggleFullScreenDirective } from './theme/shared/components/full-screen/toggle-full-screen';
 import {InterceptorsProvider} from "./core/interceptor/interceptor-index";
-
+import {HttpClient} from "@angular/common/http";
+import {TranslationLoaderService} from "./core/shared/sahred-service/translate-loader.service";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {provideToastr} from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -48,8 +51,20 @@ import {InterceptorsProvider} from "./core/interceptor/interceptor-index";
     ReactiveFormsModule,
     SharedModule,
     BrowserAnimationsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useClass: TranslationLoaderService,
+        deps: [HttpClient],
+      },
+    }),
   ],
-  providers: [NavigationItem, InterceptorsProvider],
+  providers: [
+    NavigationItem,
+    InterceptorsProvider,
+    provideAnimations(), // required animations providers
+    provideToastr(), // Toastr providers]
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,10 +1,12 @@
 export interface AllLookups {
+  message: string
   totalItems: number
   data: AllLookupsData[]
 }
 
 export interface AllLookupsData {
   content: string
+  headlin: string
   id: number
   type: number
   url: string

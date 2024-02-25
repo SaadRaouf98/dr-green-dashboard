@@ -4,6 +4,7 @@ import {AdsListComponent} from './components/ads-list/ads-list.component';
 import {RouterModule, Routes} from "@angular/router";
 import {SharedModule} from "../../../theme/shared/shared.module";
 import {AddAdsComponent} from "./components/add-ads/add-ads.component";
+import {TranslateModule} from "@ngx-translate/core";
 
 const routes: Routes = [
   {
@@ -25,11 +26,12 @@ const routes: Routes = [
     AdsListComponent,
     AddAdsComponent
   ],
-  imports: [
-    RouterModule.forChild(routes),
-    CommonModule,
-    SharedModule
-  ]
+    imports: [
+        RouterModule.forChild(routes),
+        CommonModule,
+        SharedModule,
+        TranslateModule
+    ]
 })
 export class AdsModule {
 }

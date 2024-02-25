@@ -35,7 +35,7 @@
             </div>
             <div class="mx-2">
               <button routerLink="add" class="btn btn-primary mb-0">
-                Add Ads
+                {{ 'AddAds' | translate }}
               </button>
             </div>
           </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="row">
       <div class="col-3 position-relative" *ngFor="let ad of allAds">
-        <div class="dropdown position-absolute" style="font-size: 20px; top: 5px; left: 25px; z-index: 999999"
+        <div class="dropdown position-absolute" style="font-size: 20px; top: 5px; left: 25px; z-index: 1000"
              ngbDropdown placement="bottom-left">
           <a ngbDropdownToggle href="javascript:" data-toggle="dropdown">
             <i class="icon feather icon-more-horizontal text-secondary"></i>

@@ -14,19 +14,23 @@ export class AboutUsService {
   constructor(private _httpClient: HttpClient, private _sharedService : SharedService) {
 
   }
-  // addLookUpsApi(body: any): Observable<any>{
-  //   let formData = this._sharedService.formatFormData(body)
-  //   return this._httpClient.post<any>(`${this.baseUrl}/AddNewLookUp`, formData)
-  // }
+  addLookUpsApi(body: any): Observable<any>{
+    let formData = this._sharedService.formatFormData(body)
+    return this._httpClient.post<any>(`${this.baseUrl}/AddNewLookUp`, formData)
+  }
   updateLookUpsApi(body: any, id: number): Observable<any>{
     let formData = this._sharedService.formatFormData(body)
     return this._httpClient.put<any>(`${this.baseUrl}/EditLookUpById/${id}`, formData)
   }
   getLookUpsApi(query: any): Observable<AllLookups>{
-    return this._httpClient.post<AllLookups>(`${this.baseUrl}/GetAllLookUps`,
-      {}, {params: query})
+    return this._httpClient.post<AllLookups>(`${this.baseUrl}/GetAllLookUps`, query)
   }
   getLookUpsByIdApi(id: number): Observable<EachLookup>{
     return this._httpClient.get<EachLookup>(`${this.baseUrl}/GetLookUpById/${id}`)
+  }
+  deleteApi(id: number): Observable<EachLookup>{
+    let query = []
+    query.push(id)
+    return this._httpClient.post<EachLookup>(`${this.baseUrl}/DeleteLookUpRange`, query)
   }
 }
