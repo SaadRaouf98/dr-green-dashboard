@@ -33,6 +33,12 @@ const routes: Routes = [
       (m) => m.ReviewsModule
     )
   },
+  {
+    path: 'management',
+    loadChildren: () => import('./management/management.module').then(
+      (m) => m.ManagementModule
+    )
+  },
 ]
 
 @NgModule({

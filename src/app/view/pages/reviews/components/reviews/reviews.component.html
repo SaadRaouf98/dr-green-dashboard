@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-6 d-flex justify-content-start align-items-center">
             <span class="me-3">
-              <h6 class="fw-semibold mb-0">All Ads</h6>
+              <h6 class="fw-semibold mb-0">All Reviews</h6>
             </span>
             <label class="d-flex align-items-center mx-2">
               <ng-select [items]="Filters"
@@ -33,7 +33,7 @@
             </div>
             <div class="mx-2">
               <button (click)="open(content, 0)" class="btn btn-primary mb-0">
-                Add Ads
+                Add Reviews
               </button>
             </div>
           </div>
@@ -70,12 +70,19 @@
         </div>
         <div class="card card-border-radius ">
           <div class="ads-cards-img">
-            <img class="w-100 card-border-radius ads-cards"
-                 src="{{domain+'ReviewSectionClientImages/'+ad.imagePath}}" alt="">
+            <video (mouseover)="playVideo($event, 'vid'+ad.id)" (mouseout)="pauseVideo($event, 'vid'+ad.id)" controls
+                   class="vid{{ad.id}} w-100 card-border-radius ads-cards">
+              <source src="{{domain+'ReviewSectionVideos/'+ad.videoPath}}">
+            </video>
           </div>
           <div class="py-3 px-2 text-start">
-            <h6 class="fw-bold">{{ ad.title }}</h6>
-            <p class="mb-0 p-cards">
+            <h6 class="fw-bold mb-0">{{ ad.title }}</h6>
+            <div class="my-3 d-flex justify-content-start align-items-center">
+              <img src="{{domain+'ReviewSectionClientImages/'+ad.imagePath}}"
+                   class="avatar-image" alt="">
+              <span class="text-black mx-2">{{ad.name}}</span>
+            </div>
+            <p class="mb-0 fw-bold p-cards">
               {{ad.review| slice: 0 : 60}} {{ad.review.length > 60? '.....': ''}}
             </p>
           </div>
@@ -198,7 +205,7 @@
                           <h5 class="fw-semibold mb-3">Client’s Video</h5>
                         </div>
                         <div class="d-flex align-items-center" style="overflow: auto; white-space: nowrap;">
-                          <div class="d-flex" style="overflow: auto; white-space: nowrap;">
+                          <div class="d-flex" >
                             <div class="mx-2 position-relative" style="border: 1px solid #eeee; border-radius: 4px"
                                  *ngIf="videos.length > 0">
                               <i *ngIf="isForm" class="position-absolute bx bx-x-circle text-white"

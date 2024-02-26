@@ -1,0 +1,141 @@
+<!--<app-breadcrumb></app-breadcrumb>-->
+
+<form class="row" [formGroup]="addFrom1" (submit)="submit1()">
+  <div class="col-12">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h5 class="fw-semibold mb-3">Our Vision Info</h5>
+          <div class="d-flex">
+            <img height="25" width="24" *ngIf="!isEdit1" (click)="''"
+                 alt="" src="assets/icon/custom-icons/delete.png" class="mx-2 pointer">
+            <img height="25" width="24" *ngIf="!isEdit1" (click)="isEdit1 = true"
+                 alt="" src="assets/icon/custom-icons/edit.png" class="mx-2 pointer">
+          </div>
+        </div>
+        <div class="row px-2" style="{{isEdit1? '' : 'pointer-events: none'}}">
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Headline in English</label>
+            <input type="text" class="form-control" formControlName="HeadlinEr"
+                   [ngClass]="{'is-invalid': (addFrom1.get('HeadlinEr')?.dirty && addFrom1.get('HeadlinEr')?.invalid && addFrom1.get('HeadlinEr')?.touched) ||
+                 (addFrom1.get('HeadlinEr')?.invalid && addFrom1.get('HeadlinEr')?.touched) , 'is-valid': isEdit1 && addFrom1.get('HeadlinEr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Headline in Arabic</label>
+            <input type="text" class="form-control" formControlName="HeadlinAr"
+                   [ngClass]="{'is-invalid': (addFrom1.get('HeadlinAr')?.dirty && addFrom1.get('HeadlinAr')?.invalid && addFrom1.get('HeadlinAr')?.touched) ||
+                 (addFrom1.get('HeadlinAr')?.invalid && addFrom1.get('HeadlinAr')?.touched) , 'is-valid': isEdit1 && addFrom1.get('HeadlinAr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Content in Arabic </label>
+            <textarea rows="15" type="text" class="form-control" formControlName="ContentEn"
+                      [ngClass]="{'is-invalid': (addFrom1.get('ContentEn')?.dirty && addFrom1.get('ContentEn')?.invalid && addFrom1.get('ContentEn')?.touched) ||
+                 (addFrom1.get('ContentEn')?.invalid && addFrom1.get('ContentEn')?.touched) , 'is-valid': isEdit1 && addFrom1.get('ContentEn')?.valid }">
+            </textarea>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Content in Arabic </label>
+            <textarea rows="15" type="text" class="form-control" formControlName="Contentar"
+                      [ngClass]="{'is-invalid': (addFrom1.get('Contentar')?.dirty && addFrom1.get('Contentar')?.invalid && addFrom1.get('Contentar')?.touched) ||
+                 (addFrom1.get('Contentar')?.invalid && addFrom1.get('Contentar')?.touched) , 'is-valid': isEdit1 && addFrom1.get('Contentar')?.valid }">
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 mb-4" *ngIf="isEdit1">
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary me-3" *ngIf="!lookupId1" (click)="add1()">Publish</button>
+      <button class="btn btn-primary me-3" *ngIf="lookupId1" type="submit">Update</button>
+      <button class="btn btn-outline-primary ms-3" (click)="isEdit1 = false">Cancel</button>
+    </div>
+  </div>
+</form>
+<form class="row" [formGroup]="addFrom2" (submit)="submit2()">
+  <div class="col-12">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <h5 class="fw-semibold mb-3">Our Mission Info </h5>
+          <div class="d-flex">
+            <img height="25" width="24" *ngIf="!isEdit2" (click)="''"
+                 alt="" src="assets/icon/custom-icons/delete.png" class="mx-2 pointer">
+            <img height="25" width="24" *ngIf="!isEdit2" (click)="isEdit2 = true"
+                 alt="" src="assets/icon/custom-icons/edit.png" class="mx-2 pointer">
+          </div>
+        </div>
+        <div class="row px-2" style="{{isEdit2? '' : 'pointer-events: none'}}">
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Headline in English</label>
+            <input type="text" class="form-control" formControlName="HeadlinEr"
+                   [ngClass]="{'is-invalid': (addFrom2.get('HeadlinEr')?.dirty && addFrom2.get('HeadlinEr')?.invalid && addFrom2.get('HeadlinEr')?.touched) ||
+                 (addFrom2.get('HeadlinEr')?.invalid && addFrom2.get('HeadlinEr')?.touched) , 'is-valid': isEdit2 && addFrom2.get('HeadlinEr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Headline in Arabic</label>
+            <input type="text" class="form-control" formControlName="HeadlinAr"
+                   [ngClass]="{'is-invalid': (addFrom2.get('HeadlinAr')?.dirty && addFrom2.get('HeadlinAr')?.invalid && addFrom2.get('HeadlinAr')?.touched) ||
+                 (addFrom2.get('HeadlinAr')?.invalid && addFrom2.get('HeadlinAr')?.touched) , 'is-valid': isEdit2 && addFrom2.get('HeadlinAr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Content in Arabic </label>
+            <textarea rows="15" type="text" class="form-control" formControlName="ContentEn"
+                      [ngClass]="{'is-invalid': (addFrom2.get('ContentEn')?.dirty && addFrom2.get('ContentEn')?.invalid && addFrom2.get('ContentEn')?.touched) ||
+                 (addFrom2.get('ContentEn')?.invalid && addFrom2.get('ContentEn')?.touched) , 'is-valid': isEdit2 && addFrom2.get('ContentEn')?.valid }">
+            </textarea>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Content in Arabic </label>
+            <textarea rows="15" type="text" class="form-control" formControlName="Contentar"
+                      [ngClass]="{'is-invalid': (addFrom2.get('Contentar')?.dirty && addFrom2.get('Contentar')?.invalid && addFrom2.get('Contentar')?.touched) ||
+                 (addFrom2.get('Contentar')?.invalid && addFrom2.get('Contentar')?.touched) , 'is-valid': isEdit2 && addFrom2.get('Contentar')?.valid }">
+            </textarea>
+          </div>
+          <div class="col-12 mb-4 row">
+            <div class="col-6 px-0">
+              <div class="position-relative" style="border-radius: 8px">
+                <div class="row">
+                  <div class="col-12 d-flex justify-content-between">
+                    <div class="d-flex align-items-center px-3" style="overflow: auto; white-space: nowrap;">
+                      <h5 class="fw-semibold mb-3">Add Image</h5>
+                    </div>
+                    <div class="d-flex align-items-center" style="overflow: auto; white-space: nowrap;">
+                      <div class="d-flex" style="overflow: auto; white-space: nowrap;">
+                        <div class="mx-2 position-relative" style="border: 1px solid #eeee; border-radius: 4px"
+                             *ngIf="images.length > 0">
+                          <i *ngIf="isEdit2" class="position-absolute bx bx-x-circle text-white"
+                             style="background: red; top: 1px; right: -4px; font-size: 1rem;
+                              border-radius: 50% " (click)="removeImage()"
+                          ></i>
+                          <img class="p-2" width="100" height="100"  [src]="images[0].completePath">
+                        </div>
+                      </div>
+                      <div class="d-flex" *ngIf="images.length == 0" (click)="inputFile.click()"
+                           style="overflow: auto; white-space: nowrap;">
+                        <div class="px-2">
+                          <img width="100" height="100" src="/assets/icon/custom-icons/addImage.png" alt="">
+                        </div>
+                      </div>
+                      <input
+                        style="display: none"
+                        type="file" (change)="onFileChanged($event)"
+                        #inputFile>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12" *ngIf="isEdit2">
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary me-3" *ngIf="!lookupId2" (click)="add2()">Publish</button>
+      <button class="btn btn-primary me-3" *ngIf="lookupId2" type="submit">Update</button>
+      <button class="btn btn-outline-primary ms-3" (click)="isEdit2 = false">Cancel</button>
+    </div>
+  </div>
+</form>

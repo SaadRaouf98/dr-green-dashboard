@@ -146,6 +146,37 @@ const NavigationItems = [
     icon: '/assets/icon/custom-icons/categories.png',
     classes: 'nav-item',
   },
+  {
+    id: 'management',
+    title: 'Management',
+    type: 'group',
+    children: [
+      {
+        id: 'department',
+        title: 'Department',
+        type: 'item',
+        url: '/view/pages/management/departments',
+        icon: '/assets/icon/custom-icons/candle-2-wh.svg',
+        classes: 'nav-item',
+      },
+      // {
+      //   id: 'Who-we-are',
+      //   title: 'Who we are',
+      //   type: 'item',
+      //   url: '/view/pages/about-us',
+      //   icon: '/assets/icon/custom-icons/candle-2-wh.svg',
+      //   classes: 'nav-item',
+      // },
+      // {
+      //   id: 'Who-we-are',
+      //   title: 'Who we are',
+      //   type: 'item',
+      //   url: '/view/pages/about-us',
+      //   icon: '/assets/icon/custom-icons/candle-2-wh.svg',
+      //   classes: 'nav-item',
+      // },
+    ],
+  },
   // {
   //   id: 'packages',
   //   title: 'packages',

@@ -1,0 +1,296 @@
+<div class="card" style="border-radius: 8px">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6 d-flex justify-content-start align-items-center">
+            <span class="me-3">
+              <h6 class="fw-semibold mb-0">All Categories</h6>
+            </span>
+        <label class="d-flex align-items-center mx-2"
+        >
+          <ng-select [items]="Filters"
+                     [clearable]="false"
+                     class="form-control m-0 p-0"
+                     bindLabel="name"
+                     bindValue="id"
+                     [(ngModel)]="selectedFilter">
+          </ng-select>
+        </label>
+        <label class="d-flex align-items-center mx-2"
+        >
+          <ng-select [items]="Groups"
+                     [clearable]="false"
+                     class="form-control m-0 p-0"
+                     bindLabel="name"
+                     bindValue="id"
+                     [(ngModel)]="selectedGroup">
+          </ng-select>
+        </label>
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <div class="mx-2 position-relative w-50 p-1">
+          <i style="right: 6px; top: 10px; cursor: pointer" class="fs-3 bx bx-search position-absolute"></i>
+          <input type="email" class="form-control p-2" placeholder="Search">
+        </div>
+        <div class="mx-2">
+          <button class="btn btn-primary mb-0" (click)="open(content, 0)">
+            Add Categories
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xl-12 col-md-12">
+    <!--    <app-card cardTitle="Users From United States">-->
+    <app-card [hidHeader]="true"
+      cardTitle="Recent Orders"
+      cardClass="Recent-Orders"
+      blockClass="px-0 py-3"
+    >
+      <div class="mx-4">
+        <ngx-datatable
+          [rows]="rowsUsers"
+          [rowHeight]="70"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+          [selected]="selected"
+
+        >
+          <ngx-datatable-column [sortable]="true" name="id" prop="id" [width]="50">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="true" name="Name" prop="nameEn" [width]="50">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="true" name="Publishing Date" prop="datePublished" [width]="20">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i | date: 'fullDate'}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="true" name="Description" prop="descriptionEn" [width]="20">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ i }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="false" name="Status" prop="categoryStatus" [width]="20">
+            <ng-template let-i="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold text-white {{i === 10? 'badge bg-success' : i === 20? 'badge bg-info' : i === 30? 'badge  bg-warning' : ''}} bg-">
+                {{ i === 10? 'Published' : i === 20? 'Scheduled' : i === 30? 'Hidden' : 'Not Found'}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column class="hide-print" name="Action" [width]="40" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex align-items-center col-actions">
+                <div ngbDropdown container="body">
+                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0">
+                    <i class="feather icon-more-horizontal cursor-pointer"></i>
+                  </button>
+                  <div ngbDropdownMenu class="p-0">
+                    <ul class="p-0 m-0">
+                      <li (click)="open(content, 2, row.id)">
+                        <button class="dropdown-item">
+                          <i class="feather icon-eye"></i>
+                          Show
+                        </button>
+                      </li>
+                      <li (click)="open(content, 1, row.id)">
+                        <button class="dropdown-item">
+                          <i class="feather icon-edit"></i>
+                          Edit
+                        </button>
+                      </li>
+                      <li>
+                        <button (click)="deleteCategories(row.id)" class="dropdown-item">
+                          <i class="feather icon-trash"></i>
+                          Delete
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+            >
+              <label class="d-flex align-items-center"
+              >Show
+                <select class="form-control mx-2" [(ngModel)]="selectedOption">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label>
+              <div class="d-flex align-items-center">
+                <ngb-pagination (pageChange)="getCategories($event)"
+                  [collectionSize]="collectionSize" [(page)]="page" [boundaryLinks]="true" />
+              </div>
+              <div class="d-flex align-items-center">
+                <div>
+                  Rows: {{ rowCount }} | Size: {{ pageSize }} | Current:{{ page }}
+                </div>
+              </div>
+
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </app-card>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Category Details</h4>
+    <div class="d-flex">
+      <img *ngIf="modalStatus === 2" (click)="deleteCategories(catId)"
+           alt="" src="assets/icon/custom-icons/delete.png" class="mx-2 pointer">
+      <img *ngIf="modalStatus === 2" (click)="modalStatus = 1"
+           alt="" src="assets/icon/custom-icons/edit.png" class="mx-2 pointer">
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="row" [formGroup]="addFrom" style="{{modalStatus === 2? 'pointer-events: none' : ''}}">
+      <div class="col-12">
+        <div class="row px-2">
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-bold text-black">Title In English</label>
+            <input type="text" class="form-control" formControlName="NameEn"
+                   [ngClass]="{'is-invalid': (addFrom.get('NameEn')?.dirty && addFrom.get('NameEn')?.invalid && addFrom.get('NameEn')?.touched) ||
+                 (addFrom.get('NameEn')?.invalid && addFrom.get('NameEn')?.touched) , 'is-valid': addFrom.get('NameEn')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-bold text-black">Title in Arabic</label>
+            <input type="text" class="form-control" formControlName="NameAr"
+                   [ngClass]="{'is-invalid': (addFrom.get('NameAr')?.dirty && addFrom.get('NameAr')?.invalid && addFrom.get('NameAr')?.touched) ||
+                 (addFrom.get('NameAr')?.invalid && addFrom.get('NameAr')?.touched) , 'is-valid': addFrom.get('NameAr')?.valid }">
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="pe-3">
+                <div class="custom-form-cards">
+                  <div class="p-3">
+                    <div class="col-12 mb-3">
+                      <label class="text-start mb-4 mt-1 fw-bold text-black">Visibility</label>
+                      <fieldset class="form-group">
+                        <div class="row">
+                          <div class="col-sm-9">
+                            <div class="form-check" *ngFor="let status of RadioStatuses">
+                              <input
+                                (change)="radioChanged(status.id)"
+                                class="form-check-input" type="radio"
+                                name="status" id="{{status.name}}"
+                                value="{{status.id}}" [checked]="status.id === statusValue"
+                              />
+                              <label class="form-check-label" for="{{status.name}}"
+                              >{{ status.name }}</label
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </fieldset>
+                    </div>
+                    <div class="col-12 mb-2">
+                      <label class="text-start mb-3 mt-1 fw-bold text-black">Publish Date</label>
+                      <input style="{{statusValue !== 20? 'pointer-events: none; opacity: 60%':''}}" type="date" class="form-control" formControlName="DatePublished"
+                             [ngClass]="{'is-valid': addFrom.get('DatePublished')?.valid && addFrom.get('DatePublished')?.value }">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row">
+              <div class="col-12 mb-4">
+                <div class="custom-form-cards">
+                  <div class="p-3 pt-2">
+                    <label class="text-start mb-3 fw-bold text-black">Category Parent Id</label>
+                    <ng-select [items]="categoriesList" [clearable]="true" bindLabel="nameEn"
+                               bindValue="id" formControlName="CategoryParentId" class="form-control m-0 p-0"
+                               [ngClass]="{'is-valid': addFrom.get('CategoryParentId')?.valid && addFrom.get('CategoryParentId')?.value }"
+                    >
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="custom-form-cards">
+                  <div class="p-3 pt-2 mb-2">
+                    <label class="text-start mb-1 fw-bold text-black">Add Image</label>
+                    <div class="d-flex pt-2"
+                         style="overflow: auto; white-space: nowrap;">
+                      <div class="px-2 pointer" (click)="fileInput.click()">
+                        <img width="74" height="71" src="/assets/icon/custom-icons/addImage.png" alt="">
+                      </div>
+                      <div class="px-2 pointer" (click)="fileInput.click()" *ngIf="images.length === 0">
+                        <img width="74" height="71" src="/assets/icon/custom-icons/addImage.png" alt="">
+                      </div>
+                      <div class="px-2 pointer" (click)="fileInput.click()" *ngIf="images.length === 0">
+                        <img width="74" height="71" src="/assets/icon/custom-icons/addImage.png" alt="">
+                      </div>
+                      <div class="mx-2 position-relative" style="border: 1px solid #eeee; border-radius: 4px"
+                           *ngFor="let img of images; index as i">
+                        <i *ngIf="modalStatus === 0 || modalStatus === 1" class="position-absolute bx bx-x-circle text-white"
+                           style="background: red; top: -3px; right: -3px; font-size: 1rem;
+                            border-radius: 50% " (click)="img.completePath.startsWith('http')? deleteImage(img.path, i): removeImage(i)"
+                        ></i>
+                        <img class="p-2" width="74" height="71" [src]="img.completePath" alt="">
+                      </div>
+                    </div>
+                    <input
+                      style="display: none"
+                      type="file" (change)="onFileChanged($event)"
+                      #inputFile multiple>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 my-3">
+            <label class="text-start mb-1 fw-bold text-black">Description In English</label>
+            <textarea class="form-control" formControlName="DescriptionEn"
+                      [ngClass]="{'is-invalid': (addFrom.get('DescriptionEn')?.dirty && addFrom.get('DescriptionEn')?.invalid && addFrom.get('DescriptionEn')?.touched) ||
+                 (addFrom.get('DescriptionEn')?.invalid && addFrom.get('DescriptionEn')?.touched) , 'is-valid': addFrom.get('DescriptionEn')?.valid }"></textarea>
+
+          </div>
+          <div class="col-6 my-3">
+            <label class="text-start mb-1 fw-bold text-black">Description In Arabic</label>
+            <textarea class="form-control" formControlName="DescriptionAr"
+                      [ngClass]="{'is-invalid': (addFrom.get('DescriptionAr')?.dirty && addFrom.get('DescriptionAr')?.invalid && addFrom.get('DescriptionAr')?.touched) ||
+                 (addFrom.get('DescriptionAr')?.invalid && addFrom.get('DescriptionAr')?.touched) , 'is-valid': addFrom.get('DescriptionAr')?.valid }"></textarea>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-4" *ngIf="modalStatus !== 2">
+        <div class="d-flex justify-content-center">
+          <button *ngIf="modalStatus === 0 || modalStatus === 1" class="btn btn-outline-primary"
+                  (click)="modal.dismiss('Cross click')">Cancel
+          </button>
+          <button *ngIf="modalStatus === 0" class="btn btn-primary" (click)="submit()">Publish</button>
+          <button *ngIf="modalStatus === 1" class="btn btn-primary" (click)="submit()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

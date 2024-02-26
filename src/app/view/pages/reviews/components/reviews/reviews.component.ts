@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, inject, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {environment as env} from "../../../../../../environments/environment";
@@ -47,6 +47,25 @@ export class ReviewsComponent implements OnInit {
     {id: 50, name: '50'},
   ];
 
+  playVideo(e: any, id: string): void {
+    console.log(id)
+    const video = this.getVideoElement(id);
+    if (video) {
+      video.play();
+    }
+  }
+
+  pauseVideo(e: any, id: string): void {
+    const video = this.getVideoElement(id);
+    if (video) {
+      video.pause();
+    }
+  }
+
+  private getVideoElement(id: string): HTMLVideoElement | null {
+    return document.querySelector(id);
+  }
+
   constructor(
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
@@ -73,9 +92,7 @@ export class ReviewsComponent implements OnInit {
   }
 
   getAllReview() {
-    let query = {
-
-    }
+    let query = {}
     this._reviewsService.getAllReviews(query).subscribe({
       next: (res: Reviews) => {
         this.allLookupsData = res['data']
@@ -93,7 +110,7 @@ export class ReviewsComponent implements OnInit {
         this.getAllReview()
         this.modalService.dismissAll()
       },
-      error: (err: ErrorInterface)=> {
+      error: (err: ErrorInterface) => {
         this._sharedService.handleError(err)
       }
     })
@@ -112,6 +129,7 @@ export class ReviewsComponent implements OnInit {
       }
     }
   }
+
   onVidFileChanged(event: any) {
     if (event.target.files && event.target.files[0]) {
       let filesAmount = event.target.files.length;
@@ -143,8 +161,14 @@ export class ReviewsComponent implements OnInit {
         })
         this.removeImage()
         this.removeVideo()
-        this.images.push({completePath: this.domain + 'ReviewSectionClientImages/' + res.data.imagePath, path: res.data.imagePath})
-        this.videos.push({completePath: this.domain + 'ReviewSectionVideos/' + res.data.videoPath, path: res.data.videoPath})
+        this.images.push({
+          completePath: this.domain + 'ReviewSectionClientImages/' + res.data.imagePath,
+          path: res.data.imagePath
+        })
+        this.videos.push({
+          completePath: this.domain + 'ReviewSectionVideos/' + res.data.videoPath,
+          path: res.data.videoPath
+        })
       }
     })
   }
@@ -154,6 +178,7 @@ export class ReviewsComponent implements OnInit {
     this.images.splice(0, this.images.length)
     this.ImageInput.nativeElement.value = '';
   }
+
   removeVideo() {
     this.videoFiles.splice(0, this.videoFiles.length)
     this.videos.splice(0, this.videos.length)
@@ -164,7 +189,7 @@ export class ReviewsComponent implements OnInit {
   submit() {
     this.addFrom.get('Image').patchValue(this.imageFiles);
     this.addFrom.get('Video').patchValue(this.videoFiles);
-    if (this.modalStatus == 0){
+    if (this.modalStatus == 0) {
       this._reviewsService.addReviewsApi(this.addFrom.value).subscribe({
         next: (res) => {
           this._sharedService.handleResponseMessage('success', 'Reviews', 'Review has been added successfully')
@@ -175,7 +200,7 @@ export class ReviewsComponent implements OnInit {
           console.log(err)
         },
       })
-    } else if (this.modalStatus == 1){
+    } else if (this.modalStatus == 1) {
       this._reviewsService.updateReviewApi(this.addFrom.value, this.valueId).subscribe({
         next: (res) => {
           this.getAllReview()
@@ -200,7 +225,7 @@ export class ReviewsComponent implements OnInit {
 
   open(content: any, modalStatus: number, id?: number) {
     this.modalService.open(content, {centered: true, size: 'lg', ariaLabelledBy: 'modal-basic-title'})
-    modalStatus == 0? this.isForm = true : modalStatus == 1? this.isForm = true : this.isForm = false
+    modalStatus == 0 ? this.isForm = true : modalStatus == 1 ? this.isForm = true : this.isForm = false
     if (modalStatus === 1 || modalStatus === 2) {
       this.getLookUpsById(id)
     } else {

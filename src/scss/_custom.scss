@@ -219,3 +219,20 @@ li {
   font-weight: 400 !important;
   font-size: 12px;
 }
+.avatar-image{
+  border: $secondary-color solid 1px;
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  aspect-ratio: auto 32 / 32;
+}
+.video-container {
+  width: 300px; /* Adjust the width as needed */
+  height: auto;
+}
+
+//video {
+//  width: 100%;
+//  height: auto;
+//  cursor: pointer;
+//}
