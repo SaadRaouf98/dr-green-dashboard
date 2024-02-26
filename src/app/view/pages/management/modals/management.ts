@@ -1,28 +1,21 @@
-export interface AllLookups {
-  message: string
+export interface Departments {
+  statusCode: number
   totalItems: number
-  data: AllLookupsData[]
+  success: boolean
+  message: any
+  data: AllDepartmentData[]
 }
 
-export interface AllLookupsData {
-  content: string
-  headlin: string
+export interface AllDepartmentData {
   id: number
-  type: number
-  url: string
+  name: string
+  isActive: boolean
+  positions: Position[]
 }
 
-export interface EachLookup {
-  data: EachLookupData
-}
-
-export interface EachLookupData {
+export interface Position {
   id: number
-  headlinEr: string
-  headlinAr: string
-  contentEn: string
-  contentar: string
-  type: number
-  file: any
-  url: any
+  name?: string
+  isActive: boolean
+  departmentId: number
 }

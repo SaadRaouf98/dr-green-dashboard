@@ -1,12 +1,10 @@
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {ColumnMode, DatatableComponent} from "@swimlane/ngx-datatable";
-import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AdsService} from "../../../ads/services/ads.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {environment as env} from "../../../../../../environments/environment";
-import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
-import {CategoriesService} from "../../../categories/services/categories.service";
-import {Categories, CategoriesData, CategoriesList, CategoriesListData} from "../../../categories/modals/categories";
+import {ManagementService} from "../../services/management.service";
+import {AllDepartmentData, Departments} from "../../modals/management";
 
 @Component({
   selector: 'app-departments',
@@ -17,7 +15,7 @@ export class DepartmentsComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild('inputFile') fileInput: any;
   domain = env.domainUrl
-  addFrom: FormGroup
+  addForm: FormGroup
   page = 1;
   statusValue: any = 10
   modalStatus: any = 10
@@ -25,9 +23,9 @@ export class DepartmentsComponent implements OnInit {
   files: any[] = []
   images: any[] = []
   protected readonly ColumnMode = ColumnMode;
-  rowsUsers: CategoriesData[];
+  rowsUsers: AllDepartmentData[];
   collectionSize: any;
-  categoriesList: CategoriesListData[];
+  // categoriesList: CategoriesListData[];
   filters: any;
   public selectedOption = 10;
   selected: any = []
@@ -58,21 +56,33 @@ export class DepartmentsComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _categoriesService: CategoriesService,
+    private _managementService: ManagementService,
   ) {
-    this.addFrom = this._formBuilder.group({
-      Id: ['', Validators.required],
-      NameAr: ['', Validators.required],
-      NameEn: ['', Validators.required],
-      DescriptionEn: ['', Validators.required],
-      DescriptionAr: ['', Validators.required],
-      CategoryStatus: ['', Validators.required],
-      CategoryParentId: [''],
-      DatePublished: [''],
-      Files: [''],
+    this.addForm = this._formBuilder.group({
+      id: ['', Validators.required],
+      nameAr: ['', Validators.required],
+      nameEn: ['', Validators.required],
+      isActive: ['', Validators.required],
+      positions: this._formBuilder.array([this.initForm()]),
     })
   }
+  initForm() {
+    return this._formBuilder.group({
+      id: ['', Validators.required],
+      nameAr: ['', Validators.required],
+      nameEn: ['', Validators.required]
+    });
+  }
+  get projectPossibilityTasks() {
+    return this.addForm.controls["positions"] as FormArray;
+  }
+  addInitForm() {
+    this.projectPossibilityTasks.push(this.initForm());
+  }
 
+  deleteForm(index: number) {
+    this.projectPossibilityTasks.removeAt(index);
+  }
   ngOnInit() {
     this.getCategories(1)
     this.getCategoriesForList()
@@ -96,7 +106,7 @@ export class DepartmentsComponent implements OnInit {
 
   radioChanged(event: any) {
     this.statusValue = event
-    event !== 20 ? this.addFrom.get('DatePublished').reset() : '';
+    event !== 20 ? this.addForm.get('DatePublished').reset() : '';
   }
 
   removeImage(index: number) {
@@ -106,11 +116,11 @@ export class DepartmentsComponent implements OnInit {
   }
 
   deleteImage(path: string, index: number) {
-    this._categoriesService.deleteImagesApi(path).subscribe({
-      next: res => {
-        this.getCategoriesById()
-      }
-    })
+    // this._managementService.deleteImagesApi(path).subscribe({
+    //   next: res => {
+    //     this.getCategoriesById()
+    //   }
+    // })
     this.images.splice(index, 1)
   }
 
@@ -120,8 +130,8 @@ export class DepartmentsComponent implements OnInit {
       pageNumber: pageNumber,
       pageSize: 10,
     }
-    this._categoriesService.getCategoriesApi(query).subscribe({
-      next: (res: Categories) => {
+    this._managementService.getDepartmentsApi(query).subscribe({
+      next: (res: Departments) => {
         this.rowsUsers = res.data
         this.collectionSize = res.totalItems
       }
@@ -129,80 +139,80 @@ export class DepartmentsComponent implements OnInit {
   }
 
   getCategoriesForList() {
-    this._categoriesService.getCategoriesForListApi().subscribe({
-      next: (res: CategoriesList)=> {
-        this.categoriesList = res.data
-      }
-    })
+    // this._managementService.getCategoriesForListApi().subscribe({
+    //   next: (res: CategoriesList)=> {
+    //     this.categoriesList = res.data
+    //   }
+    // })
   }
 
   deleteCategories(id: number) {
-    this._categoriesService.deleteCategoriesApi(id).subscribe({
-      next: res => {
-        this.ngOnInit()
-      }
-    })
+    // this._managementService.deleteCategoriesApi(id).subscribe({
+    //   next: res => {
+    //     this.ngOnInit()
+    //   }
+    // })
   }
 
   getCategoriesById() {
-    this._categoriesService.getCategoriesByIdApi(this.catId).subscribe({
-      next: res => {
-        this.addFrom.patchValue({
-          Id: this.catId,
-          NameAr: res.data.nameAr,
-          NameEn: res.data.nameEn,
-          DescriptionAr: res.data.descriptionAr,
-          DescriptionEn: res.data.descriptionEn,
-          CategoryStatus: res.data.categoryStatus,
-          CategoryParentId: res.data.categoryParentId,
-          DatePublished: res.data.datePublished? res.data.datePublished.slice(0, 10) : '',
-        })
-        this.statusValue = res.data.categoryStatus
-        if (res.data.categoryImages.length){
-          res.data.categoryImages.forEach((ele: any) => {
-            let status = this.images.findIndex((elem)=> elem?.path === ele)
-            if (status === -1){
-              this.images.push({completePath: this.domain + 'CategoriesImages/' + ele, path: ele})
-            }
-          })
-        }
-      }
-    })
+    // this._managementService.getCategoriesByIdApi(this.catId).subscribe({
+    //   next: res => {
+    //     this.addForm.patchValue({
+    //       Id: this.catId,
+    //       NameAr: res.data.nameAr,
+    //       NameEn: res.data.nameEn,
+    //       DescriptionAr: res.data.descriptionAr,
+    //       DescriptionEn: res.data.descriptionEn,
+    //       CategoryStatus: res.data.categoryStatus,
+    //       CategoryParentId: res.data.categoryParentId,
+    //       DatePublished: res.data.datePublished? res.data.datePublished.slice(0, 10) : '',
+    //     })
+    //     this.statusValue = res.data.categoryStatus
+    //     if (res.data.categoryImages.length){
+    //       res.data.categoryImages.forEach((ele: any) => {
+    //         let status = this.images.findIndex((elem)=> elem?.path === ele)
+    //         if (status === -1){
+    //           this.images.push({completePath: this.domain + 'CategoriesImages/' + ele, path: ele})
+    //         }
+    //       })
+    //     }
+    //   }
+    // })
   }
 
   resetForm() {
     this.fileInput.nativeElement.value = '';
     this.images.splice(0, this.images.length)
     this.files.splice(0, this.files.length)
-    this.addFrom.reset()
+    this.addForm.reset()
     this.statusValue = 10
   }
 
   submit() {
-    this.addFrom.get('CategoryStatus').patchValue(this.statusValue)
-    this.addFrom.get('Files').patchValue(this.files)
-    if (this.modalStatus == 0) {
-      this._categoriesService.addCategoriesApi(this.addFrom.value).subscribe({
-        next: (res) => {
-          this.ngOnInit()
-          this.resetForm()
-          this.modalService.dismissAll()
-        },
-        error: (err) => {
-        },
-      })
-    } else if (this.modalStatus == 1) {
-      this._categoriesService.updateCategoriesApi(this.addFrom.value, this.catId).subscribe({
-        next: (res) => {
-          this.ngOnInit()
-          this.resetForm()
-          this.modalService.dismissAll()
-        },
-        error: (err) => {
-          console.log(err)
-        },
-      })
-    }
+    this.addForm.get('CategoryStatus').patchValue(this.statusValue)
+    this.addForm.get('Files').patchValue(this.files)
+    // if (this.modalStatus == 0) {
+    //   this._managementService.addCategoriesApi(this.addForm.value).subscribe({
+    //     next: (res) => {
+    //       this.ngOnInit()
+    //       this.resetForm()
+    //       this.modalService.dismissAll()
+    //     },
+    //     error: (err) => {
+    //     },
+    //   })
+    // } else if (this.modalStatus == 1) {
+    //   this._managementService.updateCategoriesApi(this.addForm.value, this.catId).subscribe({
+    //     next: (res) => {
+    //       this.ngOnInit()
+    //       this.resetForm()
+    //       this.modalService.dismissAll()
+    //     },
+    //     error: (err) => {
+    //       console.log(err)
+    //     },
+    //   })
+    // }
   }
 
   open(content: any, modalStatus: number, id?: number) {
