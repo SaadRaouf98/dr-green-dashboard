@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
+import {inject, Injectable} from "@angular/core";
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
-import {Router} from "@angular/router";
 import {SharedService} from "../shared/sahred-service/shared.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
+  private _sharedService = inject(SharedService)
 
   intercept(
     req: HttpRequest<any>,
@@ -20,14 +20,12 @@ export class ErrorInterceptor implements HttpInterceptor {
             return throwError(applicationError);
           }
           const ServerError: any[] = error.error?.errors || [];
-          let errors: any[] = ServerError;
-
-          return throwError(
-            {
-              code: error.status,
-              errors: errors,
-            } || 'serverError'
-          );
+          const obj = {
+            code: error.status,
+            errors: ServerError,
+          }
+          this._sharedService.handleError(obj)
+          return throwError(obj || 'serverError');
         }
         return throwError(errorMessage);
       })

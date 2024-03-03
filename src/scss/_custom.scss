@@ -230,7 +230,24 @@ li {
   width: 300px; /* Adjust the width as needed */
   height: auto;
 }
-
+.btn{
+  border-radius: 0.8rem !important;
+}
+.switch.switch-medium small {
+  width: 16px !important;
+  height: 16px !important;
+  top: 3px !important;
+  right: calc(100% - 20px) !important;
+}
+.switch.checked small {
+  top: 3px !important;
+  right: 4px !important;
+  left: auto !important;
+}
+.switch.switch-medium {
+  height: 25px !important;
+  min-width: 42px !important;
+}
 //video {
 //  width: 100%;
 //  height: auto;

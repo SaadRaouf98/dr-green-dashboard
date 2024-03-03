@@ -3,6 +3,7 @@ import {EMPTY} from "rxjs";
 import {ErrorInterface} from "../../interceptor/error.interface";
 import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
+import {FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -70,5 +71,25 @@ export class SharedService {
       }
     }
     return formDate
+  }
+  formatBody(body) {
+    for (const key in body) {
+      if (Array.isArray(body[key]) && body[key].length > 0) {
+        if (Object?.keys(body[key][0])?.length > 1) {
+          body[key].forEach((ele: any, index: number) => {
+            for (const subKey in ele) {
+              if (!ele[subKey]){
+                delete ele[subKey]
+              }
+            }
+          })
+        }
+      } else {
+        if (!body[key]){
+          delete body[key]
+        }
+      }
+    }
+    return body
   }
 }

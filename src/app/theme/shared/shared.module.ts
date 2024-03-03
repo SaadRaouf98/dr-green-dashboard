@@ -21,6 +21,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {SharedService} from "../../core/shared/sahred-service/shared.service";
 import {provideToastr, ToastrModule, ToastrService} from "ngx-toastr";
 import {provideAnimations} from "@angular/platform-browser/animations";
+import {UiSwitchModule} from "ngx-ui-switch";
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import {provideAnimations} from "@angular/platform-browser/animations";
     NgbDropdownMenu,
     HttpClientModule,
     NgbDatepickerModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    UiSwitchModule
   ],
   exports: [
     CommonModule,
@@ -64,6 +66,7 @@ import {provideAnimations} from "@angular/platform-browser/animations";
     NgbDropdownMenu,
     HttpClientModule,
     NgbDatepickerModule,
+    UiSwitchModule,
   ],
   providers: [
     // SharedService,

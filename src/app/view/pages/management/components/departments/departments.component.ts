@@ -5,6 +5,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {environment as env} from "../../../../../../environments/environment";
 import {ManagementService} from "../../services/management.service";
 import {AllDepartmentData, Departments} from "../../modals/management";
+import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
 
 @Component({
   selector: 'app-departments',
@@ -19,9 +20,7 @@ export class DepartmentsComponent implements OnInit {
   page = 1;
   statusValue: any = 10
   modalStatus: any = 10
-  catId: any = 10
-  files: any[] = []
-  images: any[] = []
+  departmentId: any = 10
   protected readonly ColumnMode = ColumnMode;
   rowsUsers: AllDepartmentData[];
   collectionSize: any;
@@ -30,11 +29,6 @@ export class DepartmentsComponent implements OnInit {
   public selectedOption = 10;
   selected: any = []
   cards: any
-  RadioStatuses = [
-    {id: 10, name: 'Published'},
-    {id: 20, name: 'Scheduled'},
-    {id: 30, name: 'Hidden'},
-  ];
   Filters = [
     {id: 1, name: 'Today'},
     {id: 2, name: 'Tomorrow'},
@@ -59,69 +53,33 @@ export class DepartmentsComponent implements OnInit {
     private _managementService: ManagementService,
   ) {
     this.addForm = this._formBuilder.group({
-      id: ['', Validators.required],
-      nameAr: ['', Validators.required],
-      nameEn: ['', Validators.required],
-      isActive: ['', Validators.required],
-      positions: this._formBuilder.array([this.initForm()]),
+      Id: ['', Validators.required],
+      NameAr: ['', Validators.required],
+      NameEn: ['', Validators.required],
+      IsActive: [false, Validators.required],
+      Positions: this._formBuilder.array([]),
     })
   }
-  initForm() {
+  initPositionForm() {
     return this._formBuilder.group({
-      id: ['', Validators.required],
-      nameAr: ['', Validators.required],
-      nameEn: ['', Validators.required]
+      Id: ['', Validators.required],
+      Name: ['', Validators.required],
     });
   }
-  get projectPossibilityTasks() {
-    return this.addForm.controls["positions"] as FormArray;
+
+  get positionForm() {
+    return this.addForm.controls["Positions"] as FormArray;
   }
   addInitForm() {
-    this.projectPossibilityTasks.push(this.initForm());
+    this.positionForm.push(this.initPositionForm());
   }
 
   deleteForm(index: number) {
-    this.projectPossibilityTasks.removeAt(index);
+    this.positionForm.removeAt(index);
   }
   ngOnInit() {
     this.getCategories(1)
     this.getCategoriesForList()
-  }
-
-
-  onFileChanged(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      let filesAmount = event.target.files.length;
-      for (let i = 0; i < filesAmount; i++) {
-        let reader = new FileReader();
-        this.files.push(event.target.files.item(i));
-        reader.onload = (event: any) => {
-          this.images.push({path: event.target.result, completePath: event.target.result});
-        };
-        reader.readAsDataURL(event.target.files[i]);
-      }
-      // this.cd.markForCheck();
-    }
-  }
-
-  radioChanged(event: any) {
-    this.statusValue = event
-    event !== 20 ? this.addForm.get('DatePublished').reset() : '';
-  }
-
-  removeImage(index: number) {
-    this.fileInput.nativeElement.value = '';
-    this.files.splice(index, 1)
-    this.images.splice(index, 1)
-  }
-
-  deleteImage(path: string, index: number) {
-    // this._managementService.deleteImagesApi(path).subscribe({
-    //   next: res => {
-    //     this.getCategoriesById()
-    //   }
-    // })
-    this.images.splice(index, 1)
   }
 
   getCategories(pageNumber?: any) {
@@ -155,70 +113,59 @@ export class DepartmentsComponent implements OnInit {
   }
 
   getCategoriesById() {
-    // this._managementService.getCategoriesByIdApi(this.catId).subscribe({
-    //   next: res => {
-    //     this.addForm.patchValue({
-    //       Id: this.catId,
-    //       NameAr: res.data.nameAr,
-    //       NameEn: res.data.nameEn,
-    //       DescriptionAr: res.data.descriptionAr,
-    //       DescriptionEn: res.data.descriptionEn,
-    //       CategoryStatus: res.data.categoryStatus,
-    //       CategoryParentId: res.data.categoryParentId,
-    //       DatePublished: res.data.datePublished? res.data.datePublished.slice(0, 10) : '',
-    //     })
-    //     this.statusValue = res.data.categoryStatus
-    //     if (res.data.categoryImages.length){
-    //       res.data.categoryImages.forEach((ele: any) => {
-    //         let status = this.images.findIndex((elem)=> elem?.path === ele)
-    //         if (status === -1){
-    //           this.images.push({completePath: this.domain + 'CategoriesImages/' + ele, path: ele})
-    //         }
-    //       })
-    //     }
-    //   }
-    // })
+    this._managementService.getDepartmentByIdApi(this.departmentId).subscribe({
+      next: res => {
+        this.addForm.patchValue({
+          Id: this.departmentId,
+          NameAr: res.data.nameAr,
+          NameEn: res.data.nameEn,
+          IsActive: res.data.isActive,
+        })
+        res.data.positions.forEach((ele: any, index)=>{
+          this.addInitForm()
+          this.positionForm.controls[index].patchValue({
+            Id: ele.id,
+            Name: ele.name,
+          })
+        })
+        console.log(res.data.positions)
+      }
+    })
   }
 
   resetForm() {
-    this.fileInput.nativeElement.value = '';
-    this.images.splice(0, this.images.length)
-    this.files.splice(0, this.files.length)
     this.addForm.reset()
-    this.statusValue = 10
   }
 
   submit() {
-    this.addForm.get('CategoryStatus').patchValue(this.statusValue)
-    this.addForm.get('Files').patchValue(this.files)
-    // if (this.modalStatus == 0) {
-    //   this._managementService.addCategoriesApi(this.addForm.value).subscribe({
-    //     next: (res) => {
-    //       this.ngOnInit()
-    //       this.resetForm()
-    //       this.modalService.dismissAll()
-    //     },
-    //     error: (err) => {
-    //     },
-    //   })
-    // } else if (this.modalStatus == 1) {
-    //   this._managementService.updateCategoriesApi(this.addForm.value, this.catId).subscribe({
-    //     next: (res) => {
-    //       this.ngOnInit()
-    //       this.resetForm()
-    //       this.modalService.dismissAll()
-    //     },
-    //     error: (err) => {
-    //       console.log(err)
-    //     },
-    //   })
-    // }
+    if (this.modalStatus == 0) {
+      this._managementService.addDepartmentApi(this.addForm.value).subscribe({
+        next: (res) => {
+          this.ngOnInit()
+          this.modalService.dismissAll()
+        },
+        error: (err) => {
+        },
+      })
+    } else if (this.modalStatus == 1) {
+      this._managementService.updateDepartmentApi(this.addForm.value, this.departmentId).subscribe({
+        next: (res) => {
+          this.ngOnInit()
+          this.resetForm()
+          this.modalService.dismissAll()
+        },
+        error: (err) => {
+          console.log(err)
+        },
+      })
+    }
   }
 
   open(content: any, modalStatus: number, id?: number) {
+    this.resetForm()
+    this.initPositionForm()
     this.modalStatus = modalStatus
-    this.catId = id
-    // this.resetForm()
+    this.departmentId = id
     if (modalStatus === 1 || modalStatus === 2) {
       this.getCategoriesById()
     }

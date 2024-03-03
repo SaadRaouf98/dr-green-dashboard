@@ -73,9 +73,6 @@ export class OurValueComponent implements OnInit {
       next: (res: AllLookups) => {
         this.allLookupsData = res['data']
       },
-      error: (err: ErrorInterface) => {
-        this._sharedService.handleError(err)
-      }
     })
   }
 
@@ -85,9 +82,6 @@ export class OurValueComponent implements OnInit {
         this._sharedService.handleResponseMessage('success', 'Delete', 'The Value Deleted Successfully')
         this.getAllLookUps()
         this.modalService.dismissAll()
-      },
-      error: (err: ErrorInterface)=> {
-        this._sharedService.handleError(err)
       }
     })
   }
@@ -158,11 +152,11 @@ export class OurValueComponent implements OnInit {
   }
 
   resetForm() {
-    this.addFrom.reset()
-    this.files.splice(0, this.files.length)
-    this.images.splice(0, this.images.length)
+    this.addFrom.reset();
+    this.files.splice(0, this.files.length);
+    this.images.splice(0, this.images.length);
     this.FileInput.nativeElement.value = '';
-    this.addFrom.get('Type').patchValue('40')
+    this.addFrom.get('Type').patchValue('40');
   }
 
   open(content: any, modalStatus: number, id?: number) {

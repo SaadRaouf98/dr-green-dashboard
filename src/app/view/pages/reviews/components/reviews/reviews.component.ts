@@ -96,9 +96,6 @@ export class ReviewsComponent implements OnInit {
     this._reviewsService.getAllReviews(query).subscribe({
       next: (res: Reviews) => {
         this.allLookupsData = res['data']
-      },
-      error: (err: ErrorInterface) => {
-        this._sharedService.handleError(err)
       }
     })
   }
@@ -109,9 +106,6 @@ export class ReviewsComponent implements OnInit {
         this._sharedService.handleResponseMessage('success', 'Delete', 'The Value Deleted Successfully')
         this.getAllReview()
         this.modalService.dismissAll()
-      },
-      error: (err: ErrorInterface) => {
-        this._sharedService.handleError(err)
       }
     })
   }

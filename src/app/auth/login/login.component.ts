@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('currentUser', JSON.stringify(res.user))
         this.router.navigateByUrl('/');
       },
-      error: (err: ErrorInterface) => {
-        this._sharedService.handleError(err)
-      },
+      // error: (err: ErrorInterface) => {
+      //   this._sharedService.handleError(err)
+      // },
       complete: () => {
 
       }
