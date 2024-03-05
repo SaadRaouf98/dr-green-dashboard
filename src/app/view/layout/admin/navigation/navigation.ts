@@ -130,6 +130,22 @@ const NavigationItems = [
     icon: '/assets/icon/custom-icons/reviews.png',
     classes: 'nav-item',
   },
+  {
+    id: 'recommended-meals',
+    title: 'Recommended Meals',
+    type: 'item',
+    url: '/view/pages/recommended-meals',
+    icon: '/assets/icon/custom-icons/recommended-meals.png',
+    classes: 'nav-item',
+  },
+  {
+    id: 'training-video',
+    title: 'Training Video',
+    type: 'item',
+    url: '/view/pages/training-video',
+    icon: '/assets/icon/custom-icons/training-video.png',
+    classes: 'nav-item',
+  },
   // {
   //   id: 'invoices',
   //   title: 'invoices',

@@ -20,8 +20,8 @@ export class ManagementService {
     return this._httpClient.post<any>(`${this.baseUrl}Department/AddNewDepartment`, formBody)
   }
   updateDepartmentApi(body: any, id: number): Observable<any>{
-    // let formData = this._sharedService.formatFormData(body)
-    return this._httpClient.put<any>(`${this.baseUrl}Department/EditLookUpById/${id}`, body)
+    let formBody = this._sharedService.formatBody(body)
+    return this._httpClient.put<any>(`${this.baseUrl}Department/EditDepartmentById/${id}`, formBody)
   }
   getDepartmentsApi(query: any): Observable<Departments>{
     return this._httpClient.post<Departments>(`${this.baseUrl}Department/GetAllDepartments`, query)
@@ -29,9 +29,15 @@ export class ManagementService {
   getDepartmentByIdApi(id: number): Observable<EachDepartment>{
     return this._httpClient.get<EachDepartment>(`${this.baseUrl}Department/GetDepartmentById/${id}`)
   }
-  deleteDepartmentApiApi(id: number): Observable<any>{
+  deleteDepartmentApi(id: number): Observable<any>{
     let query = []
     query.push(id)
-    return this._httpClient.post<any>(`${this.baseUrl}Department/DeleteLookUpRange`, query)
+    return this._httpClient.post<any>(`${this.baseUrl}Department/DeleteRange`, query)
+  }
+  deletePositionApi(id: number): Observable<any>{
+    return this._httpClient.delete<any>(`${this.baseUrl}Department/DeletePositionFromDepartmentById/${id}`)
+  }
+  changeStatusApi(id: number): Observable<any>{
+    return this._httpClient.post<any>(`${this.baseUrl}Department/ToggleDepartmentStatusIsActive/${id}`, {})
   }
 }

@@ -4,7 +4,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {environment as env} from "../../../../../../environments/environment";
 import {ManagementService} from "../../services/management.service";
-import {AllDepartmentData, Departments} from "../../modals/management";
+import {AllDepartmentData, Department, Departments} from "../../modals/management";
 import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
 
 @Component({
@@ -21,6 +21,7 @@ export class DepartmentsComponent implements OnInit {
   statusValue: any = 10
   modalStatus: any = 10
   departmentId: any = 10
+  departmentData: Department
   protected readonly ColumnMode = ColumnMode;
   rowsUsers: AllDepartmentData[];
   collectionSize: any;
@@ -66,7 +67,9 @@ export class DepartmentsComponent implements OnInit {
       Name: ['', Validators.required],
     });
   }
-
+  ngOnInit() {
+    this.getDepartments(this.page)
+  }
   get positionForm() {
     return this.addForm.controls["Positions"] as FormArray;
   }
@@ -77,12 +80,25 @@ export class DepartmentsComponent implements OnInit {
   deleteForm(index: number) {
     this.positionForm.removeAt(index);
   }
-  ngOnInit() {
-    this.getCategories(1)
-    this.getCategoriesForList()
+  deletePosition(id: number) {
+    this._managementService.deletePositionApi(id).subscribe({
+      next: res => {
+        this.resetForm()
+        this.getDepartments()
+        this.getDepartmentById()
+      }
+    })
+  }
+  changeStatus(id: number) {
+    this._managementService.changeStatusApi(id).subscribe({
+      next: res => {
+        this.getDepartments(this.page)
+      }
+    })
   }
 
-  getCategories(pageNumber?: any) {
+
+  getDepartments(pageNumber?: any) {
     this.page = pageNumber
     let query = {
       pageNumber: pageNumber,
@@ -96,23 +112,16 @@ export class DepartmentsComponent implements OnInit {
     })
   }
 
-  getCategoriesForList() {
-    // this._managementService.getCategoriesForListApi().subscribe({
-    //   next: (res: CategoriesList)=> {
-    //     this.categoriesList = res.data
-    //   }
-    // })
+  deleteDepartment(id: number) {
+    this._managementService.deleteDepartmentApi(id).subscribe({
+      next: res => {
+        this.getDepartments()
+        this.modalService.dismissAll()
+      }
+    })
   }
 
-  deleteCategories(id: number) {
-    // this._managementService.deleteCategoriesApi(id).subscribe({
-    //   next: res => {
-    //     this.ngOnInit()
-    //   }
-    // })
-  }
-
-  getCategoriesById() {
+  getDepartmentById() {
     this._managementService.getDepartmentByIdApi(this.departmentId).subscribe({
       next: res => {
         this.addForm.patchValue({
@@ -128,20 +137,20 @@ export class DepartmentsComponent implements OnInit {
             Name: ele.name,
           })
         })
-        console.log(res.data.positions)
       }
     })
   }
 
   resetForm() {
     this.addForm.reset()
+    this.positionForm.clear()
   }
 
   submit() {
     if (this.modalStatus == 0) {
       this._managementService.addDepartmentApi(this.addForm.value).subscribe({
         next: (res) => {
-          this.ngOnInit()
+          this.getDepartments()
           this.modalService.dismissAll()
         },
         error: (err) => {
@@ -150,8 +159,7 @@ export class DepartmentsComponent implements OnInit {
     } else if (this.modalStatus == 1) {
       this._managementService.updateDepartmentApi(this.addForm.value, this.departmentId).subscribe({
         next: (res) => {
-          this.ngOnInit()
-          this.resetForm()
+          this.getDepartments()
           this.modalService.dismissAll()
         },
         error: (err) => {
@@ -162,12 +170,13 @@ export class DepartmentsComponent implements OnInit {
   }
 
   open(content: any, modalStatus: number, id?: number) {
-    this.resetForm()
-    this.initPositionForm()
     this.modalStatus = modalStatus
+    this.resetForm()
     this.departmentId = id
     if (modalStatus === 1 || modalStatus === 2) {
-      this.getCategoriesById()
+      this.getDepartmentById()
+    } else {
+      this.addInitForm()
     }
     this.modalService.open(content, {
       centered: true,

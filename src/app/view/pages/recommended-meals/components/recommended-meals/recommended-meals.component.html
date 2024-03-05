@@ -1,0 +1,199 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-6 d-flex justify-content-start align-items-center">
+            <span class="me-3">
+              <h6 class="fw-semibold mb-0">All Recommended Meals</h6>
+            </span>
+            <label class="d-flex align-items-center mx-2">
+              <ng-select [items]="Filters"
+                         class="form-control m-0 p-0"
+                         [clearable]="false"
+                         bindLabel="name"
+                         bindValue="id"
+                         [(ngModel)]="selectedFilter">
+              </ng-select>
+            </label>
+            <label class="d-flex align-items-center mx-2">
+              <ng-select [items]="Groups"
+                         class="form-control m-0 p-0"
+                         [clearable]="false"
+                         bindLabel="name"
+                         bindValue="id"
+                         [(ngModel)]="selectedGroup">
+              </ng-select>
+            </label>
+          </div>
+          <div class="col-6 d-flex justify-content-end">
+            <div class="mx-2 position-relative w-50">
+              <i style="right: 6px; top: 8px; cursor: pointer" class="fs-3 bx bx-search position-absolute"></i>
+              <input type="email" class="form-control" placeholder="Search">
+            </div>
+            <div class="mx-2">
+              <button (click)="open(content, 0)" class="btn btn-primary mb-0">
+                Add Recommended Meal
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3 position-relative" *ngFor="let ad of allRecommendedMealData">
+        <div class="dropdown position-absolute" style="font-size: 20px; top: 5px; left: 25px; z-index: 1000"
+             ngbDropdown placement="bottom-left">
+          <a ngbDropdownToggle href="javascript:" data-toggle="dropdown">
+            <i class="icon feather icon-more-horizontal text-secondary"></i>
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end p-0">
+            <ul class="p-0 m-0">
+              <li>
+                <button class="dropdown-item" (click)="open(content, 1, ad.id)">
+                  <i class="feather icon-edit"></i>
+                  Edit
+                </button>
+                <button class="dropdown-item" (click)="open(content, 2, ad.id)">
+                  <i class="feather icon-eye"></i>
+                  Preview
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" (click)="delete(ad.id)">
+                  <i class="feather icon-trash"></i>
+                  Delete
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card card-border-radius ">
+          <div class="ads-cards-img">
+            <img class="w-100 card-border-radius ads-cards"
+                 src="{{domain+'MealDrGreenMedia/'+ad.path}}" alt="">
+          </div>
+          <div class="py-3 px-2 text-start">
+            <div class="d-flex justify-content-between align-items-center">
+              <h6 class="fw-bold mb-0">{{ ad.name }}</h6>
+              <span class="text-center card-border-radius py-2 px-4 fw-semobold"
+                    style="background: rgba(245, 196, 81, 0.3); width: 140px;
+                     color: rgba(234, 161, 19, 1)"
+              >
+                {{ ad.type == 10? 'Breakfast' :ad.type == 20? 'Lunch' :ad.type == 30? 'Dinner': 'Other'}}
+              </span>
+            </div>
+            <p class="mb-0 p-cards">
+              {{ad.description}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<input
+  style="display: none"
+  type="file" (change)="onFileChanged($event)"
+  #FileInput>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Recommended Meals</h4>
+    <div class="d-flex">
+      <img *ngIf="!isForm && modalStatus == 2" (click)="delete(valueId)"
+           alt="" src="assets/icon/custom-icons/delete.png" class="mx-2 pointer">
+      <img *ngIf="!isForm && modalStatus ==2" (click)="isForm =! isForm; modalStatus = 1"
+           alt="" src="assets/icon/custom-icons/edit.png" class="mx-2 pointer">
+    </div>
+  </div>
+  <div class="modal-body">
+    <form class="row" [formGroup]="addFrom" (submit)="submit()">
+      <div class="col-12">
+        <div class="" style="border-radius: 8px">
+          <div class="">
+            <h5 class="fw-semibold mb-3">Basic Info</h5>
+            <div class="row px-2" style="{{isForm? '' : 'pointer-events: none'}}">
+              <div class="col-6 mb-4">
+                <label class="text-start mb-1 fw-semibold text-black">Name in English</label>
+                <input type="text" class="form-control" formControlName="NameEn"
+                       [ngClass]="{'is-invalid': (addFrom.get('NameEn')?.dirty && addFrom.get('NameEn')?.invalid && addFrom.get('NameEn')?.touched) ||
+                 (addFrom.get('NameEn')?.invalid && addFrom.get('NameEn')?.touched) , 'is-valid': isForm && addFrom.get('NameEn')?.valid }">
+              </div>
+              <div class="col-6 mb-4">
+                <label class="text-start mb-1 fw-semibold text-black">Name in Arabic </label>
+                <input type="text" class="form-control" formControlName="NameAr"
+                       [ngClass]="{'is-invalid': (addFrom.get('NameAr')?.dirty && addFrom.get('NameAr')?.invalid && addFrom.get('NameAr')?.touched) ||
+                 (addFrom.get('NameAr')?.invalid && addFrom.get('NameAr')?.touched) , 'is-valid': isForm && addFrom.get('NameAr')?.valid }">
+              </div>
+              <div class="col-3 mb-4">
+                <label class="text-start mb-1 fw-semibold text-black">Calories</label>
+                <input type="number" class="form-control" formControlName="Calories"
+                       [ngClass]="{'is-invalid': (addFrom.get('Calories')?.dirty && addFrom.get('Calories')?.invalid && addFrom.get('Calories')?.touched) ||
+                 (addFrom.get('Calories')?.invalid && addFrom.get('Calories')?.touched) , 'is-valid': isForm && addFrom.get('Calories')?.valid }">
+              </div>
+              <div class="col-3 mb-4">
+                <label class="text-start mb-1 fw-semibold text-black">Meal Time</label>
+                <ng-select [items]="Meals"
+                           [clearable]="false"
+                           class="form-control m-0 p-0"
+                           bindLabel="name"
+                           bindValue="id"
+                           formControlName="Type"
+                           [ngClass]="{'is-invalid': (addFrom.get('Type')?.dirty && addFrom.get('Type')?.invalid && addFrom.get('Type')?.touched) ||
+                 (addFrom.get('Type')?.invalid && addFrom.get('Type')?.touched) , 'is-valid': isForm && addFrom.get('Type')?.valid }"
+                >
+                </ng-select>
+              </div>
+              <div class="col-6 d-flex justify-content-between">
+                <div class="d-flex align-items-center" style="overflow: auto; white-space: nowrap;">
+                  <label class="text-start mb-1 fw-semibold text-black">Image</label>
+                </div>
+                <div class="d-flex align-items-center">
+                  <div class="d-flex">
+                    <div class="position-relative" style="border: 1px solid #eeee; border-radius: 4px"
+                         *ngIf="images.length > 0">
+                      <i *ngIf="isForm" class="position-absolute bx bx-x-circle text-white"
+                         style="background: red; top: 1px; right: -4px; font-size: 1rem;
+                              border-radius: 50% " (click)="removeImage()"
+                      ></i>
+                      <img class="p-1" width="74" height="71" [src]="images[0].completePath">
+                    </div>
+                  </div>
+                  <div class="d-flex" *ngIf="images.length == 0" (click)="FileInput.click()"
+                       style="overflow: auto; white-space: nowrap;">
+                    <div class="">
+                      <img width="74" height="71" src="/assets/icon/custom-icons/addImage.png" alt="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6 mb-4">
+                <label class="text-start mb-1 fw-semibold text-black">Description in English </label>
+                <textarea rows="3" type="text" class="form-control" formControlName="DescriptionEn"
+                          [ngClass]="{'is-invalid': (addFrom.get('DescriptionEn')?.dirty && addFrom.get('DescriptionEn')?.invalid && addFrom.get('DescriptionEn')?.touched) ||
+                 (addFrom.get('DescriptionEn')?.invalid && addFrom.get('DescriptionEn')?.touched) , 'is-valid': isForm && addFrom.get('DescriptionEn')?.valid }">
+                </textarea>
+              </div>
+              <div class="col-6 mb-4 px-0">
+                <label class="text-start mb-1 fw-semibold text-black">Description in Arabic </label>
+                <textarea rows="3" type="text" class="form-control" formControlName="DescriptionAr"
+                          [ngClass]="{'is-invalid': (addFrom.get('DescriptionAr')?.dirty && addFrom.get('DescriptionAr')?.invalid && addFrom.get('DescriptionAr')?.touched) ||
+                 (addFrom.get('DescriptionAr')?.invalid && addFrom.get('DescriptionAr')?.touched) , 'is-valid': isForm && addFrom.get('DescriptionAr')?.valid }">
+                </textarea>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" *ngIf="isForm">
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-primary" type="submit">Publish</button>
+          <button class="btn btn-outline-primary" (click)="isForm =! isForm; modal.dismiss('Cross click')">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+

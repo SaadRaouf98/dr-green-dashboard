@@ -39,6 +39,18 @@ const routes: Routes = [
       (m) => m.ManagementModule
     )
   },
+  {
+    path: 'recommended-meals',
+    loadChildren: () => import('./recommended-meals/recommended-meals.module').then(
+      (m) => m.RecommendedMealsModule
+    )
+  },
+  {
+    path: 'training-video',
+    loadChildren: () => import('./training-video/training-video.module').then(
+      (m) => m.TrainingVideoModule
+    )
+  },
 ]
 
 @NgModule({
