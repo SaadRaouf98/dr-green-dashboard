@@ -4,6 +4,7 @@ import {TipsService} from "../../services/tips.service";
 import {Departments, DepartmentsData, TipById, TipByIdData} from "../../modals/tips";
 import {ActivatedRoute} from "@angular/router";
 import {environment as env} from "../../../../../../environments/environment";
+import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
 
 @Component({
   selector: 'app-add-tips',
@@ -41,6 +42,7 @@ export class AddTipsComponent implements OnInit{
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _tipsService: TipsService,
+    private _sharedService: SharedService,
   ) {
     this.tipId = +this._activatedRoute.snapshot.queryParamMap.get('tipId')
     this.addFrom = _formBuilder.group({
@@ -131,6 +133,7 @@ export class AddTipsComponent implements OnInit{
       this._tipsService.updateTipsApi(this.addFrom.value, this.tipId).subscribe({
         next: (res) => {
           this.getTipById()
+          this._sharedService.handleResponseMessage('success', 'Delete', 'Tip Updated Successfully')
         },
         error: (err) => {
           console.log(err)
@@ -140,6 +143,7 @@ export class AddTipsComponent implements OnInit{
       this._tipsService.addTipsApi(this.addFrom.value).subscribe({
         next: (res) => {
           this.resetAllForm()
+          this._sharedService.handleResponseMessage('success', 'Delete', 'Tip Added Successfully')
         },
         error: (err) => {
           console.log(err)

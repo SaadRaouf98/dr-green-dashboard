@@ -31,7 +31,7 @@
           </div>
           <div class="col-6 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Department</label>
-            <ng-select [items]="tipsDeps" [clearable]="false" bindLabel="nameEn"
+            <ng-select [items]="tipsDeps" [clearable]="false" bindLabel="name"
                        bindValue="id" formControlName="TipsDepartmentId" class="form-control m-0 p-0"
                        [ngClass]="{'is-invalid': (addFrom.get('TipsDepartmentId')?.dirty && addFrom.get('TipsDepartmentId')?.invalid && addFrom.get('TipsDepartmentId')?.touched) ||
                  (addFrom.get('TipsDepartmentId')?.invalid && addFrom.get('TipsDepartmentId')?.touched) , 'is-valid': addFrom.get('TipsDepartmentId')?.valid }"

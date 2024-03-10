@@ -9,9 +9,7 @@ export interface Categories {
 export interface CategoriesData {
   id: number
   nameAr: string
-  nameEn: string
-  descriptionAr: string
-  descriptionEn: string
+  description: string
   categoryStatus: number
   categoryParentId?: number
   datePublished?: string

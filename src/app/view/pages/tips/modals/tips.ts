@@ -14,17 +14,13 @@ export interface Tips {
 }
 
 export interface TipsData {
-  titleAr: string
-  titleEn: string
-  authorAr: string
-  authorEn: string
-  descriptionAr: string
-  descriptionEn: string
-  contentAr: string
-  contentEn: string
+  title: string
+  author: string
+  description: string
+  content: string
+  tipsDepartmentName: string
   url: string
-  tipsDepartmentNameEn: string
-  tipsDepartmentNameAr: string
+  tipsDepartmentId: number
   visibleStatus: number
   status: number
   datePublished: string

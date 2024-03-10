@@ -62,11 +62,11 @@
 
         >
           <ngx-datatable-column [sortable]="true" name="id" prop="id" [width]="50">
-            <ng-template let-i="value" ngx-datatable-cell-template>
-              <span class="font-weight-bold">{{ i }}</span>
+            <ng-template let-i="value" let-index="rowIndex" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ index+1 }}</span>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column [sortable]="true" name="Name" prop="nameEn" [width]="50">
+          <ngx-datatable-column [sortable]="true" name="Name" prop="name" [width]="50">
             <ng-template let-i="value" ngx-datatable-cell-template>
               <span class="font-weight-bold">{{ i }}</span>
             </ng-template>
@@ -76,7 +76,7 @@
               <span class="font-weight-bold">{{ i | date: 'fullDate'}}</span>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column [sortable]="true" name="Description" prop="descriptionEn" [width]="20">
+          <ngx-datatable-column [sortable]="true" name="Description" prop="description" [width]="20">
             <ng-template let-i="value" ngx-datatable-cell-template>
               <span class="font-weight-bold">{{ i }}</span>
             </ng-template>

@@ -5,8 +5,7 @@ export interface Ads {
 
 export interface AdsData {
   id: number
-  titleAr: string
-  titleEn: string
+  title: string
   status: number
   displayPage: number
   endDate: string
