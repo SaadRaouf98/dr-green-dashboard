@@ -2,10 +2,9 @@ import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {ColumnMode, DatatableComponent} from "@swimlane/ngx-datatable";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {environment as env} from "../../../../../../environments/environment";
-import {ManagementService} from "../../services/management.service";
-import {AllDepartmentData, Department, Departments} from "../../modals/management";
-import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
+import {environment as env} from "../../../../../../../environments/environment";
+import {DepartmentsService} from "../../services/departments.service";
+import {AllDepartmentData, Department, Departments} from "../../modals/departments";
 
 @Component({
   selector: 'app-departments',
@@ -51,7 +50,7 @@ export class DepartmentsComponent implements OnInit {
 
   constructor(
     private _formBuilder: FormBuilder,
-    private _managementService: ManagementService,
+    private _managementService: DepartmentsService,
   ) {
     this.addForm = this._formBuilder.group({
       Id: ['', Validators.required],

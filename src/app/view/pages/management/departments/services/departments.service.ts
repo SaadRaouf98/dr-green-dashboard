@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {environment as env} from "../../../../../environments/environment";
-import {SharedService} from "../../../../core/shared/sahred-service/shared.service";
-import {Departments, EachDepartment} from "../modals/management";
+import {environment as env} from "../../../../../../environments/environment";
+import {Departments, EachDepartment} from "../modals/departments";
+import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ManagementService {
+export class DepartmentsService {
   baseUrl: string = env.apiPath
   constructor(private _httpClient: HttpClient, private _sharedService : SharedService) {
 

@@ -1,0 +1,159 @@
+<div class="card" style="border-radius: 8px">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6 d-flex justify-content-start align-items-center">
+            <span class="me-3">
+              <h6 class="fw-semibold mb-0">All Departments</h6>
+            </span>
+        <label class="d-flex align-items-center mx-2"
+        >
+          <ng-select [items]="Filters"
+                     [clearable]="false"
+                     class="form-control m-0 p-0"
+                     bindLabel="name"
+                     bindValue="id"
+                     [(ngModel)]="selectedFilter">
+          </ng-select>
+        </label>
+        <label class="d-flex align-items-center mx-2"
+        >
+          <ng-select [items]="Groups"
+                     [clearable]="false"
+                     class="form-control m-0 p-0"
+                     bindLabel="name"
+                     bindValue="id"
+                     [(ngModel)]="selectedGroup">
+          </ng-select>
+        </label>
+      </div>
+      <div class="col-6 d-flex justify-content-end">
+        <div class="mx-2 position-relative w-50 p-1">
+          <i style="right: 6px; top: 10px; cursor: pointer" class="fs-3 bx bx-search position-absolute"></i>
+          <input type="email" class="form-control p-2" placeholder="Search">
+        </div>
+        <div class="mx-2">
+          <button class="btn btn-primary mb-0" routerLink="add">
+            Add Department
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xl-12 col-md-12">
+    <!--    <app-card cardTitle="Users From United States">-->
+    <app-card [hidHeader]="true"
+      cardTitle="Recent Orders"
+      cardClass="Recent-Orders"
+      blockClass="px-0 py-3"
+    >
+      <div class="mx-4">
+        <ngx-datatable
+          [rows]="rowsUsers"
+          [rowHeight]="70"
+          class="bootstrap core-bootstrap"
+          [limit]="selectedOption"
+          [columnMode]="ColumnMode.force"
+          [headerHeight]="50"
+          [footerHeight]="50"
+          [scrollbarH]="true"
+          [selected]="selected"
+
+        >
+          <ngx-datatable-column [sortable]="true" name="#" [width]="50">
+            <ng-template let-ele="value" let-i="rowIndex" ngx-datatable-cell-template>
+              <span class="font-weight-bold">#{{ i+1 }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="true" name="Name" prop="name" [width]="50">
+            <ng-template let-ele="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ ele }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+`
+          <ngx-datatable-column [sortable]="true" name="Phone" prop="phoneNumber" [width]="20">
+            <ng-template let-ele="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ ele }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="true" name="Position" prop="positionName" [width]="20">
+            <ng-template let-ele="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ ele }}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column [sortable]="true" name="Status" prop="employeeStatus" [width]="20">
+            <ng-template let-ele="value" ngx-datatable-cell-template>
+              <span class="font-weight-bold">{{ ele == 10? 'Working' : ele == 20? 'Termination' : ele == 30 ? 'Resignation' : 'Other'}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column class="hide-print" name="Action" [width]="40" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <div class="d-flex align-items-center col-actions">
+                <div ngbDropdown container="body">
+                  <button ngbDropdownToggle type="button" class="btn icon-btn btn-sm hide-arrow px-0">
+                    <i class="feather icon-more-horizontal cursor-pointer"></i>
+                  </button>
+                  <div ngbDropdownMenu class="p-0">
+                    <ul class="p-0 m-0">
+                      <li routerLink="edit/{{row.id}}">
+                        <button class="dropdown-item">
+                          <i class="feather icon-eye"></i>
+                          Show
+                        </button>
+                      </li>
+                      <li routerLink="edit/{{row.id}}">
+                        <button class="dropdown-item">
+                          <i class="feather icon-edit"></i>
+                          Edit
+                        </button>
+                      </li>
+                      <li>
+                        <button (click)="deleteEmployees(row.id)" class="dropdown-item">
+                          <i class="feather icon-trash"></i>
+                          Delete
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-footer>
+            <ng-template
+              ngx-datatable-footer-template
+              let-rowCount="rowCount"
+              let-pageSize="pageSize"
+              let-selectedCount="selectedCount"
+              let-curPage="curPage"
+              let-offset="offset"
+            >
+              <label class="d-flex align-items-center"
+              >Show
+                <select class="form-control mx-2" [(ngModel)]="selectedOption">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+              </label>
+              <div class="d-flex align-items-center">
+                <ngb-pagination (pageChange)="getEmployees($event)"
+                  [collectionSize]="collectionSize" [(page)]="page" [boundaryLinks]="true" />
+              </div>
+              <div class="d-flex align-items-center">
+                <div>
+                  Rows: {{ rowCount }} | Size: {{ pageSize }} | Current:{{ page }}
+                </div>
+              </div>
+
+            </ng-template>
+          </ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </app-card>
+  </div>
+</div>

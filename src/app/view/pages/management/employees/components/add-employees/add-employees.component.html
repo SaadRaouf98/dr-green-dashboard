@@ -1,0 +1,171 @@
+<!--<app-breadcrumb></app-breadcrumb>-->
+<div class="row" [formGroup]="addForm">
+  <div class="col-12">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <h5 class="fw-semibold mb-3">Basic Info</h5>
+        <div class="row px-2">
+          <div class="col-12 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Full Name</label>
+            <input type="text" class="form-control" formControlName="Name"
+                   [ngClass]="{'is-invalid': (addForm.get('Name')?.dirty && addForm.get('Name')?.invalid && addForm.get('Name')?.touched) ||
+                 (addForm.get('Name')?.invalid && addForm.get('Name')?.touched) , 'is-valid': addForm.get('Name')?.valid }">
+          </div>
+          <div class="col-4 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Gender</label>
+            <input type="text" class="form-control" formControlName="Gender"
+                   [ngClass]="{'is-invalid': (addForm.get('Gender')?.dirty && addForm.get('Gender')?.invalid && addForm.get('Gender')?.touched) ||
+                 (addForm.get('Gender')?.invalid && addForm.get('Gender')?.touched) , 'is-valid': addForm.get('Gender')?.valid }">
+          </div>
+          <div class="col-4 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">D.B</label>
+            <input type="date" class="form-control" formControlName="DateOfBirth"
+                   [ngClass]="{'is-invalid': (addForm.get('DateOfBirth')?.dirty && addForm.get('DateOfBirth')?.invalid && addForm.get('DateOfBirth')?.touched) ||
+                 (addForm.get('DateOfBirth')?.invalid && addForm.get('DateOfBirth')?.touched) , 'is-valid': addForm.get('DateOfBirth')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Status</label>
+            <ng-select [items]="employeeStatus" [clearable]="false" bindLabel="Name"
+                       bindValue="id" formControlName="EmployeeStatus" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addForm.get('EmployeeStatus')?.dirty && addForm.get('EmployeeStatus')?.invalid && addForm.get('EmployeeStatus')?.touched) ||
+                 (addForm.get('EmployeeStatus')?.invalid && addForm.get('EmployeeStatus')?.touched) , 'is-valid': addForm.get('EmployeeStatus')?.valid }"
+            >
+            </ng-select>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Address</label>
+            <input type="text" class="form-control" formControlName="Address"
+                   [ngClass]="{'is-invalid': (addForm.get('Address')?.dirty && addForm.get('Address')?.invalid && addForm.get('Address')?.touched) ||
+                 (addForm.get('Address')?.invalid && addForm.get('Address')?.touched) , 'is-valid': addForm.get('Address')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">ID’s Numbers</label>
+            <input type="text" class="form-control" formControlName="NationalId"
+                   [ngClass]="{'is-invalid': (addForm.get('NationalId')?.dirty && addForm.get('NationalId')?.invalid && addForm.get('NationalId')?.touched) ||
+                 (addForm.get('NationalId')?.invalid && addForm.get('NationalId')?.touched) , 'is-valid': addForm.get('NationalId')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Military Status</label>
+            <ng-select [items]="MilitaryStatus" [clearable]="false" bindLabel="Name"
+                       bindValue="id" formControlName="MilitaryStatus" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addForm.get('MilitaryStatus')?.dirty && addForm.get('MilitaryStatus')?.invalid && addForm.get('MilitaryStatus')?.touched) ||
+                 (addForm.get('MilitaryStatus')?.invalid && addForm.get('MilitaryStatus')?.touched) , 'is-valid': addForm.get('MilitaryStatus')?.valid }"
+            >
+            </ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <h5 class="fw-semibold mb-3">Basic Info</h5>
+        <div class="row px-2">
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
+            <input type="text" class="form-control" formControlName="TitleEn"
+                   [ngClass]="{'is-invalid': (addForm.get('TitleEn')?.dirty && addForm.get('TitleEn')?.invalid && addForm.get('TitleEn')?.touched) ||
+                 (addForm.get('TitleEn')?.invalid && addForm.get('TitleEn')?.touched) , 'is-valid': addForm.get('TitleEn')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title in Arabic</label>
+            <input type="text" class="form-control" formControlName="TitleAr"
+                   [ngClass]="{'is-invalid': (addForm.get('TitleAr')?.dirty && addForm.get('TitleAr')?.invalid && addForm.get('TitleAr')?.touched) ||
+                 (addForm.get('TitleAr')?.invalid && addForm.get('TitleAr')?.touched) , 'is-valid': addForm.get('TitleAr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Display Page</label>
+            <ng-select [items]="Filters" [clearable]="false" bindLabel="Name"
+                       bindValue="id" formControlName="DisplayPage" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addForm.get('DisplayPage')?.dirty && addForm.get('DisplayPage')?.invalid && addForm.get('DisplayPage')?.touched) ||
+                 (addForm.get('DisplayPage')?.invalid && addForm.get('DisplayPage')?.touched) , 'is-valid': addForm.get('DisplayPage')?.valid }"
+            >
+            </ng-select>
+          </div>
+
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">End Date</label>
+            <input type="date" class="form-control" formControlName="Address"
+                   [ngClass]="{'is-invalid': (addForm.get('Address')?.dirty && addForm.get('Address')?.invalid && addForm.get('Address')?.touched) ||
+                 (addForm.get('Address')?.invalid && addForm.get('Address')?.touched) , 'is-valid': addForm.get('Address')?.valid }">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <h5 class="fw-semibold mb-3">Basic Info</h5>
+        <div class="row px-2">
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
+            <input type="text" class="form-control" formControlName="TitleEn"
+                   [ngClass]="{'is-invalid': (addForm.get('TitleEn')?.dirty && addForm.get('TitleEn')?.invalid && addForm.get('TitleEn')?.touched) ||
+                 (addForm.get('TitleEn')?.invalid && addForm.get('TitleEn')?.touched) , 'is-valid': addForm.get('TitleEn')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title in Arabic</label>
+            <input type="text" class="form-control" formControlName="TitleAr"
+                   [ngClass]="{'is-invalid': (addForm.get('TitleAr')?.dirty && addForm.get('TitleAr')?.invalid && addForm.get('TitleAr')?.touched) ||
+                 (addForm.get('TitleAr')?.invalid && addForm.get('TitleAr')?.touched) , 'is-valid': addForm.get('TitleAr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Display Page</label>
+            <ng-select [items]="Filters" [clearable]="false" bindLabel="Name"
+                       bindValue="id" formControlName="DisplayPage" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addForm.get('DisplayPage')?.dirty && addForm.get('DisplayPage')?.invalid && addForm.get('DisplayPage')?.touched) ||
+                 (addForm.get('DisplayPage')?.invalid && addForm.get('DisplayPage')?.touched) , 'is-valid': addForm.get('DisplayPage')?.valid }"
+            >
+            </ng-select>
+          </div>
+
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">End Date</label>
+            <input type="date" class="form-control" formControlName="Address"
+                   [ngClass]="{'is-invalid': (addForm.get('Address')?.dirty && addForm.get('Address')?.invalid && addForm.get('Address')?.touched) ||
+                 (addForm.get('Address')?.invalid && addForm.get('Address')?.touched) , 'is-valid': addForm.get('Address')?.valid }">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <h5 class="fw-semibold mb-3">Basic Info</h5>
+        <div class="row px-2">
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black"></label>
+            <input type="text" class="form-control" formControlName="TitleEn"
+                   [ngClass]="{'is-invalid': (addForm.get('TitleEn')?.dirty && addForm.get('TitleEn')?.invalid && addForm.get('TitleEn')?.touched) ||
+                 (addForm.get('TitleEn')?.invalid && addForm.get('TitleEn')?.touched) , 'is-valid': addForm.get('TitleEn')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title in Arabic</label>
+            <input type="text" class="form-control" formControlName="TitleAr"
+                   [ngClass]="{'is-invalid': (addForm.get('TitleAr')?.dirty && addForm.get('TitleAr')?.invalid && addForm.get('TitleAr')?.touched) ||
+                 (addForm.get('TitleAr')?.invalid && addForm.get('TitleAr')?.touched) , 'is-valid': addForm.get('TitleAr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Display Page</label>
+            <ng-select [items]="Filters" [clearable]="false" bindLabel="Name"
+                       bindValue="id" formControlName="DisplayPage" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addForm.get('DisplayPage')?.dirty && addForm.get('DisplayPage')?.invalid && addForm.get('DisplayPage')?.touched) ||
+                 (addForm.get('DisplayPage')?.invalid && addForm.get('DisplayPage')?.touched) , 'is-valid': addForm.get('DisplayPage')?.valid }"
+            >
+            </ng-select>
+          </div>
+
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">End Date</label>
+            <input type="date" class="form-control" formControlName="Address"
+                   [ngClass]="{'is-invalid': (addForm.get('Address')?.dirty && addForm.get('Address')?.invalid && addForm.get('Address')?.touched) ||
+                 (addForm.get('Address')?.invalid && addForm.get('Address')?.touched) , 'is-valid': addForm.get('Address')?.valid }">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

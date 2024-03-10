@@ -168,6 +168,14 @@ const NavigationItems = [
     type: 'group',
     children: [
       {
+        id: 'employees',
+        title: 'Employees',
+        type: 'item',
+        url: '/view/pages/management/employees',
+        icon: '/assets/icon/custom-icons/candle-2-wh.svg',
+        classes: 'nav-item',
+      },
+      {
         id: 'department',
         title: 'Department',
         type: 'item',
