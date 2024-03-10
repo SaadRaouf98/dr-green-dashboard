@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import {environment as env} from "../../../../../../environments/environment";
 import {SharedService} from "../../../../../core/shared/sahred-service/shared.service";
 import {EachDepartment} from "../../departments/modals/departments";
-import {AdsList, Employees} from "../modals/employees";
+import {AdsList, Departments, Employees} from "../modals/employees";
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +56,9 @@ export class EmployeesService {
   }
   getDepartmentByIdApi(id: number): Observable<EachDepartment>{
     return this._httpClient.get<EachDepartment>(`${this.baseUrl}Department/GetDepartmentById/${id}`)
+  }
+  GetAllListDepartmentApi(): Observable<Departments>{
+    return this._httpClient.get<Departments>(`${this.baseUrl}Department/GetAllList`)
   }
   deleteEmployeesApi(id: number): Observable<any>{
     return this._httpClient.delete<any>(`${this.baseUrl}UsersApp/${id}`)

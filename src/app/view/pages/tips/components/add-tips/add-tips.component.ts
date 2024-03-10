@@ -133,7 +133,7 @@ export class AddTipsComponent implements OnInit{
       this._tipsService.updateTipsApi(this.addFrom.value, this.tipId).subscribe({
         next: (res) => {
           this.getTipById()
-          this._sharedService.handleResponseMessage('success', 'Delete', 'Tip Updated Successfully')
+          this._sharedService.handleResponseMessage('success', 'Update', 'Tip Updated Successfully')
         },
         error: (err) => {
           console.log(err)
@@ -143,7 +143,7 @@ export class AddTipsComponent implements OnInit{
       this._tipsService.addTipsApi(this.addFrom.value).subscribe({
         next: (res) => {
           this.resetAllForm()
-          this._sharedService.handleResponseMessage('success', 'Delete', 'Tip Added Successfully')
+          this._sharedService.handleResponseMessage('success', 'Add', 'Tip Added Successfully')
         },
         error: (err) => {
           console.log(err)

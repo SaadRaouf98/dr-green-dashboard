@@ -28,3 +28,21 @@ export interface AdsListData {
   datePublished: string
   adsImages: string[]
 }
+export interface Departments {
+  statusCode: number
+  totalItems: number
+  success: boolean
+  message: any
+  data: DepartmentsData[]
+}
+
+export interface DepartmentsData {
+  id: number
+  name: string
+  positions: Position[]
+}
+
+export interface Position {
+  id: number
+  name: string
+}

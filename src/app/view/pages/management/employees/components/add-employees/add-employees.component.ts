@@ -2,8 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {EmployeesService} from "../../services/employees.service";
 import {ActivatedRoute} from "@angular/router";
-import {AdsList, AdsListData} from "../../modals/employees";
+import {AdsList, AdsListData, Departments, DepartmentsData, Position} from "../../modals/employees";
 import {environment as env} from "../../../../../../../environments/environment";
+import {SharedService} from "../../../../../../core/shared/sahred-service/shared.service";
 
 @Component({
   selector: 'app-add-employees',
@@ -18,6 +19,8 @@ export class AddEmployeesComponent implements OnInit {
   statusValue: any = 10
   employee: number = 10
   adsList: AdsListData
+  departments: DepartmentsData[]
+  positions: Position[]
   Filters = [
     {id: 10, name: 'Home'},
   ];
@@ -44,6 +47,7 @@ export class AddEmployeesComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _adsService: EmployeesService,
+    private _sharedService: SharedService,
   ) {
     this.employee = +this._activatedRoute.snapshot.paramMap.get('id')
     this.addForm = _formBuilder.group({
@@ -59,16 +63,18 @@ export class AddEmployeesComponent implements OnInit {
       UserRole: this._formBuilder.array([this.initUserRole()]),
       NationalId: ['', Validators.required],
       EmployeeStatus: ['', Validators.required],
-      MilitaryStatus: ['', Validators.required],
-      DepartmentId: ['', Validators.required],
-      PositionId: ['', Validators.required],
+      MilitaryStatus: [null, Validators.required],
+      DepartmentId: [null, Validators.required],
+      PositionId: [null, Validators.required],
       Gender: ['', Validators.required],
       University: ['', Validators.required],
       Degree: ['', Validators.required],
       GraduationDate: ['', Validators.required],
+      HireDate: ['', Validators.required],
       DateOfBirth: ['', Validators.required],
     })
   }
+
   initUserRole() {
     return this._formBuilder.group(
       {roleId: ['', Validators.required]}
@@ -86,13 +92,25 @@ export class AddEmployeesComponent implements OnInit {
   }
   ngOnInit() {
     this.getAllRoles()
+    this.getAllDep()
     this.employee? this.getAdById(): ''
+  }
+  setDep(e: DepartmentsData) {
+    this.positions = e.positions
   }
 
   getAllRoles() {
     this._adsService.getAllRolesApi().subscribe({
       next: (res: any) =>{
 
+      }
+    })
+  }
+  getAllDep() {
+    this._adsService.GetAllListDepartmentApi().subscribe({
+      next: (res: Departments) =>{
+        this.departments = res['data']
+        console.log(res)
       }
     })
   }
@@ -124,12 +142,11 @@ export class AddEmployeesComponent implements OnInit {
 
 
   submit() {
-    this.addForm.get('Status').patchValue(this.statusValue)
-    this.addForm.get('Files').patchValue(this.files)
     if (this.employee){
       this._adsService.updateAdsApi(this.addForm.value, this.employee).subscribe({
         next: (res) => {
           this.getAdById()
+          this._sharedService.handleResponseMessage('success', 'Update', 'Employee Updated Successfully')
         },
         error: (err) => {
         },
@@ -138,6 +155,7 @@ export class AddEmployeesComponent implements OnInit {
       this._adsService.addAdsApi(this.addForm.value).subscribe({
         next: (res) => {
           this.resetForm()
+          this._sharedService.handleResponseMessage('success', 'Add', 'Employee Added Successfully')
         },
         error: (err) => {
           console.log(err)
@@ -149,7 +167,6 @@ export class AddEmployeesComponent implements OnInit {
     this.addForm.reset()
     this.files.splice(0, this.files.length)
     this.images.splice(0, this.images.length)
-    this.fileInput.nativeElement.value = '';
     this.statusValue = 10
   }
 }
