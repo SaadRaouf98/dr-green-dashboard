@@ -5,6 +5,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {environment as env} from "../../../../../../../environments/environment";
 import {DepartmentsService} from "../../services/departments.service";
 import {AllDepartmentData, Department, Departments} from "../../modals/departments";
+import {SharedService} from "../../../../../../core/shared/sahred-service/shared.service";
 
 @Component({
   selector: 'app-departments',
@@ -20,6 +21,7 @@ export class DepartmentsComponent implements OnInit {
   statusValue: any = 10
   modalStatus: any = 10
   departmentId: any = 10
+  isForm: boolean = true
   departmentData: Department
   protected readonly ColumnMode = ColumnMode;
   rowsUsers: AllDepartmentData[];
@@ -51,6 +53,7 @@ export class DepartmentsComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _managementService: DepartmentsService,
+    private _sharedService: SharedService,
   ) {
     this.addForm = this._formBuilder.group({
       Id: ['', Validators.required],
@@ -67,7 +70,7 @@ export class DepartmentsComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.getDepartments(this.page)
+    this.getDepartments(1)
   }
   get positionForm() {
     return this.addForm.controls["Positions"] as FormArray;
@@ -83,14 +86,16 @@ export class DepartmentsComponent implements OnInit {
     this._managementService.deletePositionApi(id).subscribe({
       next: res => {
         this.resetForm()
-        this.getDepartments()
+        this.getDepartments(this.page)
         this.getDepartmentById()
+        this._sharedService.handleResponseMessage('success', 'Delete', 'Position Deleted Successfully')
       }
     })
   }
   changeStatus(id: number) {
     this._managementService.changeStatusApi(id).subscribe({
       next: res => {
+        this._sharedService.handleResponseMessage('success', 'Change Status', 'Status Changed Successfully')
         this.getDepartments(this.page)
       }
     })
@@ -114,7 +119,8 @@ export class DepartmentsComponent implements OnInit {
   deleteDepartment(id: number) {
     this._managementService.deleteDepartmentApi(id).subscribe({
       next: res => {
-        this.getDepartments()
+        this._sharedService.handleResponseMessage('success', 'Delete', 'Department Deleted Successfully')
+        this.getDepartments(this.page)
         this.modalService.dismissAll()
       }
     })
@@ -149,8 +155,9 @@ export class DepartmentsComponent implements OnInit {
     if (this.modalStatus == 0) {
       this._managementService.addDepartmentApi(this.addForm.value).subscribe({
         next: (res) => {
-          this.getDepartments()
+          this.getDepartments(this.page)
           this.modalService.dismissAll()
+          this._sharedService.handleResponseMessage('success', 'Add', 'Department Added Successfully')
         },
         error: (err) => {
         },
@@ -158,8 +165,9 @@ export class DepartmentsComponent implements OnInit {
     } else if (this.modalStatus == 1) {
       this._managementService.updateDepartmentApi(this.addForm.value, this.departmentId).subscribe({
         next: (res) => {
-          this.getDepartments()
+          this.getDepartments(this.page)
           this.modalService.dismissAll()
+          this._sharedService.handleResponseMessage('success', 'Update', 'Department Updated Successfully')
         },
         error: (err) => {
           console.log(err)
@@ -172,6 +180,7 @@ export class DepartmentsComponent implements OnInit {
     this.modalStatus = modalStatus
     this.resetForm()
     this.departmentId = id
+    modalStatus == 2? this.isForm = false : this.isForm = true
     if (modalStatus === 1 || modalStatus === 2) {
       this.getDepartmentById()
     } else {

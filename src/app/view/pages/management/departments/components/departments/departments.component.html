@@ -176,20 +176,20 @@
               <label class="text-start mb-1 fw-bold text-black">ID</label>
               <input type="text" class="form-control" formControlName="Id"
                      [ngClass]="{'is-invalid': (addForm.get('Id')?.dirty && addForm.get('Id')?.invalid && addForm.get('Id')?.touched) ||
-                              (addForm.get('Id')?.invalid && addForm.get('Id')?.touched) , 'is-valid': addForm.get('Id')?.valid }">
+                              (addForm.get('Id')?.invalid && addForm.get('Id')?.touched) , 'is-valid': isForm && addForm.get('Id')?.valid }">
             </div>
 
             <div class="col-6 mb-4">
               <label class="text-start mb-1 fw-bold text-black">Title in English</label>
               <input type="text" class="form-control" formControlName="NameEn"
                      [ngClass]="{'is-invalid': (addForm.get('NameEn')?.dirty && addForm.get('NameEn')?.invalid && addForm.get('NameEn')?.touched) ||
-                     (addForm.get('NameEn')?.invalid && addForm.get('NameEn')?.touched) , 'is-valid': addForm.get('NameEn')?.valid }">
+                     (addForm.get('NameEn')?.invalid && addForm.get('NameEn')?.touched) , 'is-valid': isForm && addForm.get('NameEn')?.valid }">
             </div>
             <div class="col-6 mb-4">
               <label class="text-start mb-1 fw-bold text-black">Title in Arabic</label>
               <input type="text" class="form-control" formControlName="NameAr"
                      [ngClass]="{'is-invalid': (addForm.get('NameAr')?.dirty && addForm.get('NameAr')?.invalid && addForm.get('NameAr')?.touched) ||
-                     (addForm.get('NameAr')?.invalid && addForm.get('NameAr')?.touched) , 'is-valid': addForm.get('NameAr')?.valid }">
+                     (addForm.get('NameAr')?.invalid && addForm.get('NameAr')?.touched) , 'is-valid': isForm && addForm.get('NameAr')?.valid }">
             </div>
             <div class="col-6 d-flex align-items-center justify-content-between">
               <label class="text-start fw-bold text-black">Status</label>
@@ -198,7 +198,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 mt-3">
+      <div class="col-12 mt-3" *ngIf="modalStatus == (0 || 1) || positionForm.controls.length > 0">
         <div class="custom-form-cards p-2">
           <div class="p-3 row" formArrayName="Positions">
             <ng-container *ngFor="let position of positionForm.controls; let i = index">
@@ -207,7 +207,7 @@
                   <label class="text-start mb-1 fw-bold text-black w-25">Position {{i+1}}</label>
                   <input type="text" class="form-control w-75" formControlName="Name"
                   [ngClass]="{'is-invalid': (position.get('Name')?.dirty && position.get('Name')?.invalid && position.get('Name')?.touched) ||
-                  (position.get('Name')?.invalid && position.get('Name')?.touched) , 'is-valid': position.get('Name')?.valid }">
+                  (position.get('Name')?.invalid && position.get('Name')?.touched) , 'is-valid': isForm && position.get('Name')?.valid }">
                 </div>
                 <div class="col-2 mb-4 d-flex align-items-center" style="{{position.get('Id').value? 'pointer-events: all' : ''}}">
                   <img (click)="position.get('Id').value? deletePosition(position.get('Id').value): deleteForm(i)"

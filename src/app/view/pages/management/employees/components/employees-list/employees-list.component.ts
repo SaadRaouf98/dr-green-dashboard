@@ -3,6 +3,7 @@ import {ColumnMode, DatatableComponent} from "@swimlane/ngx-datatable";
 import {environment as env} from "../../../../../../../environments/environment";
 import {EmployeesService} from "../../services/employees.service";
 import {Employees, EmployeesData} from "../../modals/employees";
+import {SharedService} from "../../../../../../core/shared/sahred-service/shared.service";
 
 @Component({
   selector: 'app-employees-list',
@@ -41,6 +42,7 @@ export class EmployeesListComponent implements OnInit {
 
   constructor(
     private _employeesService: EmployeesService,
+    private _sharedService: SharedService,
   ) {}
   ngOnInit() {
     this.getEmployees(1)
@@ -65,7 +67,8 @@ export class EmployeesListComponent implements OnInit {
   deleteEmployees(id: number) {
     this._employeesService.deleteEmployeesApi(id).subscribe({
       next: res => {
-        this.getEmployees()
+        this.getEmployees(this.page)
+        this._sharedService.handleResponseMessage('success', 'Delete', 'Employee Deleted Successfully')
       }
     })
   }

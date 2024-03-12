@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {EmployeesService} from "../../services/employees.service";
 import {ActivatedRoute} from "@angular/router";
-import {AdsList, AdsListData, Departments, DepartmentsData, Position} from "../../modals/employees";
+import {Departments, DepartmentsData, EmployeeDetails, Position} from "../../modals/employees";
 import {environment as env} from "../../../../../../../environments/environment";
 import {SharedService} from "../../../../../../core/shared/sahred-service/shared.service";
 
@@ -18,7 +18,8 @@ export class AddEmployeesComponent implements OnInit {
   addForm: FormGroup
   statusValue: any = 10
   employee: number = 10
-  adsList: AdsListData
+  employeeIsForm: boolean = true
+  EmployeeDetails: EmployeeDetails
   departments: DepartmentsData[]
   positions: Position[]
   Filters = [
@@ -46,10 +47,11 @@ export class AddEmployeesComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
-    private _adsService: EmployeesService,
+    private _employeesService: EmployeesService,
     private _sharedService: SharedService,
   ) {
     this.employee = +this._activatedRoute.snapshot.paramMap.get('id')
+    this._activatedRoute.snapshot.queryParamMap.get('isForm') == 'true'? this.employeeIsForm = true: this.employeeIsForm = false
     this.addForm = _formBuilder.group({
       Id: ['', Validators.required],
       Name: ['', Validators.required],
@@ -57,16 +59,15 @@ export class AddEmployeesComponent implements OnInit {
       Address: ['', Validators.required],
       Password: ['', Validators.required],
       ConfirmPassword: ['', Validators.required],
-      UserType: ['', Validators.required],
+      UserType: [null, Validators.required],
       PhoneNumber: ['', Validators.required],
-      RoleName: ['', Validators.required],
       UserRole: this._formBuilder.array([this.initUserRole()]),
       NationalId: ['', Validators.required],
-      EmployeeStatus: ['', Validators.required],
+      EmployeeStatus: [null, Validators.required],
       MilitaryStatus: [null, Validators.required],
       DepartmentId: [null, Validators.required],
       PositionId: [null, Validators.required],
-      Gender: ['', Validators.required],
+      Gender: [null, Validators.required],
       University: ['', Validators.required],
       Degree: ['', Validators.required],
       GraduationDate: ['', Validators.required],
@@ -77,7 +78,7 @@ export class AddEmployeesComponent implements OnInit {
 
   initUserRole() {
     return this._formBuilder.group(
-      {roleId: ['', Validators.required]}
+      {roleId: [3, Validators.required]}
     )
   }
   get userRoleForm() {
@@ -98,16 +99,23 @@ export class AddEmployeesComponent implements OnInit {
   setDep(e: DepartmentsData) {
     this.positions = e.positions
   }
+  getPositionsById(id: number) {
+    this._employeesService.getPositionByIdApi(id).subscribe({
+      next: res=>{
+        this.positions = res.data
+      }
+    })
+  }
 
   getAllRoles() {
-    this._adsService.getAllRolesApi().subscribe({
+    this._employeesService.getAllRolesApi().subscribe({
       next: (res: any) =>{
 
       }
     })
   }
   getAllDep() {
-    this._adsService.GetAllListDepartmentApi().subscribe({
+    this._employeesService.GetAllListDepartmentApi().subscribe({
       next: (res: Departments) =>{
         this.departments = res['data']
         console.log(res)
@@ -115,24 +123,34 @@ export class AddEmployeesComponent implements OnInit {
     })
   }
   getAdById() {
-    this._adsService.getAdByIdApi(this.employee).subscribe({
-      next: (res: AdsList) =>{
-        this.adsList = res.data
+    this._employeesService.getEmployeeByIdApi(this.employee).subscribe({
+      next: (res: EmployeeDetails) =>{
+        this.EmployeeDetails = res
+        this.getPositionsById(res.departmentId)
         this.addForm.patchValue({
           Id: this.employee,
-          TitleAr: res.data.titleAr,
-          TitleEn: res.data.titleEn,
-          Status: res.data.status,
-          DisplayPage: res.data.displayPage,
-          EndDate: res.data.datePublished? res.data.endDate.slice(0, 10) : '',
-          DatePublished: res.data.datePublished? res.data.datePublished.slice(0, 10) : '',
+          Name: res.name,
+          Email: res.email,
+          Address: res.address,
+          UserType: res.userType,
+          PhoneNumber: res.phoneNumber,
+          NationalId: res.nationalId,
+          EmployeeStatus: res.employeeStatus,
+          MilitaryStatus: res.militaryStatus,
+          DepartmentId: res.departmentId,
+          PositionId: res.positionId,
+          Gender: res.gender,
+          University: res.university,
+          Degree: res.degree,
+          GraduationDate: res.graduationDate? res.graduationDate.slice(0, 10) : '',
+          HireDate: res.hireDate? res.hireDate.slice(0, 10) : '',
+          DateOfBirth: res.dateOfBirth? res.dateOfBirth.slice(0, 10) : '',
         })
-        this.statusValue = res.data.status
       }
     })
   }
   deleteImage(path: string, index: number) {
-    this._adsService.deleteImagesApi(path).subscribe({
+    this._employeesService.deleteImagesApi(path).subscribe({
       next: res => {
         this.getAdById()
       }
@@ -143,7 +161,7 @@ export class AddEmployeesComponent implements OnInit {
 
   submit() {
     if (this.employee){
-      this._adsService.updateAdsApi(this.addForm.value, this.employee).subscribe({
+      this._employeesService.updateEmployeesApi(this.addForm.value, this.employee).subscribe({
         next: (res) => {
           this.getAdById()
           this._sharedService.handleResponseMessage('success', 'Update', 'Employee Updated Successfully')
@@ -152,7 +170,7 @@ export class AddEmployeesComponent implements OnInit {
         },
       })
     } else {
-      this._adsService.addAdsApi(this.addForm.value).subscribe({
+      this._employeesService.addEmployeeApi(this.addForm.value).subscribe({
         next: (res) => {
           this.resetForm()
           this._sharedService.handleResponseMessage('success', 'Add', 'Employee Added Successfully')

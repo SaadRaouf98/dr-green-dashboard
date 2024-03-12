@@ -1,5 +1,5 @@
 <!--<app-breadcrumb></app-breadcrumb>-->
-<div class="row" [formGroup]="addForm">
+<div class="row" [formGroup]="addForm" style="{{employeeIsForm? '' : 'pointer-events: none'}}">
   <div class="col-12">
     <div class="card" style="border-radius: 8px">
       <div class="card-body">
@@ -9,26 +9,29 @@
             <label class="text-start mb-1 fw-semibold text-black">Full Name</label>
             <input type="text" class="form-control" formControlName="Name" placeholder="Full Name"
                    [ngClass]="{'is-invalid': (addForm.get('Name')?.dirty && addForm.get('Name')?.invalid && addForm.get('Name')?.touched) ||
-                 (addForm.get('Name')?.invalid && addForm.get('Name')?.touched) , 'is-valid': addForm.get('Name')?.valid }">
+                 (addForm.get('Name')?.invalid && addForm.get('Name')?.touched) , 'is-valid':employeeIsForm && addForm.get('Name')?.valid }">
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Gender</label>
-            <input type="text" class="form-control" formControlName="Gender" placeholder="Male/ Female"
-                   [ngClass]="{'is-invalid': (addForm.get('Gender')?.dirty && addForm.get('Gender')?.invalid && addForm.get('Gender')?.touched) ||
-                 (addForm.get('Gender')?.invalid && addForm.get('Gender')?.touched) , 'is-valid': addForm.get('Gender')?.valid }">
+            <ng-select [items]="Gender" [clearable]="true" bindLabel="name" placeholder="Employee Status"
+                       bindValue="id" formControlName="Gender" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addForm.get('Gender')?.dirty && addForm.get('Gender')?.invalid && addForm.get('Gender')?.touched) ||
+                 (addForm.get('Gender')?.invalid && addForm.get('Gender')?.touched) , 'is-valid':employeeIsForm && addForm.get('Gender')?.valid }"
+            >
+            </ng-select>
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">D.B</label>
             <input type="date" class="form-control" formControlName="DateOfBirth"
                    [ngClass]="{'is-invalid': (addForm.get('DateOfBirth')?.dirty && addForm.get('DateOfBirth')?.invalid && addForm.get('DateOfBirth')?.touched) ||
-                 (addForm.get('DateOfBirth')?.invalid && addForm.get('DateOfBirth')?.touched) , 'is-valid': addForm.get('DateOfBirth')?.valid }">
+                 (addForm.get('DateOfBirth')?.invalid && addForm.get('DateOfBirth')?.touched) , 'is-valid':employeeIsForm && addForm.get('DateOfBirth')?.valid }">
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Status</label>
-            <ng-select [items]="employeeStatus" [clearable]="false" bindLabel="name" placeholder="Employee Status"
+            <ng-select [items]="employeeStatus" [clearable]="true" bindLabel="name" placeholder="Employee Status"
                        bindValue="id" formControlName="EmployeeStatus" class="form-control m-0 p-0"
                        [ngClass]="{'is-invalid': (addForm.get('EmployeeStatus')?.dirty && addForm.get('EmployeeStatus')?.invalid && addForm.get('EmployeeStatus')?.touched) ||
-                 (addForm.get('EmployeeStatus')?.invalid && addForm.get('EmployeeStatus')?.touched) , 'is-valid': addForm.get('EmployeeStatus')?.valid }"
+                 (addForm.get('EmployeeStatus')?.invalid && addForm.get('EmployeeStatus')?.touched) , 'is-valid':employeeIsForm && addForm.get('EmployeeStatus')?.valid }"
             >
             </ng-select>
           </div>
@@ -36,20 +39,20 @@
             <label class="text-start mb-1 fw-semibold text-black">Address</label>
             <input type="text" class="form-control" formControlName="Address" placeholder="45, cairo street"
                    [ngClass]="{'is-invalid': (addForm.get('Address')?.dirty && addForm.get('Address')?.invalid && addForm.get('Address')?.touched) ||
-                 (addForm.get('Address')?.invalid && addForm.get('Address')?.touched) , 'is-valid': addForm.get('Address')?.valid }">
+                 (addForm.get('Address')?.invalid && addForm.get('Address')?.touched) , 'is-valid':employeeIsForm && addForm.get('Address')?.valid }">
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">ID’s Numbers</label>
             <input type="text" class="form-control" formControlName="NationalId" placeholder="0021155005515"
                    [ngClass]="{'is-invalid': (addForm.get('NationalId')?.dirty && addForm.get('NationalId')?.invalid && addForm.get('NationalId')?.touched) ||
-                 (addForm.get('NationalId')?.invalid && addForm.get('NationalId')?.touched) , 'is-valid': addForm.get('NationalId')?.valid }">
+                 (addForm.get('NationalId')?.invalid && addForm.get('NationalId')?.touched) , 'is-valid':employeeIsForm && addForm.get('NationalId')?.valid }">
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Military Status</label>
-            <ng-select [items]="MilitaryStatus" [clearable]="false" bindLabel="name" placeholder="Choose Military Status"
+            <ng-select [items]="MilitaryStatus" [clearable]="true" bindLabel="name" placeholder="Choose Military Status"
                        bindValue="id" formControlName="MilitaryStatus" class="form-control m-0 p-0"
                        [ngClass]="{'is-invalid': (addForm.get('MilitaryStatus')?.dirty && addForm.get('MilitaryStatus')?.invalid && addForm.get('MilitaryStatus')?.touched) ||
-                 (addForm.get('MilitaryStatus')?.invalid && addForm.get('MilitaryStatus')?.touched) , 'is-valid': addForm.get('MilitaryStatus')?.valid }"
+                 (addForm.get('MilitaryStatus')?.invalid && addForm.get('MilitaryStatus')?.touched) , 'is-valid':employeeIsForm && addForm.get('MilitaryStatus')?.valid }"
             >
             </ng-select>
           </div>
@@ -66,19 +69,19 @@
             <label class="text-start mb-1 fw-semibold text-black">University</label>
             <input type="text" class="form-control" formControlName="University" placeholder="Cairo University"
                    [ngClass]="{'is-invalid': (addForm.get('University')?.dirty && addForm.get('University')?.invalid && addForm.get('University')?.touched) ||
-                 (addForm.get('University')?.invalid && addForm.get('University')?.touched) , 'is-valid': addForm.get('University')?.valid }">
+                 (addForm.get('University')?.invalid && addForm.get('University')?.touched) , 'is-valid':employeeIsForm && addForm.get('University')?.valid }">
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Degree</label>
             <input type="text" class="form-control" formControlName="Degree" placeholder="Bachelor Degree"
                    [ngClass]="{'is-invalid': (addForm.get('Degree')?.dirty && addForm.get('Degree')?.invalid && addForm.get('Degree')?.touched) ||
-                 (addForm.get('Degree')?.invalid && addForm.get('Degree')?.touched) , 'is-valid': addForm.get('Degree')?.valid }">
+                 (addForm.get('Degree')?.invalid && addForm.get('Degree')?.touched) , 'is-valid':employeeIsForm && addForm.get('Degree')?.valid }">
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Graduation Year</label>
             <input type="date" class="form-control" formControlName="GraduationDate"
                    [ngClass]="{'is-invalid': (addForm.get('GraduationDate')?.dirty && addForm.get('GraduationDate')?.invalid && addForm.get('GraduationDate')?.touched) ||
-                 (addForm.get('GraduationDate')?.invalid && addForm.get('GraduationDate')?.touched) , 'is-valid': addForm.get('GraduationDate')?.valid }">
+                 (addForm.get('GraduationDate')?.invalid && addForm.get('GraduationDate')?.touched) , 'is-valid':employeeIsForm && addForm.get('GraduationDate')?.valid }">
           </div>
         </div>
       </div>
@@ -94,17 +97,17 @@
             <ng-select [items]="departments" [clearable]="true" bindLabel="name" (change)="setDep($event)"
                        bindValue="id" class="form-control m-0 p-0" formControlName="DepartmentId" placeholder="Choose Department"
                        [ngClass]="{'is-invalid': (addForm.get('DepartmentId')?.dirty && addForm.get('DepartmentId')?.invalid && addForm.get('DepartmentId')?.touched) ||
-                 (addForm.get('DepartmentId')?.invalid && addForm.get('DepartmentId')?.touched) , 'is-valid': addForm.get('DepartmentId')?.valid }"
+                 (addForm.get('DepartmentId')?.invalid && addForm.get('DepartmentId')?.touched) , 'is-valid':employeeIsForm && addForm.get('DepartmentId')?.valid }"
             >
             </ng-select>
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Position</label>
-            <ng-select [items]="positions" [clearable]="false" bindLabel="name"
+            <ng-select [items]="positions" [clearable]="true" bindLabel="name"
                        placeholder="You must select department before"
                        bindValue="id" formControlName="PositionId" class="form-control m-0 p-0"
                        [ngClass]="{'is-invalid': (addForm.get('PositionId')?.dirty && addForm.get('PositionId')?.invalid && addForm.get('PositionId')?.touched) ||
-                 (addForm.get('PositionId')?.invalid && addForm.get('PositionId')?.touched) , 'is-valid': addForm.get('PositionId')?.valid }"
+                 (addForm.get('PositionId')?.invalid && addForm.get('PositionId')?.touched) , 'is-valid':employeeIsForm && addForm.get('PositionId')?.valid }"
             >
             </ng-select>
           </div>
@@ -113,7 +116,7 @@
             <label class="text-start mb-1 fw-semibold text-black">Hire Date</label>
             <input type="date" class="form-control" formControlName="HireDate"
                    [ngClass]="{'is-invalid': (addForm.get('HireDate')?.dirty && addForm.get('HireDate')?.invalid && addForm.get('HireDate')?.touched) ||
-                 (addForm.get('HireDate')?.invalid && addForm.get('HireDate')?.touched) , 'is-valid': addForm.get('HireDate')?.valid }">
+                 (addForm.get('HireDate')?.invalid && addForm.get('HireDate')?.touched) , 'is-valid':employeeIsForm && addForm.get('HireDate')?.valid }">
           </div>
         </div>
       </div>
@@ -128,21 +131,28 @@
             <label class="text-start mb-1 fw-semibold text-black">Email</label>
             <input placeholder="Example@example.com" formControlName="Email" class="form-control" type="text"
                    [ngClass]="{'is-invalid': (addForm.get('Email')?.dirty && addForm.get('Email')?.invalid && addForm.get('Email')?.touched) ||
-                 (addForm.get('Email')?.invalid && addForm.get('Email')?.touched) , 'is-valid': addForm.get('Email')?.valid }"
+                 (addForm.get('Email')?.invalid && addForm.get('Email')?.touched) , 'is-valid':employeeIsForm && addForm.get('Email')?.valid }"
             />
           </div>
-          <div class="col-4 mb-4">
+          <div class="col-4 mb-4" >
             <label class="text-start mb-1 fw-semibold text-black">Password</label>
             <input placeholder="********" formControlName="Password" class="form-control" type="password"
                    [ngClass]="{'is-invalid': (addForm.get('Password')?.dirty && addForm.get('Password')?.invalid && addForm.get('Password')?.touched) ||
-                 (addForm.get('Password')?.invalid && addForm.get('Password')?.touched) , 'is-valid': addForm.get('Password')?.valid }"
+                 (addForm.get('Password')?.invalid && addForm.get('Password')?.touched) , 'is-valid':employeeIsForm && addForm.get('Password')?.valid }"
+            />
+          </div>
+          <div class="col-4 mb-4" >
+            <label class="text-start mb-1 fw-semibold text-black">Confirm Password</label>
+            <input placeholder="********" formControlName="ConfirmPassword" class="form-control" type="password"
+                   [ngClass]="{'is-invalid': (addForm.get('ConfirmPassword')?.dirty && addForm.get('ConfirmPassword')?.invalid && addForm.get('ConfirmPassword')?.touched) ||
+                 (addForm.get('ConfirmPassword')?.invalid && addForm.get('ConfirmPassword')?.touched) , 'is-valid':employeeIsForm && addForm.get('ConfirmPassword')?.valid }"
             />
           </div>
           <div class="col-4 mb-4">
             <label class="text-start mb-1 fw-semibold text-black">Phone Number</label>
             <input placeholder="+201022554465" formControlName="PhoneNumber" class="form-control" type="tel"
                    [ngClass]="{'is-invalid': (addForm.get('PhoneNumber')?.dirty && addForm.get('PhoneNumber')?.invalid && addForm.get('PhoneNumber')?.touched) ||
-                 (addForm.get('PhoneNumber')?.invalid && addForm.get('PhoneNumber')?.touched) , 'is-valid': addForm.get('PhoneNumber')?.valid }"
+                 (addForm.get('PhoneNumber')?.invalid && addForm.get('PhoneNumber')?.touched) , 'is-valid':employeeIsForm && addForm.get('PhoneNumber')?.valid }"
             />
           </div>
         </div>
