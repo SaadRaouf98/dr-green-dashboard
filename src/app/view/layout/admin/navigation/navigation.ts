@@ -163,6 +163,14 @@ const NavigationItems = [
     classes: 'nav-item',
   },
   {
+    id: 'products',
+    title: 'Products',
+    type: 'item',
+    url: '/view/pages/products',
+    icon: '/assets/icon/custom-icons/products.png',
+    classes: 'nav-item',
+  },
+  {
     id: 'management',
     title: 'Management',
     type: 'group',

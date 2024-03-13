@@ -51,6 +51,12 @@ const routes: Routes = [
       (m) => m.TrainingVideoModule
     )
   },
+  {
+    path: 'products',
+    loadChildren: () => import('./products/products.module').then(
+      (m) => m.ProductsModule
+    )
+  },
 ]
 
 @NgModule({
