@@ -44,8 +44,12 @@
   <div class="justify-content-between">
     <div></div>
     <div>
-      <span></span>
-      <span></span>
+      <span *ngIf="showStatus === 'table'" (click)="showStatus = 'cards'">
+
+      </span>
+      <span *ngIf="showStatus === 'cards'" (click)="showStatus = 'table'">
+
+      </span>
     </div>
   </div>
 </div>
