@@ -22,6 +22,7 @@ export class ProductsListComponent implements OnInit {
   modalStatus: any = 10
   catId: any = 10
   showStatus: string = 'table'
+  stockType: string = 'all'
   files: any[] = []
   images: any[] = []
   protected readonly ColumnMode = ColumnMode;
@@ -106,6 +107,21 @@ export class ProductsListComponent implements OnInit {
     this.images.splice(index, 1)
   }
 
+  getFilter(id: string){
+    let spanEle = document.querySelectorAll('span')
+    console.log(spanEle.length)
+    if (spanEle.length > 0){
+      spanEle.forEach(ele=>{
+        ele.classList.remove('tab-active-btn')
+      })
+    }
+    let element = document.getElementById(id)
+    if (element){
+      element.classList.add('tab-active-btn')
+    }
+    this.stockType = id
+    this.getProducts(this.page)
+  }
   deleteImage(path: string, index: number) {
     this._productsService.deleteImagesApi(path).subscribe({
       next: res => {
@@ -120,6 +136,7 @@ export class ProductsListComponent implements OnInit {
     let query = {
       pageNumber: pageNumber,
       pageSize: 10,
+      sortType: this.stockType,
     }
     this._productsService.getProductsApi(query).subscribe({
       next: (res: Products) => {

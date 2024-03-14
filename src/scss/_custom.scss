@@ -259,6 +259,10 @@ li {
   aspect-ratio: auto 32 / 32;
 }
 
+.tab-active-btn {
+  border-bottom: $secondary-color solid 2px;
+}
+
 .video-container {
   width: 300px; /* Adjust the width as needed */
   height: auto;

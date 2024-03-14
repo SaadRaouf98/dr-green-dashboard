@@ -1,4 +1,26 @@
-<div class="card" style="border-radius: 8px">
+<div class="row">
+  <div class="col-6 d-flex justify-content-start pt-2">
+    <div class="pointer" *ngIf="showStatus === 'cards'">
+      <span (click)="getFilter('all')" id="all" class="px-3 py-1 fw-semibold tab-active-btn" style="color: rgba(53, 54, 58, 1)">All</span>
+      <span (click)="getFilter('inStock')" id="inStock" class="px-3 py-1 fw-semibold" style="color: rgba(110, 191, 86, 1)">In stock</span>
+      <span (click)="getFilter('lowStock')" id="lowStock" class="px-3 py-1 fw-semibold" style="color: rgba(234, 161, 19, 1)">Low Stock</span>
+      <span (click)="getFilter('outOfStock')" id="outOfStock" class="px-3 py-1 fw-semibold" style="color: rgba(255, 78, 66, 1)">Out Of Stock</span>
+    </div>
+  </div>
+  <div class="col-6 d-flex justify-content-end">
+    <div class="card mb-3"  style="border-radius: 8px">
+      <div class="card-body p-0" style="padding: 6px !important; cursor: pointer; border-radius: 8px">
+        <span *ngIf="showStatus === 'table'" (click)="showStatus = 'cards'; getFilter('all')">
+          <img width="24" height="24" src="assets/icon/custom-icons/cardtype.png" alt="">
+        </span>
+        <span *ngIf="showStatus === 'cards'" (click)="showStatus = 'table'; getFilter('all')">
+          <img width="24" height="24" src="assets/icon/custom-icons/tabletype.png" alt="">
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card mb-3" style="border-radius: 8px">
   <div class="card-body">
     <div class="row">
       <div class="col-6 d-flex justify-content-start align-items-center">
@@ -32,7 +54,7 @@
           <input type="email" class="form-control p-2" placeholder="Search">
         </div>
         <div class="mx-2">
-          <button class="btn btn-primary mb-0" (click)="open(content, 0)">
+          <button class="btn btn-primary mb-0" routerLink="add">
             Add Products
           </button>
         </div>
@@ -40,20 +62,84 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="justify-content-between">
-    <div></div>
-    <div>
-      <span *ngIf="showStatus === 'table'" (click)="showStatus = 'cards'">
-
-      </span>
-      <span *ngIf="showStatus === 'cards'" (click)="showStatus = 'table'">
-
-      </span>
+<div class="row" *ngIf="showStatus === 'cards'">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-3 position-relative" *ngFor="let product of rowsUsers">
+        <div class="dropdown position-absolute" style="font-size: 20px; top: 5px; left: 25px; z-index: 1000"
+             ngbDropdown placement="bottom-left">
+          <a ngbDropdownToggle href="javascript:" data-toggle="dropdown">
+            <i class="icon feather icon-more-horizontal text-secondary"></i>
+          </a>
+          <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end p-0">
+            <ul class="p-0 m-0">
+              <li>
+                <button class="dropdown-item" routerLink="edit/{{product.id}}" [queryParams]="{adId:product.id}">
+                  <i class="feather icon-edit"></i>
+                  Edit
+                </button>
+              </li>
+              <li>
+                <button class="dropdown-item" (click)="deleteProducts(product.id)">
+                  <i class="feather icon-trash"></i>
+                  Delete
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card card-border-radius ">
+          <div class="ads-cards-img">
+            <img class="w-100 card-border-radius ads-cards"
+                 src="{{domain+'ProductImages/'+product.productImages[0]}}" alt="">
+          </div>
+          <div class="pt-3 pb-1 px-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <span>
+                <h6 class="fw-bold mb-0">{{ product.name }}</h6>
+              </span>
+              <span class="card-border-radius px-2 py-1 fw-semibold"
+                    style="
+                    {{
+                    product.stockStatus == 10? 'background: rgba(12, 232, 157, 1); color: rgba(53, 54, 58, 1)' :
+                    product.stockStatus == 20? 'background: rgba(245, 196, 81, 0.3); color: rgba(234, 161, 19, 1)':
+                    product.stockStatus == 30? 'background: rgba(242, 59, 46, 0.2); color: rgba(255, 78, 66, 1)':
+                    product.stockStatus == 40? 'background: rgba(12, 232, 157, 1); color: rgba(53, 54, 58, 1)': ''
+                }}
+                "
+              >
+                {{
+                    product.stockStatus == 10? 'In Stock' :
+                    product.stockStatus == 20? 'Low Stock':
+                    product.stockStatus == 30? 'Out Of Stock':
+                    product.stockStatus == 40? 'Other': ''
+                }}
+              </span>
+            </div>
+          </div>
+          <div class="pb-1 px-2">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="">
+                {{ product.createdDate | date: 'mediumDate' }}
+              </span>
+            </div>
+          </div>
+          <div class="pb-2 px-2">
+            <div class="d-flex align-items-center">
+              <span class="fw-bolder text-secondary fs-5">
+                {{product.price }}
+              </span>
+              <span class="ms-1 text-black fs-6">
+                EGP
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="showStatus === 'table'">
   <div class="col-xl-12 col-md-12">
     <!--    <app-card cardTitle="Users From United States">-->
     <app-card [hidHeader]="true"
@@ -72,11 +158,10 @@
           [footerHeight]="50"
           [scrollbarH]="true"
           [selected]="selected"
-
         >
           <ngx-datatable-column [sortable]="true" name="id" prop="id" [width]="50">
             <ng-template let-i="value" let-index="rowIndex" ngx-datatable-cell-template>
-              <span class="font-weight-bold">{{ index+1 }}#</span>
+              <span class="font-weight-bold">#{{ index+1 }}</span>
             </ng-template>
           </ngx-datatable-column>
           <ngx-datatable-column [sortable]="true" name="Code" prop="code" [width]="50">
@@ -105,7 +190,7 @@
               <span class="font-weight-bold">{{ i | currency: 'LE'}}</span>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column [sortable]="true" name="Created At" prop="createdDate" [width]="50">
+          <ngx-datatable-column [sortable]="true" name="Created At" prop="createdDate" [width]="100">
             <ng-template let-i="value" ngx-datatable-cell-template>
               <span class="font-weight-bold">{{ i | date: 'fullDate'}}</span>
             </ng-template>
@@ -119,13 +204,13 @@
                   </button>
                   <div ngbDropdownMenu class="p-0">
                     <ul class="p-0 m-0">
-                      <li (click)="open(content, 2, row.id)">
+                      <li routerLink="show/{{row.id}}">
                         <button class="dropdown-item">
                           <i class="feather icon-eye"></i>
                           Show
                         </button>
                       </li>
-                      <li (click)="open(content, 1, row.id)">
+                      <li routerLink="edit/{{row.id}}">
                         <button class="dropdown-item">
                           <i class="feather icon-edit"></i>
                           Edit

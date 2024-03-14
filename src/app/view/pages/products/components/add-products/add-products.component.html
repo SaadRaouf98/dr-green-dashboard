@@ -1,0 +1,156 @@
+<!--<app-breadcrumb></app-breadcrumb>-->
+<div class="row" [formGroup]="addFrom">
+  <div class="col-xxl-9 col-xl-9 col-lg-12 col-md-12 ">
+    <div class="card" style="border-radius: 8px">
+      <div class="card-body">
+        <h5 class="fw-semibold mb-3">Basic Info</h5>
+        <div class="row px-2">
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title In English</label>
+            <input type="text" class="form-control" formControlName="TitleEn"
+                   [ngClass]="{'is-invalid': (addFrom.get('TitleEn')?.dirty && addFrom.get('TitleEn')?.invalid && addFrom.get('TitleEn')?.touched) ||
+                 (addFrom.get('TitleEn')?.invalid && addFrom.get('TitleEn')?.touched) , 'is-valid': addFrom.get('TitleEn')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Title in Arabic</label>
+            <input type="text" class="form-control" formControlName="TitleAr"
+                   [ngClass]="{'is-invalid': (addFrom.get('TitleAr')?.dirty && addFrom.get('TitleAr')?.invalid && addFrom.get('TitleAr')?.touched) ||
+                 (addFrom.get('TitleAr')?.invalid && addFrom.get('TitleAr')?.touched) , 'is-valid': addFrom.get('TitleAr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Author In English</label>
+            <input type="text" class="form-control" formControlName="AuthorEn"
+                   [ngClass]="{'is-invalid': (addFrom.get('AuthorEn')?.dirty && addFrom.get('AuthorEn')?.invalid && addFrom.get('AuthorEn')?.touched) ||
+                 (addFrom.get('AuthorEn')?.invalid && addFrom.get('AuthorEn')?.touched) , 'is-valid': addFrom.get('AuthorEn')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Author in Arabic</label>
+            <input type="text" class="form-control" formControlName="AuthorAr"
+                   [ngClass]="{'is-invalid': (addFrom.get('AuthorAr')?.dirty && addFrom.get('AuthorAr')?.invalid && addFrom.get('AuthorAr')?.touched) ||
+                 (addFrom.get('AuthorAr')?.invalid && addFrom.get('AuthorAr')?.touched) , 'is-valid': addFrom.get('AuthorAr')?.valid }">
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Department</label>
+            <ng-select [items]="tipsDeps" [clearable]="false" bindLabel="name"
+                       bindValue="id" formControlName="TipsDepartmentId" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addFrom.get('TipsDepartmentId')?.dirty && addFrom.get('TipsDepartmentId')?.invalid && addFrom.get('TipsDepartmentId')?.touched) ||
+                 (addFrom.get('TipsDepartmentId')?.invalid && addFrom.get('TipsDepartmentId')?.touched) , 'is-valid': addFrom.get('TipsDepartmentId')?.valid }"
+            >
+            </ng-select>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Status</label>
+            <ng-select [items]="Filters" [clearable]="false" bindLabel="name"
+                       bindValue="id" formControlName="Status" class="form-control m-0 p-0"
+                       [ngClass]="{'is-invalid': (addFrom.get('Status')?.dirty && addFrom.get('Status')?.invalid && addFrom.get('Status')?.touched) ||
+                 (addFrom.get('Status')?.invalid && addFrom.get('Status')?.touched) , 'is-valid': addFrom.get('Status')?.valid }"
+            >
+            </ng-select>
+          </div>
+
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Description in English</label>
+            <textarea rows="4" class="form-control" formControlName="DescriptionEn"
+                      [ngClass]="{'is-invalid': (addFrom.get('DescriptionEn')?.dirty && addFrom.get('DescriptionEn')?.invalid && addFrom.get('DescriptionEn')?.touched) ||
+                 (addFrom.get('DescriptionEn')?.invalid && addFrom.get('DescriptionEn')?.touched) , 'is-valid': addFrom.get('DescriptionEn')?.valid }">
+            </textarea>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Description in Arabic</label>
+            <textarea rows="4" class="form-control" formControlName="DescriptionAr"
+                      [ngClass]="{'is-invalid': (addFrom.get('DescriptionAr')?.dirty && addFrom.get('DescriptionAr')?.invalid && addFrom.get('DescriptionAr')?.touched) ||
+                 (addFrom.get('DescriptionAr')?.invalid && addFrom.get('DescriptionAr')?.touched) , 'is-valid': addFrom.get('DescriptionAr')?.valid }">
+            </textarea>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Content in English</label>
+            <textarea rows="15" class="form-control" formControlName="ContentEn"
+                      [ngClass]="{'is-invalid': (addFrom.get('ContentEn')?.dirty && addFrom.get('ContentEn')?.invalid && addFrom.get('ContentEn')?.touched) ||
+                 (addFrom.get('ContentEn')?.invalid && addFrom.get('ContentEn')?.touched) , 'is-valid': addFrom.get('ContentEn')?.valid }">
+            </textarea>
+          </div>
+          <div class="col-6 mb-4">
+            <label class="text-start mb-1 fw-semibold text-black">Content in Arabic</label>
+            <textarea rows="15" class="form-control" formControlName="ContentAr"
+                      [ngClass]="{'is-invalid': (addFrom.get('ContentAr')?.dirty && addFrom.get('ContentAr')?.invalid && addFrom.get('ContentAr')?.touched) ||
+                 (addFrom.get('ContentAr')?.invalid && addFrom.get('ContentAr')?.touched) , 'is-valid': addFrom.get('ContentAr')?.valid }">
+            </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-xxl-3 col-xl-3 col-lg-12 col-md-12">
+    <div class="row">
+      <div class="col-xxl-12 col-xl-12 col-lg-6 col-md-6">
+        <div class="card" style="border-radius: 8px">
+          <div class="card-body">
+            <h5 class="fw-semibold mb-3">Visibility</h5>
+            <div class="row px-2">
+              <div class="col-12 mb-3">
+                <fieldset class="form-group">
+                  <div class="row">
+                    <div class="col-sm-9">
+                      <div class="form-check" *ngFor="let status of RadioStatuses">
+                        <input
+                          (change)="radioChanged(status.id)"
+                          class="form-check-input" type="radio"
+                          name="status" id="{{status.name}}"
+                          value="{{status.id}}" [checked]="status.id === statusValue"
+                        />
+                        <label class="form-check-label" for="{{status.name}}"
+                        >{{ status.name }}</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-12 mb-3">
+                <label class="text-start mb-1 fw-semibold text-black">Publish Date</label>
+                <input [style]="statusValue !== 20? 'pointer-events: none; opacity: 85%' : ''" type="date"
+                       class="form-control" formControlName="DatePublished"
+                       [ngClass]="{'is-valid': addFrom.get('DatePublished')?.valid && addFrom.get('DatePublished')?.value}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xxl-12 col-xl-12 col-lg-6 col-md-6">
+        <div class="card" style="border-radius: 8px">
+          <div class="card-body">
+            <h5 class="fw-semibold mb-2">Add Image</h5>
+            <div class="d-flex justify-content-center pb-2">
+              <div class="mx-2 position-relative"
+                   style="border: 1px solid #eeee; border-radius: 4px"
+                   *ngFor="let img of images; index as i">
+                <i class="position-absolute bx bx-x-circle text-white"
+                   style="background: red; top: -3px; right: -3px; font-size: 1rem;
+                 border-radius: 50% " (click)="removeImage()"
+                ></i>
+                <img class="w-100 h-100" [src]="img">
+              </div>
+            </div>
+            <div (click)="fileInput.click()"
+              class="d-flex justify-content-center pb-2"
+              *ngIf="images.length == 0">
+              <div class="px-2">
+                <img class="w-100 h-100" src="/assets/images/img.png">
+              </div>
+            </div>
+            <input #inputFile
+              style="display: none"
+              type="file" (change)="onFileChanged($event)"
+              #fileInput multiple>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-primary" (click)="submit()">Publish</button>
+      <button class="btn btn-outline-primary" (click)="resetAllForm()">Cancel</button>
+    </div>
+  </div>
+</div>
